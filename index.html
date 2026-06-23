@@ -28,7 +28,7 @@
             background: linear-gradient(rgba(61, 52, 46, 0.6), rgba(61, 52, 46, 0.6)), url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=1200') no-repeat center center;
             background-size: cover;
             color: #FDFBF7;
-            padding: 100px 0;
+            padding: 90px 0;
             border-bottom: 5px solid var(--calm-brown);
         }
         .btn-custom {
@@ -56,7 +56,7 @@
             object-fit: cover;
             width: 100%;
         }
-        /* Style untuk simulasi halaman aplikasi */
+        /* Style Manajemen Halaman Aplikasi Multi-Role */
         .app-page {
             display: none;
         }
@@ -64,10 +64,18 @@
             display: block;
         }
         .chat-stream {
-            height: 250px;
+            height: 200px;
             overflow-y: auto;
             background: #fdfdfd;
             border: 1px solid #eee;
+        }
+        .login-box {
+            max-width: 400px;
+            margin: 60px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
     </style>
 </head>
@@ -82,14 +90,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center gap-2">
                     <li class="nav-item"><a class="nav-link" style="cursor:pointer;" onclick="switchPage('beranda')"><i class="fa-solid fa-house me-1"></i>Beranda</a></li>
-                    <li class="nav-item border-start ps-3 ms-2">
-                        <button class="btn btn-outline-secondary btn-sm" onclick="switchPage('pembeli')"><i class="fa-solid fa-cart-shopping me-1"></i> Akun Pembeli</button>
+                    
+                    <li class="nav-item border-start ps-3 ms-2" id="nav-guest-zone">
+                        <button class="btn btn-custom btn-sm" onclick="switchPage('login')"><i class="fa-solid fa-right-to-bracket me-1"></i> Sign In Akun</button>
                     </li>
-                    <li class="nav-item">
-                        <button class="btn btn-sm text-white" style="background-color: var(--calm-brown);" onclick="switchPage('penjual')"><i class="fa-solid fa-store me-1"></i> Akun Penjual</button>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn btn-dark btn-sm" onclick="switchPage('admin')"><i class="fa-solid fa-user-gear me-1"></i> Akun Admin</button>
+                    <li class="nav-item d-none" id="nav-user-zone">
+                        <span class="badge bg-secondary p-2 me-2" id="user-status-badge">Role: Guest</span>
+                        <button class="btn btn-outline-danger btn-sm py-0" onclick="logout()"><i class="fa-solid fa-power-off"></i> Keluar</button>
                     </li>
                 </ul>
             </div>
@@ -100,100 +107,184 @@
         <header class="hero-section text-center">
             <div class="container">
                 <h1 class="display-4 fw-bold mb-3">Style Up, Waste Less</h1>
-                <p class="lead mb-4">Temukan 100+ Koleksi Pakaian Y2K, Cosplay Anime, & Tren 2026. Klik Akun di atas untuk berganti hak akses login.</p>
+                <p class="lead mb-4">Pasar Thrifting Cerdas. Silakan klik <strong>Sign In Akun</strong> di navigasi untuk masuk sebagai Pembeli, Penjual, atau Admin.</p>
             </div>
         </header>
 
         <section class="container py-5">
             <div class="text-center mb-5">
                 <h2 class="fw-bold">Katalog Produk Reloved</h2>
-                <p class="text-muted">Gunakan tombol <i class="fa-solid fa-bag-shopping"></i> untuk Checkout langsung atau <i class="fa-solid fa-comment-dots"></i> untuk chat tawar toko.</p>
+                <p class="text-muted">Gunakan tombol <i class="fa-solid fa-bag-shopping"></i> untuk Checkout barang atau <i class="fa-solid fa-comment-dots"></i> untuk nego chat toko.</p>
             </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="container-produk"></div>
         </section>
     </div>
 
-    <div id="page-pembeli" class="app-page container py-5">
-        <div class="card p-4 shadow-sm bg-white">
-            <h3 class="fw-bold text-secondary"><i class="fa-solid fa-user mb-3"></i> Dashboard Akun Pembeli</h3>
-            <p>Selamat datang, <strong>Yusrina Buyer Account</strong>. Di sini Anda bisa memantau riwayat pesanan thrifting Anda.</p>
-            <div class="row mt-4">
-                <div class="col-md-4">
-                    <div class="p-3 bg-light rounded text-center">
-                        <h6>Keranjang Belanja</h6>
-                        <h4 class="fw-bold text-success">2 Barang</h4>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="p-3 bg-light rounded text-center">
-                        <h6>Menunggu Pembayaran</h6>
-                        <h4 class="fw-bold text-warning">0 Transaksi</h4>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="p-3 bg-light rounded text-center">
-                        <h6>Barang Dikirim</h6>
-                        <h4 class="fw-bold text-info">1 Paket</h4>
-                    </div>
-                </div>
+    <div id="page-login" class="app-page container">
+        <div class="login-box text-center border-top border-5" style="border-color: var(--calm-brown) !important;">
+            <h4 class="fw-bold mb-1"><i class="fa-solid fa-lock-open text-muted me-2"></i>Sign In Akun</h4>
+            <p class="text-muted small mb-4">Gunakan kata sandi demo (username: pembeli/penjual/admin & pass: 123)</p>
+            
+            <div class="text-start mb-3">
+                <label class="form-label small fw-bold">Masuk Sebagai:</label>
+                <select class="form-select" id="loginRole">
+                    <option value="pembeli">🛍️ Akun Pembeli (Buyer)</option>
+                    <option value="penjual">🏪 Akun Penjual (Seller)</option>
+                    <option value="admin">🔒 Akun Pengawas Admin</option>
+                </select>
             </div>
-            <button class="btn btn-secondary mt-4" onclick="switchPage('beranda')">Kembali Belanja di Beranda</button>
+            <div class="text-start mb-3">
+                <label class="form-label small fw-bold">Username / Email:</label>
+                <input type="text" class="form-control" id="loginUser" placeholder="Masukkan username Anda...">
+            </div>
+            <div class="text-start mb-4">
+                <label class="form-label small fw-bold">Password Akun:</label>
+                <input type="password" class="form-control" id="loginPass" placeholder="Masukkan password...">
+            </div>
+            <button class="btn btn-custom w-100 py-2" onclick="processLogin()">Masuk Dashboard</button>
+        </div>
+    </div>
+
+    <div id="page-pembeli" class="app-page container py-5">
+        <div class="card p-4 shadow-sm bg-white mb-4">
+            <h3 class="fw-bold text-secondary"><i class="fa-solid fa-user-tag mb-3"></i> Dashboard Utama Pembeli</h3>
+            <p>Halo, selamat datang kembali! Anda terdeteksi menggunakan hak akses keamanan <strong>Akun Pembeli Resmi Reloved</strong>.</p>
+            <button class="btn btn-custom mt-2" onclick="switchPage('beranda')"><i class="fa-solid fa-magnifying-glass me-1"></i> Mulai Cari Baju di Beranda</button>
+        </div>
+
+        <div class="card p-4 shadow-sm bg-white border-top border-4 border-success">
+            <h5 class="fw-bold text-success mb-3"><i class="fa-solid fa-box-open me-2"></i> Fitur Khusus Riwayat Checkout Pembeli</h5>
+            <p class="text-muted small">Semua produk yang baru saja Anda klik tombol belinya akan terdaftar ke dalam manajemen log checkout personal di bawah ini secara otomatis:</p>
+            <div class="table-responsive">
+                <table class="table table-bordered small">
+                    <thead class="table-light">
+                        <tr>
+                            <th>No/ID Transaksi</th>
+                            <th>Nama Pakaian/Item</th>
+                            <th>Harga Checkout</th>
+                            <th>Metode Bayar</th>
+                            <th>Status Pengiriman</th>
+                        </tr>
+                    </thead>
+                    <tbody id="buyer-checkout-log">
+                        <tr>
+                            <td>#TX-88021</td>
+                            <td>Jaket Varsity Oversize Vintage</td>
+                            <td>Rp 225.000</td>
+                            <td>DANA</td>
+                            <td><span class="badge bg-info">Sedang Dikirim</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <div id="page-penjual" class="app-page container py-5">
         <div class="card p-4 shadow-sm bg-white border-start border-5" style="border-color: var(--calm-brown) !important;">
-            <h3 class="fw-bold" style="color: var(--calm-brown);"><i class="fa-solid fa-store mb-3"></i> Dashboard Akun Penjual (Seller)</h3>
-            <p>Kelola tokomu, upload pakaian preloved, dan tanggapi tawaran harga konsumen dengan mudah.</p>
+            <h3 class="fw-bold" style="color: var(--calm-brown);"><i class="fa-solid fa-store mb-3"></i> Dashboard Akun Penjual</h3>
+            <p>Selamat bekerja! Anda masuk sebagai <strong>Mitra Seller Terverifikasi</strong>. Silakan kelola lapak atau upload baju thrift terbaik Anda.</p>
             
-            <div class="card p-3 my-3 bg-light">
-                <h5>Tambah Barang Dagangan Baru</h5>
-                <div class="row g-2 mt-1">
-                    <div class="col-md-4"><input type="text" class="form-control form-control-sm" placeholder="Nama Baju/Celana"></div>
-                    <div class="col-md-3"><input type="text" class="form-control form-control-sm" placeholder="Harga (Rp)"></div>
-                    <div class="col-md-3">
-                        <select class="form-select form-select-sm">
-                            <option>Y2K Style</option>
-                            <option>Cosplay Anime</option>
-                            <option>Trend 2026</option>
-                        </select>
+            <div class="row g-4 mt-2">
+                <div class="col-lg-7">
+                    <div class="card p-4 bg-light border-0">
+                        <h5 class="fw-bold mb-2"><i class="fa-solid fa-circle-plus text-success me-2"></i>Fitur Upload & Jual Barang Baru</h5>
+                        <p class="text-muted small">Isi data baju, rok, celana, atau sepatu yang ingin kamu uangkan ke sistem pasar:</p>
+                        
+                        <div class="mb-2">
+                            <label class="small fw-bold">Nama Pakaian / Aksesoris:</label>
+                            <input type="text" class="form-control form-control-sm" id="sellName" placeholder="Contoh: Kemeja Denim Y2K H&M">
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-6">
+                                <label class="small fw-bold">Harga Jual (Rp):</label>
+                                <input type="number" class="form-control form-control-sm" id="sellPrice" placeholder="150000">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold">Kategori Fashion:</label>
+                                <select class="form-select form-select-sm" id="sellCat">
+                                    <option value="y2k">Outfit Y2K</option>
+                                    <option value="anime">Cosplay Anime</option>
+                                    <option value="cyberpunk">Trend Style 2026</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-success btn-sm px-4" onclick="addCustomProduct()"><i class="fa-solid fa-cloud-arrow-up me-1"></i> Terbitkan Barang ke Pasar</button>
                     </div>
-                    <div class="col-md-2"><button class="btn btn-custom btn-sm w-100" onclick="alert('Barang berhasil diajukan! Menunggu kurasi akun admin.')">Upload Baju</button></div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="card p-4 bg-white border shadow-sm">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-users me-2 text-primary"></i>Fitur Daftar Penjual Lainnya</h5>
+                        <ul class="list-group list-group-flush small">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div><strong>RetroVibe Store</strong><br><span class="text-muted" style="font-size:0.75rem;">12 Produk Terjual</span></div>
+                                <span class="badge bg-success rounded-pill">Online</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div><strong>Harajuku Thrift Co.</strong><br><span class="text-muted" style="font-size:0.75rem;">45 Produk Terjual</span></div>
+                                <span class="badge bg-success rounded-pill">Online</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div><strong>FutureStyle 2026</strong><br><span class="text-muted" style="font-size:0.75rem;">8 Produk Terjual</span></div>
+                                <span class="badge bg-secondary rounded-pill">Offline</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <button class="btn btn-secondary mt-3" onclick="switchPage('beranda')">Kembali ke Beranda</button>
         </div>
     </div>
 
     <div id="page-admin" class="app-page container py-5">
-        <div class="card p-4 shadow-sm bg-dark text-white">
-            <h3 class="fw-bold text-warning"><i class="fa-solid fa-user-shield mb-3"></i> Panel Kontrol Keamanan Admin</h3>
-            <p class="text-white-50">Hak akses sistem level tertinggi terpantau aktif. Anda bertugas menyetujui produk masuk serta mengawasi keamanan sistem pembayaran.</p>
-            
-            <table class="table table-dark table-striped mt-3 small">
-                <thead>
-                    <tr>
-                        <th>ID Produk</th>
-                        <th>Nama Pengaju (Seller)</th>
-                        <th>Kategori</th>
-                        <th>Status Kurasi</th>
-                        <th>Aksi Pengawasan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>#RL-9901</td>
-                        <td>Ahmad Store</td>
-                        <td>Cosplay Anime</td>
-                        <td><span class="badge bg-warning text-dark">Pending</span></td>
-                        <td>
-                            <button class="btn btn-success btn-sm p-1 py-0" onclick="alert('Produk disetujui tampil di katalog!')">Approve</button>
-                            <button class="btn btn-danger btn-sm p-1 py-0" onclick="alert('Produk ditolak karena tidak layak!')">Reject</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <button class="btn btn-outline-light mt-3 w-25" onclick="switchPage('beranda')">Keluar Panel Admin</button>
+        <div class="card p-4 shadow-sm bg-dark text-white border-top border-5 border-warning mb-4">
+            <h3 class="fw-bold text-warning"><i class="fa-solid fa-user-shield mb-3"></i> Panel Manajemen Utama Admin</h3>
+            <p class="text-white-50">Sistem keamanan otentikasi level tinggi aktif. Akses audit menyeluruh terbuka.</p>
+        </div>
+
+        <div class="card p-4 shadow-sm bg-white">
+            <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-chart-line text-danger me-2"></i> Fitur Khusus Data Rekap Jual & Beli Platform</h5>
+            <p class="text-muted small">Tabel data log audit menyeluruh untuk memantau perputaran omset pasar jual-beli barang thrifting se-indonesia:</p>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover small text-center align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID Invoice</th>
+                            <th>Nama Penjual (Seller)</th>
+                            <th>Nama Pembeli (Buyer)</th>
+                            <th>Barang Transaksi</th>
+                            <th>Nominal Perputaran</th>
+                            <th>Status Rekber</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#INV-2026-001</td>
+                            <td>RetroVibe Store</td>
+                            <td>Yusrina Account</td>
+                            <td>Baju Kaos Y2K Retro</td>
+                            <td class="text-success fw-bold">Rp 115.000</td>
+                            <td><span class="badge bg-success">Selesai / Cair</span></td>
+                        </tr>
+                        <tr>
+                            <td>#INV-2026-002</td>
+                            <td>Harajuku Thrift Co.</td>
+                            <td>Budi Pembeli</td>
+                            <td>Cosplay Anime Costume Set</td>
+                            <td class="text-success fw-bold">Rp 440.000</td>
+                            <td><span class="badge bg-success">Selesai / Cair</span></td>
+                        </tr>
+                        <tr class="table-warning">
+                            <td>#INV-2026-003</td>
+                            <td>Lapak Anda (Seller)</td>
+                            <td>Anda (Akun Pembeli)</td>
+                            <td><span id="rekap-last-item">Item Baru Disimulasikan</span></td>
+                            <td class="text-success fw-bold" id="rekap-last-price">Rp 0</td>
+                            <td><span class="badge bg-warning text-dark">Dana Tertahan</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -201,7 +292,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="fw-bold modal-title"><i class="fa-solid fa-cash-register text-success me-2"></i>Form Checkout Barang</h5>
+                    <h5 class="fw-bold modal-title"><i class="fa-solid fa-cash-register text-success me-2"></i>Form Gateway Checkout</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -211,9 +302,9 @@
                     
                     <label class="form-label fw-bold small"><i class="fa-solid fa-credit-card me-1"></i> Pilih Metode Pembayaran:</label>
                     <select class="form-select mb-3" id="paymentMethod">
-                        <option value="DANA">DANA (E-Wallet Otomatis)</option>
-                        <option value="COD">COD (Bayar Tunai di Tempat)</option>
-                        <option value="QRIS">QRIS (Scan Barcode Instan)</option>
+                        <option value="DANA">DANA (E-Wallet Instan)</option>
+                        <option value="COD">COD (Bayar Cash Di Tempat)</option>
+                        <option value="QRIS">QRIS (Scan Barcode Otomatis)</option>
                         <option value="DEBIT">Debit Online / Transfer Bank</option>
                     </select>
                 </div>
@@ -233,9 +324,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="chat-stream p-3 rounded mb-3" id="chatStreamBox">
-                        <div class="p-2 bg-light rounded mb-2 small text-muted">Sistem Hubungan Chat Room Otomatis Terkoneksi.</div>
-                    </div>
+                    <div class="chat-stream p-3 rounded mb-3" id="chatStreamBox"></div>
                     <div class="input-group">
                         <input type="text" class="form-control" id="chatMessage" placeholder="Tanyakan stok, ukuran, atau tawar harga...">
                         <button class="btn btn-primary" onclick="sendMessageToSeller()">Kirim</button>
@@ -245,24 +334,59 @@
         </div>
     </div>
 
-    <footer class="bg-dark text-white text-center py-4 mt-5">
-        <p class="mb-0 small">&copy; 2026 Reloved Team. Fitur Multi Akses Akun & Sistem Gateway Pembayaran.</p>
-    </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Logika Router Sederhana untuk Berpindah Halaman/Akun
+        // Data Login State Global
+        let currentRole = "guest";
+
+        // Router Halaman
         function switchPage(pageId) {
-            // Sembunyikan semua halaman
-            document.querySelectorAll('.app-page').forEach(page => {
-                page.classList.remove('active');
-            });
-            // Tampilkan halaman pilihan
+            document.querySelectorAll('.app-page').forEach(page => page.classList.remove('active'));
             document.getElementById('page-' + pageId).classList.add('active');
             window.scrollTo(0, 0);
         }
 
-        // Kumpulan data fashion lengkap 
+        // Fungsi Memproses Login Akun
+        function processLogin() {
+            const role = document.getElementById('loginRole').value;
+            const user = document.getElementById('loginUser').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+
+            if (user === role && pass === "123") {
+                currentRole = role;
+                
+                // Ubah tampilan navigasi navbar atas
+                document.getElementById('nav-guest-zone').classList.add('d-none');
+                document.getElementById('nav-user-zone').classList.remove('d-none');
+                
+                // Tulis nama badge role di navbar
+                const badge = document.getElementById('user-status-badge');
+                if(role === 'pembeli') badge.className = "badge bg-info text-dark p-2 me-2";
+                if(role === 'penjual') badge.className = "badge bg-warning text-dark p-2 me-2";
+                if(role === 'admin') badge.className = "badge bg-danger p-2 me-2";
+                badge.innerText = "Akun: " + role.toUpperCase();
+
+                // Lempar ke halaman dashboard masing-masing
+                switchPage(role);
+                
+                // Reset input field login
+                document.getElementById('loginUser').value = "";
+                document.getElementById('loginPass').value = "";
+            } else {
+                alert("Login Gagal! Username dan password salah.\nPetunjuk Demo:\nMasukkan username sesuai role (pembeli/penjual/admin) dan password '123'.");
+            }
+        }
+
+        // Fungsi Keluar / Logout
+        function logout() {
+            currentRole = "guest";
+            document.getElementById('nav-guest-zone').classList.remove('d-none');
+            document.getElementById('nav-user-zone').classList.add('d-none');
+            switchPage('beranda');
+            alert("Anda telah keluar dari akun aman.");
+        }
+
+        // Database Item Fashion Pasar
         const fashionPool = [
             { name: "Baju Kaos Y2K Retro", tag: "y2k,clothing", price: "Rp 115.000" },
             { name: "Celana Cargo Baggy Loose", tag: "baggy,pants", price: "Rp 189.000" },
@@ -276,7 +400,7 @@
             { name: "Jaket Varsity Oversize Vintage", tag: "jacket,varsity", price: "Rp 225.000" }
         ];
 
-        // Generate 100 Barang di Beranda secara Otomatis
+        // Memuat 100 Produk Fashion di halaman Beranda secara Otomatis
         const container = document.getElementById('container-produk');
         for (let i = 1; i <= 100; i++) {
             const item = fashionPool[i % fashionPool.length];
@@ -290,13 +414,13 @@
                         <div class="card-body d-flex flex-column justify-content-between">
                             <div>
                                 <h6 class="fw-bold mb-1 text-truncate">${item.name}</h6>
-                                <p class="text-muted small mb-1" style="font-size:0.75rem;"><i class="fa-solid fa-circle-check text-success"></i> Stok Ada (Seller Terverifikasi)</p>
+                                <p class="text-muted small mb-1" style="font-size:0.75rem;"><i class="fa-solid fa-circle-check text-success"></i> Seller Verified</p>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-2">
                                 <span class="fw-bold text-danger" style="font-size:0.95rem;">${item.price}</span>
                                 <div class="btn-group gap-1">
-                                    <button class="btn btn-outline-primary btn-sm rounded" onclick="openChat('${item.name}')" title="Chat Toko"><i class="fa-solid fa-comment-dots"></i></button>
-                                    <button class="btn btn-success btn-sm rounded" onclick="openCheckout('${item.name}', '${item.price}')" title="Checkout Sekarang"><i class="fa-solid fa-bag-shopping"></i> Beli</button>
+                                    <button class="btn btn-outline-primary btn-sm rounded" onclick="openChat('${item.name}')"><i class="fa-solid fa-comment-dots"></i></button>
+                                    <button class="btn btn-success btn-sm rounded" onclick="openCheckout('${item.name}', '${item.price}')"><i class="fa-solid fa-bag-shopping"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -306,31 +430,95 @@
             container.innerHTML += itemCard;
         }
 
-        // Fungsi Pembuka Checkout
+        // Fitur Pembuat Checkout Modal
         let currentModalCheckout;
+        let selectedItemName, selectedItemPrice;
+        
         function openCheckout(name, price) {
+            selectedItemName = name;
+            selectedItemPrice = price;
             document.getElementById('checkoutItemName').innerText = name;
             document.getElementById('checkoutItemPrice').innerText = price;
             currentModalCheckout = new bootstrap.Modal(document.getElementById('modalCheckout'));
             currentModalCheckout.show();
         }
 
-        // Proses Eksekusi Pembayaran
+        // Eksekusi Konfirmasi Proses Pembayaran dan Mengisi Fitur Rekap Riwayat & Admin
         function processPayment() {
             const method = document.getElementById('paymentMethod').value;
-            alert(`Checkout Sukses!\nPesanan Anda diproses menggunakan metode pembayaran: [${method}]. Silakan cek perkembangannya di dashboard Akun Pembeli.`);
+            
+            // 1. Masukkan ke Riwayat Log Akun Pembeli Khusus
+            const buyerLog = document.getElementById('buyer-checkout-log');
+            const newId = Math.floor(Math.random() * 90000) + 10000;
+            buyerLog.innerHTML += `
+                <tr>
+                    <td>#TX-${newId}</td>
+                    <td>${selectedItemName}</td>
+                    <td>${selectedItemPrice}</td>
+                    <td>${method}</td>
+                    <td><span class="badge bg-warning text-dark">Menunggu Verifikasi</span></td>
+                </tr>
+            `;
+
+            // 2. Beri perubahan data di Rekap Tabel Milik Admin
+            document.getElementById('rekap-last-item').innerText = selectedItemName;
+            document.getElementById('rekap-last-price').innerText = selectedItemPrice;
+
+            alert(`Checkout Berhasil!\nMetode Pilihan: [${method}].\nData transaksi ini sudah tercatat khusus di Log Dashboard Pembeli dan tabel Rekap Audit Admin!`);
             currentModalCheckout.hide();
         }
 
-        // Fungsi Fitur Chat Toko Penjual
+        // Fitur Tambah Barang Dagangan Khas Akun Penjual (Seller)
+        function addCustomProduct() {
+            const name = document.getElementById('sellName').value.trim();
+            const price = document.getElementById('sellPrice').value.trim();
+            const cat = document.getElementById('sellCat').value;
+
+            if (name === "" || price === "") {
+                alert("Lengkapi nama barang dan harganya terlebih dahulu!");
+                return;
+            }
+
+            // Tampilkan simulasi barang di awal baris katalog utama beranda
+            const newPhoto = `https://images.unsplash.com/photo-${getPhotoCode(cat)}?auto=format&fit=crop&w=400&q=80&sig=999`;
+            const customCard = `
+                <div class="col">
+                    <div class="card card-product h-100 position-relative border border-2 border-warning">
+                        <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2">Lapak Anda</span>
+                        <img src="${newPhoto}" class="card-img-top product-img" alt="Reloved Item">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h6 class="fw-bold mb-1 text-truncate">${name}</h6>
+                                <p class="text-muted small mb-1" style="font-size:0.75rem;"><i class="fa-solid fa-circle-check text-success"></i> Baru Saja Di-upload</p>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <span class="fw-bold text-danger" style="font-size:0.95rem;">Rp ${parseInt(price).toLocaleString('id-ID')}</span>
+                                <div class="btn-group gap-1">
+                                    <button class="btn btn-outline-primary btn-sm rounded" onclick="openChat('${name}')"><i class="fa-solid fa-comment-dots"></i></button>
+                                    <button class="btn btn-success btn-sm rounded" onclick="openCheckout('${name}', 'Rp ${parseInt(price).toLocaleString('id-ID')}')"><i class="fa-solid fa-bag-shopping"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('afterbegin', customCard);
+            alert("Barang sukses diterbitkan! Buka halaman 'Beranda' untuk melihat pakaian Anda tampil di baris teratas.");
+            
+            // Reset form
+            document.getElementById('sellName').value = "";
+            document.getElementById('sellPrice').value = "";
+        }
+
+        // Fitur Live Chat ke Toko Penjual
         let currentModalChat;
         function openChat(productName) {
-            document.getElementById('chatStoreTitle').innerHTML = `<i class="fa-solid fa-store me-2 text-primary"></i>Chat Toko Penjual (${productName})`;
+            document.getElementById('chatStoreTitle').innerHTML = `<i class="fa-solid fa-store me-2 text-primary"></i>Hubungi Toko Penjual (${productName})`;
             const stream = document.getElementById('chatStreamBox');
             stream.innerHTML = `
-                <div class="p-2 bg-light rounded mb-2 small text-muted">Toko terhubung otomatis dengan sistem Anda.</div>
+                <div class="p-2 bg-light rounded mb-2 small text-muted">Koneksi chat room toko terenkripsi aman.</div>
                 <div class="p-2 mb-2 bg-info bg-opacity-10 rounded text-start small">
-                    <strong>Seller:</strong> Halo kak! Produk <strong>${productName}</strong> ini kondisinya super mulus seperti baru. Silakan kalau ada yang mau ditanyakan atau ditawar!
+                    <strong>Seller Toko:</strong> Halo kak! Barang <strong>${productName}</strong> ini masih ada kok, ukurannya sesuai deskripsi. Mau ditawar berapa kak?
                 </div>
             `;
             currentModalChat = new bootstrap.Modal(document.getElementById('modalChat'));
@@ -342,7 +530,6 @@
             const stream = document.getElementById('chatStreamBox');
             if(msgInput.value.trim() === "") return;
 
-            // Tambah pesan dari pembeli
             stream.innerHTML += `
                 <div class="p-2 mb-2 bg-light rounded text-end small">
                     <strong>Anda (Pembeli):</strong> ${msgInput.value}
@@ -352,25 +539,23 @@
             const userText = msgInput.value.toLowerCase();
             msgInput.value = "";
 
-            // Bot Seller merespons otomatis secara interaktif
             setTimeout(() => {
-                let sellerResponse = "Baik kak, pesan sudah diterima penjual. Silakan klik tombol 'Beli' jika ingin langsung checkout.";
+                let sellerResponse = "Baik kak, tawaran/pertanyaan dicatat toko ya. Silakan diproses beli lewat checkout.";
                 if(userText.includes("masih ada") || userText.includes("ready")) {
-                    sellerResponse = "Barangnya masih ready banget dan siap kirim hari ini ya kak!";
+                    sellerResponse = "Stok masih ready aman kak, silakan langsung di-checkout sebelum diambil orang lain!";
                 } else if(userText.includes("kurang") || userText.includes("nego") || userText.includes("murah")) {
-                    sellerResponse = "Boleh dinego tipis-tipis kak, coba masukkan nominal tawaran kakak lewat fitur 'Smart Bargain Room' di halaman beranda ya!";
+                    sellerResponse = "Boleh nego halus kak, coba langsung masukkan nominal tawaranmu lewat fitur 'Smart Bargain Room' di halaman beranda ya!";
                 }
                 
                 stream.innerHTML += `
                     <div class="p-2 mb-2 bg-info bg-opacity-10 rounded text-start small">
-                        <strong>Seller:</strong> ${sellerResponse}
+                        <strong>Seller Toko:</strong> ${sellerResponse}
                     </div>
                 `;
                 stream.scrollTop = stream.scrollHeight;
-            }, 800);
+            }, 700);
         }
 
-        // List helper foto Unsplash
         function getPhotoCode(tag) {
             if(tag.includes('y2k')) return '1515886657613-9f3515b0c78f';
             if(tag.includes('pants')) return '1541099649105-f69ad21f3246';
@@ -380,8 +565,7 @@
             if(tag.includes('hat')) return '1576871337632-b9aef4c17ab9';
             if(tag.includes('bag')) return '1584917865442-de89df76afd3';
             if(tag.includes('anime')) return '1578632767115-351597cf2477';
-            if(tag.includes('cyberpunk')) return '1509198397868-475647b2a1e5';
-            return '1523381210434-271e8be1f52b';
+            return '1509198397868-475647b2a1e5';
         }
     </script>
 </body>
