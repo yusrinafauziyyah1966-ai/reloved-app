@@ -4,20 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reloved - Smart Thrifting Marketplace</title>
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome untuk Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --vintage-brown: #8B5A2B;
-            --earth-clay: #CD5C5C;
-            --soft-cream: #FFFDD0;
-            --dark-charcoal: #2F4F4F;
+            --calm-brown: #A0816C;
+            --soft-cream: #F4EBE1;
+            --dark-charcoal: #3D342E;
         }
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #fcfbfa;
+            background-color: #FAF7F2;
             color: var(--dark-charcoal);
         }
         .navbar-brand {
@@ -25,16 +23,19 @@
             letter-spacing: 1px;
             color: var(--vintage-brown) !important;
         }
+        /* HERO SECTION DENGAN FOTO BAJU & WARNA COKLAT KALEM */
         .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200') no-repeat center center;
+            background: linear-gradient(rgba(61, 52, 46, 0.6), rgba(61, 52, 46, 0.6)), url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=1200') no-repeat center center;
             background-size: cover;
-            color: white;
-            padding: 100px 0;
+            color: #FDFBF7;
+            padding: 120px 0;
+            border-bottom: 5px solid var(--calm-brown);
         }
         .btn-custom {
-            background-color: var(--vintage-brown);
+            background-color: var(--calm-brown);
             color: white;
             border: none;
+            font-weight: 500;
         }
         .btn-custom:hover {
             background-color: var(--dark-charcoal);
@@ -42,16 +43,17 @@
         }
         .card-product {
             border: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(140, 120, 100, 0.08);
             transition: transform 0.3s;
             border-radius: 12px;
             overflow: hidden;
+            background-color: #FFF;
         }
         .card-product:hover {
             transform: translateY(-5px);
         }
         .product-img {
-            height: 250px;
+            height: 230px;
             object-fit: cover;
             width: 100%;
         }
@@ -59,211 +61,226 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            background-color: rgba(47, 79, 79, 0.85);
+            background-color: rgba(160, 129, 108, 0.9);
             color: white;
         }
-        .admin-panel {
-            background-color: #f0eae4;
-            border-left: 5px solid var(--vintage-brown);
+        .bargain-box {
+            background: linear-gradient(135deg, #5C4D42, #8C7667);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+        }
+        .chat-bubble {
+            border-radius: 15px;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .chat-user {
+            background-color: rgba(255,255,255,0.15);
+            text-align: left;
+        }
+        .chat-bot {
+            background-color: #A0816C;
+            text-align: left;
+        }
+        .role-badge {
+            font-size: 0.8rem;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="#"><i class="fa-solid fa-shirt me-2"></i>RELOVED</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-index"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link active" href="#Katalog">Katalog</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#Sitemap">Sitemap & ERD</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#AdminPanel">Panel Admin</a></li>
-                    <li class="nav-item ms-3">
-                        <button class="btn btn-custom btn-sm" onclick="showAdminAlert()"><i class="fa-solid fa-user-shield me-1"></i> Login Admin</button>
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    <li class="nav-item"><a class="nav-link" href="#Katalog">Katalog Pasar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#BargainRoom">Smart Bargain</a></li>
+                    <li class="nav-item border-start ps-3 ms-2">
+                        <span class="badge bg-secondary text-white role-badge p-2"><i class="fa-solid fa-cart-shopping"></i> Akun Pembeli</span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="badge text-white role-badge p-2" style="background-color: var(--calm-brown);"><i class="fa-solid fa-store"></i> Akun Penjual</span>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-dark btn-sm role-badge" onclick="alert('Membuka Panel Utama Khusus Admin Reloved...')">
+                            <i class="fa-solid fa-user-gear"></i> Akun Admin
+                        </button>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
     <header class="hero-section text-center">
         <div class="container">
-            <h1 class="display-4 fw-bold">Style Up, Waste Less</h1>
-            <p class="lead">Temukan Outfit Y2K, Cosplay Anime, hingga Tren Terkini 2026 yang Terkurasi.</p>
-            <a href="#Katalog" class="btn btn-custom btn-lg mt-3">Jelajahi 100+ Produk</a>
+            <h1 class="display-4 fw-bold mb-3">Style Up, Waste Less</h1>
+            <p class="lead mb-4 mx-auto" style="max-width: 700px;">Temukan pelindung gaya terbaikmu dari kurasi koleksi Y2K, Cosplay Anime, hingga Tren 2026. Tawar langsung dengan Bot AI kami.</p>
+            <a href="#Katalog" class="btn btn-custom btn-lg px-4 shadow">Lihat 100+ Koleksi</a>
         </div>
     </header>
 
-    <!-- FITUR UTAMA -->
     <section class="container py-5 text-center">
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="p-4 bg-white rounded shadow-sm">
-                    <i class="fa-solid fa-gem fa-3x text-warning mb-3"></i>
-                    <h5>Katalog Terkurasi</h5>
-                    <p class="text-muted small">Semua baju, celana, dan sepatu dijamin lolos uji kelayakan gaya dan kondisi fisik.</p>
+                <div class="p-4 bg-white rounded shadow-sm h-100 border-top border-3" style="border-color: var(--calm-brown) !important;">
+                    <i class="fa-solid fa-tags fa-3x mb-3" style="color: var(--calm-brown);"></i>
+                    <h5>Smart Bargain Room</h5>
+                    <p class="text-muted small">Tawar-menawar harga baju atau celana idamanmu langsung dengan sistem Bot AI penjual secara otomatis tanpa nunggu lama.</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="p-4 bg-white rounded shadow-sm">
-                    <i class="fa-solid fa-user-lock fa-3x text-success mb-3"></i>
-                    <h5>Manajemen Akun Admin</h5>
-                    <p class="text-muted small">Sistem dashboard khusus admin untuk memvalidasi kelayakan barang dari seller.</p>
+                <div class="p-4 bg-white rounded shadow-sm h-100 border-top border-3" style="border-color: var(--calm-brown) !important;">
+                    <i class="fa-solid fa-user-check fa-3x mb-3" style="color: var(--calm-brown);"></i>
+                    <h5>Multi-Role Account</h5>
+                    <p class="text-muted small">Akses platform yang fleksibel dan aman baik bagi Pembeli biasa, Penjual (Seller) fashion, maupun manajemen pengawas Akun Admin.</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="p-4 bg-white rounded shadow-sm">
-                    <i class="fa-solid fa-shield-halved fa-3x text-info mb-3"></i>
-                    <h5>Transaksi Rekber Aman</h5>
-                    <p class="text-muted small">Uang pembeli hanya disalurkan ke penjual setelah barang terkonfirmasi sampai.</p>
+                <div class="p-4 bg-white rounded shadow-sm h-100 border-top border-3" style="border-color: var(--calm-brown) !important;">
+                    <i class="fa-solid fa-shield-heart fa-3x mb-3" style="color: var(--calm-brown);"></i>
+                    <h5>Transaksi Rekber Kurasi</h5>
+                    <p class="text-muted small">Sistem jaminan dana aman 100%. Uang baru akan diteruskan ke penjual setelah barang lolos cek fisik pembeli.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SITEMAP & ERD DOCUMENTATION SECTION -->
-    <section id="Sitemap" class="bg-light py-5">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold">Dokumentasi Arsitektur Sistem</h2>
-                <p class="text-muted">Desain Navigasi (Sitemap) & Hubungan Basis Data (ERD) Reloved Platform</p>
-            </div>
-            <div class="row g-4">
-                <!-- SITEMAP -->
-                <div class="col-md-6">
-                    <div class="card p-4 h-100 shadow-sm">
-                        <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-sitemap me-2 text-primary"></i> Sitemap (Struktur Menu)</h5>
-                        <ul class="list-group list-group-flush small">
-                            <li class="list-group-item"><strong>[Root] Homepage</strong> - Landing Page Utama</li>
-                            <li class="list-group-item">├── <strong>Katalog Pasar</strong> (Filter: Y2K, Anime Cosplay, Trend 2026, dll.)</li>
-                            <li class="list-group-item">├── <strong>Detail Produk</strong> (Deskripsi, Harga, Kondisi Barang)</li>
-                            <li class="list-group-item">├── <strong>Sistem Keranjang & Checkout</strong> (Proses Pembelian)</li>
-                            <li class="list-group-item">└── <strong>🔒 Gerbang Otentikasi Admin Panel</strong>
-                                <ul class="ms-3 list-unstyled text-muted">
-                                    <li>└── Dashboard Kontrol / Validasi Produk / Manajemen Seller</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- ERD CONCEPTUAL -->
-                <div class="col-md-6">
-                    <div class="card p-4 h-100 shadow-sm">
-                        <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-database me-2 text-danger"></i> Entity Relationship Diagram (ERD)</h5>
-                        <ul class="list-group list-group-flush small">
-                            <li class="list-group-item"><strong>1. Entitas USER</strong> (<u>id_user</u>, nama, email, password, role [Admin/Seller/Buyer])</li>
-                            <li class="list-group-item"><strong>2. Entitas PRODUCT</strong> (<u>id_product</u>, nama_barang, kategori, harga, status_kurasi, <i>fk_id_user</i>)</li>
-                            <li class="list-group-item"><strong>3. Entitas TRANSACTION</strong> (<u>id_tx</u>, tgl_bayar, total_harga, status_rekber, <i>fk_id_user</i>, <i>fk_id_product</i>)</li>
-                            <li class="list-group-item text-center bg-dark text-white rounded mt-2 py-2 fw-bold">
-                                RELASI: User (1) ─── 📦 Menjual ─── (N) Product <br>
-                                User (1) ─── 💳 Membayar ─── (N) Transaction
-                            </td>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- EXCLUSIVE ADMIN PANEL PREVIEW -->
-    <section id="AdminPanel" class="container py-5">
-        <div class="admin-panel p-4 rounded shadow-sm">
+    <section id="BargainRoom" class="container py-4">
+        <div class="bargain-box shadow">
             <div class="row align-items-center">
-                <div class="col-lg-8">
-                    <h4 class="fw-bold text-dark"><i class="fa-solid fa-user-gear me-2"></i> Mode Preview: Fitur Khusus Admin Terdeteksi</h4>
-                    <p class="mb-0 text-muted small">Sebagai admin terdaftar, Anda berhak melakukan penyaringan massal (Approval/Rejection) terhadap komoditas yang masuk demi menjaga standar estetika tren pasar fashion anak muda.</p>
+                <div class="col-md-5 mb-4 mb-md-0">
+                    <span class="badge mb-2" style="background-color: var(--calm-brown);">Fitur Unggulan Aktif</span>
+                    <h3 class="fw-bold">Smart Bargain Room</h3>
+                    <p class="small text-white-50">Sistem simulasi tawar-menawar otomatis. Ketik harga tawaranmu untuk langsung bernegosiasi dengan kecerdasan buatan platform.</p>
+                    <div class="input-group mt-3">
+                        <input type="number" class="form-control" id="userOffer" placeholder="Masukkan angka tawaran (Contoh: 150000)">
+                        <button class="btn btn-custom" onclick="simulateBargain()">Kirim Tawaran</button>
+                    </div>
                 </div>
-                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-                    <button class="btn btn-dark" onclick="alert('Membuka Dashboard Utama Admin Reloved...')">Buka Dashboard Kontrol</button>
+                <div class="col-md-7">
+                    <div class="p-3 bg-black bg-opacity-25 rounded" style="max-height: 250px; overflow-y: auto;" id="chatBox">
+                        <div class="chat-bubble chat-bot">
+                            <strong><i class="fa-solid fa-robot me-1"></i> Bot Penjual:</strong><br>
+                            Halo! Saya memegang penawaran Jeans Levi's Vintage ini seharga <strong>Rp 200.000</strong>. Mau nawar berapa? (Aturan: Tawaran di bawah 70% otomatis ditolak bot).
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- KATALOG 100 BARANG -->
     <section id="Katalog" class="container py-5">
         <div class="text-center mb-5">
-            <h2 class="fw-bold">Katalog Eksklusif Reloved</h2>
-            <p class="text-muted">Menampilkan 100 Produk Terpopuler Berdasarkan Tren Masa Kini</p>
+            <h2 class="fw-bold">Eksplorasi 100 Komoditas Reloved</h2>
+            <p class="text-muted">Gaya Hidup Tren Y2K, Cosplay Anime, Tren Masa Depan 2026, dan Aneka Aksesoris Lengkap</p>
             
-            <!-- Info Badge -->
             <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
-                <span class="badge bg-secondary p-2">Y2K Outfit</span>
-                <span class="badge bg-secondary p-2">Cosplay Anime</span>
-                <span class="badge bg-secondary p-2">Trend 2026 Style</span>
-                <span class="badge bg-secondary p-2">Sepatu & Sneakers</span>
-                <span class="badge bg-secondary p-2">Tas & Aksesoris</span>
+                <span class="badge bg-dark p-2">Outfit Y2K</span>
+                <span class="badge bg-dark p-2">Cosplay Anime</span>
+                <span class="badge bg-dark p-2">Trend 2026 Style</span>
+                <span class="badge bg-dark p-2">Celana & Rok</span>
+                <span class="badge bg-dark p-2">Sepatu & Sneakers</span>
+                <span class="badge bg-dark p-2">Tas, Topi & Aksesoris</span>
             </div>
         </div>
 
-        <!-- Wadah Otomatis 100 Barang Menggunakan JavaScript -->
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="container-produk">
-            <!-- 100 data produk akan di-generate otomatis di sini oleh JavaScript di bawah -->
-        </div>
+            </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="bg-dark text-white text-center py-4 mt-5">
-        <p class="mb-0 small">&copy; 2026 Reloved Team. Dibuat dengan penuh gaya & komitmen lingkungan.</p>
+        <p class="mb-0 small">&copy; 2026 Reloved Team. Tampilan Estetik Coklat Kalem Khusus Fashion & Tren Masa Kini.</p>
     </footer>
 
-    <!-- BOOTSTRAP JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- JAVASCRIPT PINTAR: GENERATE 100 BARANG BERBEDA SECARA DINAMIS -->
     <script>
-        // Kumpulan data kategori sesuai permintaanmu
-        const categories = [
-            { name: "Baju Y2K Aesthetics", tag: "y2k,clothing", price: "Rp 120.000" },
-            { name: "Celana Cargo Baggy", tag: "baggy,pants", price: "Rp 185.000" },
-            { name: "Rok Mini Plaid Retro", tag: "skirt,fashion", price: "Rp 95.000" },
-            { name: "Sepatu Chunky Sneakers", tag: "sneakers,shoes", price: "Rp 320.000" },
-            { name: "Aksesoris Kalung Harajuku", tag: "jewelry,necklace", price: "Rp 45.000" },
-            { name: "Topi Beanie Rajut", tag: "beanie,hat", price: "Rp 60.000" },
-            { name: "Tas Bahu / Shoulder Bag Vintage", tag: "bag,purse", price: "Rp 150.000" },
-            { name: "Cosplay Anime Costume Set", tag: "cosplay,anime", price: "Rp 450.000" },
-            { name: "Outfit Futuristik Trend 2026", tag: "cyberpunk,futuristic,outfit", price: "Rp 299.000" },
-            { name: "Jaket Varsity Oversize", tag: "jacket,varsity", price: "Rp 210.000" }
+        function simulateBargain() {
+            const offerInput = document.getElementById('userOffer');
+            const chatBox = document.getElementById('chatBox');
+            const offerPrice = parseInt(offerInput.value);
+
+            if (!offerPrice || offerPrice <= 0) {
+                alert("Masukkan nominal tawaran berupa angka yang valid!");
+                return;
+            }
+
+            chatBox.innerHTML += `
+                <div class="chat-bubble chat-user">
+                    <strong><i class="fa-solid fa-user me-1"></i> Anda (Akun Pembeli):</strong><br>
+                    Saya menawar barang ini seharga Rp ${offerPrice.toLocaleString('id-ID')}.
+                </div>
+            `;
+
+            setTimeout(() => {
+                let botResponse = "";
+                if (offerPrice >= 180000) {
+                    botResponse = "<strong>Deal setuju!</strong> Tawaran Anda sangat bagus. Silakan klik ambil barang di akun pembeli Anda sekarang.";
+                } else if (offerPrice >= 140000 && offerPrice < 180000) {
+                    botResponse = "Harga segitu masih sedikit mepet modal nih kak. Naikkan sedikit lagi sekitar Rp 170.000 langsung saya lepas!";
+                } else {
+                    botResponse = "<strong>Tawaran ditolak sistem!</strong> Maaf, harga yang Anda masukkan terlalu jauh di bawah batas minimum toleransi kurasi toko kami (70%).";
+                }
+
+                chatBox.innerHTML += `
+                    <div class="chat-bubble chat-bot">
+                        <strong><i class="fa-solid fa-robot me-1"></i> Bot Penjual:</strong><br>
+                        ${botResponse}
+                    </div>
+                `;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 800);
+
+            offerInput.value = "";
+        }
+
+        const fashionPool = [
+            { name: "Baju Kaos Y2K Retro", tag: "y2k,clothing", price: "Rp 115.000" },
+            { name: "Celana Cargo Baggy Loose", tag: "baggy,pants", price: "Rp 189.000" },
+            { name: "Rok Mini Plaid High-Waist", tag: "skirt,fashion", price: "Rp 98.000" },
+            { name: "Chunky Sneakers Retro", tag: "sneakers,shoes", price: "Rp 340.000" },
+            { name: "Aksesoris Kalung Harajuku Cyber", tag: "jewelry,necklace", price: "Rp 49.000" },
+            { name: "Topi Beanie Rajut Streetwear", tag: "beanie,hat", price: "Rp 55.000" },
+            { name: "Tas Bahu / Shoulder Bag Leather", tag: "bag,purse", price: "Rp 160.000" },
+            { name: "Cosplay Anime Costume Set", tag: "cosplay,anime", price: "Rp 440.000" },
+            { name: "Outfit Futuristik Trend 2026", tag: "cyberpunk,outfit", price: "Rp 285.000" },
+            { name: "Jaket Varsity Oversize Vintage", tag: "jacket,varsity", price: "Rp 225.000" }
         ];
 
         const container = document.getElementById('container-produk');
 
-        // Loop sebanyak 100 kali untuk menciptakan 100 barang berbeda tanpa ngetik manual
         for (let i = 1; i <= 100; i++) {
-            // Pilih acak salah satu template kategori di atas
-            const dataPilihan = categories[i % categories.length];
-            
-            // Trik Unsplash API: menambahkan nomor indeks `sig=i` agar fotonya dipaksa berbeda tiap barang
-            const fotoUnik = `https://images.unsplash.com/photo-${getPhotoCode(dataPilihan.tag)}?auto=format&fit=crop&w=400&q=80&sig=${i}`;
+            const item = fashionPool[i % fashionPool.length];
+            const randomPhotoUrl = `https://images.unsplash.com/photo-${getPhotoCode(item.tag)}?auto=format&fit=crop&w=400&q=80&sig=${i}`;
 
-            // Kerangka HTML untuk tiap item produk
-            const cardHTML = `
+            const itemCard = `
                 <div class="col">
                     <div class="card card-product h-100 position-relative">
-                        <span class="badge badge-category rounded-pill">${dataPilihan.name.split(' ')[0]} Item</span>
-                        <img src="${fotoUnik}" class="card-img-top product-img" alt="Produk Reloved" onerror="this.src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400'">
+                        <span class="badge badge-category rounded-pill">ID #${1026 + i}</span>
+                        <img src="${randomPhotoUrl}" class="card-img-top product-img" alt="Reloved Item" onerror="this.src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400'">
                         <div class="card-body d-flex flex-column justify-content-between">
                             <div>
-                                <h6 class="fw-bold mb-1 text-truncate">${dataPilihan.name} #2026-${1000 + i}</h6>
-                                <p class="text-muted small mb-2">Kondisi: Sempurna 9.5/10</p>
+                                <h6 class="fw-bold mb-1 text-truncate">${item.name}</h6>
+                                <p class="text-muted small mb-1" style="font-size:0.75rem;"><i class="fa-solid fa-circle-check text-success"></i> Terverifikasi Admin</p>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-2">
-                                <span class="fw-bold text-danger">${dataPilihan.price}</span>
-                                <button class="btn btn-outline-dark btn-sm"><i class="fa-solid fa-cart-plus"></i></button>
+                                <span class="fw-bold text-danger" style="font-size:0.95rem;">${item.price}</span>
+                                <button class="btn btn-outline-dark btn-sm" onclick="alert('Item berhasil dimasukkan ke keranjang Akun Pembeli Anda!')"><i class="fa-solid fa-cart-plus"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
-            container.innerHTML += cardHTML;
+            container.innerHTML += itemCard;
         }
 
-        // Fungsi pembantu penyedia fallback keyword foto agar Unsplash mencarian tema yang sesuai
         function getPhotoCode(tag) {
             if(tag.includes('y2k')) return '1515886657613-9f3515b0c78f';
             if(tag.includes('pants')) return '1541099649105-f69ad21f3246';
@@ -274,11 +291,7 @@
             if(tag.includes('bag')) return '1584917865442-de89df76afd3';
             if(tag.includes('anime')) return '1578632767115-351597cf2477';
             if(tag.includes('cyberpunk')) return '1509198397868-475647b2a1e5';
-            return '1523381210434-271e8be1f52b'; 
-        }
-
-        function showAdminAlert() {
-            alert("Akses Terbatas: Masukkan Kredensial Akun Khusus Admin Reloved untuk verifikasi.");
+            return '1523381210434-271e8be1f52b';
         }
     </script>
 </body>
