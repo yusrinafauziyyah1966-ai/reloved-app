@@ -1,1726 +1,285 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Re-Vibe | Sustainable Preloved Fashion Marketplace</title>
-  
-  <!-- Premium Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Lucide Icons for clean aesthetic -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui'],
-            heading: ['Outfit', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#fdf2f8',
-              100: '#fce7f3',
-              200: '#fbcfe8',
-              300: '#f9a8d4',
-              400: '#f472b6',
-              500: '#e11d48',
-              600: '#be123c',
-              700: '#9f1239',
-              800: '#881337',
-              900: '#4c0519',
-              950: '#2a020b',
-            },
-            vintage: {
-              50: '#fdf8f6',
-              100: '#f2e8e5',
-              200: '#eaddd7',
-              500: '#bc6c25',
-              800: '#603808',
-            }
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reloved - Smart Thrifting Marketplace</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome untuk Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vintage-brown: #8B5A2B;
+            --earth-clay: #CD5C5C;
+            --soft-cream: #FFFDD0;
+            --dark-charcoal: #2F4F4F;
         }
-      }
-    }
-  </script>
-
-  <style>
-    body {
-      background: radial-gradient(circle at top left, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%);
-      scroll-behavior: smooth;
-    }
-    
-    .glass {
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-    }
-    
-    .glass-dark {
-      background: rgba(20, 25, 20, 0.85);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: rgba(0,0,0,0.03);
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: rgba(0,0,0,0.15);
-      border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: rgba(0,0,0,0.25);
-    }
-
-    .pulse-glow {
-      animation: pulseGlow 2s infinite alternate;
-    }
-
-    @keyframes pulseGlow {
-      0% {
-        box-shadow: 0 0 5px rgba(34, 197, 94, 0.2);
-      }
-      100% {
-        box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
-      }
-    }
-  </style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fcfbfa;
+            color: var(--dark-charcoal);
+        }
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--vintage-brown) !important;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 100px 0;
+        }
+        .btn-custom {
+            background-color: var(--vintage-brown);
+            color: white;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: var(--dark-charcoal);
+            color: white;
+        }
+        .card-product {
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .card-product:hover {
+            transform: translateY(-5px);
+        }
+        .product-img {
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+        }
+        .badge-category {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(47, 79, 79, 0.85);
+            color: white;
+        }
+        .admin-panel {
+            background-color: #f0eae4;
+            border-left: 5px solid var(--vintage-brown);
+        }
+    </style>
 </head>
-<body class="min-h-screen text-slate-800 antialiased selection:bg-brand-200">
+<body>
 
-  <!-- ================= TOP ECO ANNOUNCEMENT ================= -->
-  <div class="bg-brand-900 text-brand-100 py-2 px-4 text-center text-xs font-medium tracking-wide flex justify-center items-center gap-2">
-    <i data-lucide="leaf" class="w-3.5 h-3.5 text-brand-500 animate-bounce"></i>
-    <span>Re-Vibe Movement: Hemat Air & CO₂ Setiap Transaksi. Komunitas kita telah menghemat <strong>14.280 kg CO₂</strong>!</span>
-  </div>
-
-  <!-- ================= HEADER / NAVBAR ================= -->
-  <header class="sticky top-0 z-40 w-full glass shadow-sm transition-all duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      
-      <!-- Logo -->
-      <a href="#" onclick="showSection('home')" class="flex items-center gap-2.5 group">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-600 to-rose-400 flex items-center justify-center text-white font-bold text-xl shadow-md transition-transform group-hover:scale-105">
-          R
-        </div>
-        <div>
-          <span class="font-heading font-extrabold text-2xl tracking-tight bg-gradient-to-r from-brand-900 to-rose-700 bg-clip-text text-transparent">Re-Vibe</span>
-          <span class="block text-[10px] text-brand-700 font-semibold tracking-wider uppercase -mt-1">Preloved & Eco-Cycle</span>
-        </div>
-      </a>
-
-      <!-- Navigation Menu -->
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-        <a href="#" onclick="showSection('home')" class="nav-link text-brand-900 font-semibold hover:text-brand-600 transition">Beranda</a>
-        <a href="#" onclick="showSection('explore')" class="nav-link text-slate-600 hover:text-brand-600 transition">Jelajah</a>
-        <a href="#" onclick="showSection('eco-impact')" class="nav-link text-slate-600 hover:text-brand-600 transition flex items-center gap-1.5"><i data-lucide="activity" class="w-4 h-4 text-brand-500"></i> Eco-Tracker</a>
-        <a href="#" onclick="showSection('architecture')" class="nav-link text-slate-600 hover:text-brand-600 transition">Sitemap & DB ERD</a>
-      </nav>
-
-      <!-- Search & Auth Actions -->
-      <div class="flex items-center gap-4">
-        <!-- Search Bar Header -->
-        <div class="hidden lg:flex items-center relative">
-          <input type="text" id="search-input" placeholder="Cari Zara, Levi's, L, Outer..." class="w-64 pl-10 pr-4 py-2 text-xs rounded-full border border-slate-200 bg-white/70 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition">
-          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5"></i>
-        </div>
-
-        <!-- Role Badge (Dynamic) -->
-        <div id="user-badge" class="hidden md:flex items-center gap-2 bg-rose-50 border border-rose-100 rounded-full py-1 pl-1 pr-3 text-xs">
-          <div class="w-6 h-6 rounded-full bg-brand-600 flex items-center justify-center text-white font-bold text-[10px]">
-            P
-          </div>
-          <div>
-            <span class="font-semibold text-slate-700 block -mb-0.5" id="user-display-name">Pembeli Bijak</span>
-            <span class="text-[9px] text-brand-600 flex items-center gap-0.5"><i data-lucide="leaf" class="w-2.5 h-2.5"></i> <span id="user-badge-eco">15.4 Kg CO₂</span></span>
-          </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="flex items-center gap-2">
-          <!-- Seller Dashboard Toggle (Visible when logged in) -->
-          <button id="btn-seller-dashboard" onclick="showSection('seller-dashboard')" class="hidden px-4 py-2 text-xs font-semibold rounded-full bg-vintage-800 text-white hover:bg-vintage-500 transition shadow-sm flex items-center gap-1.5">
-            <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i> Dashboard Penjual
-          </button>
-          
-          <!-- Login/Logout Trigger -->
-          <button id="btn-login-modal" onclick="openLoginModal()" class="px-5 py-2.5 text-xs font-semibold rounded-full bg-brand-600 text-white hover:bg-brand-700 transition shadow-sm">
-            Masuk / Daftar
-          </button>
-          <button id="btn-logout" onclick="logoutUser()" class="hidden px-4 py-2.5 text-xs font-semibold rounded-full border border-slate-200 text-slate-600 hover:bg-slate-50 transition">
-            Keluar
-          </button>
-        </div>
-
-        <!-- Mobile Menu Trigger -->
-        <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition">
-          <i data-lucide="menu" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-    </div>
-
-    <!-- Mobile Navigation Overlay -->
-    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white/95 px-6 py-4 flex flex-col gap-4 text-sm font-medium">
-      <a href="#" onclick="showSection('home'); toggleMobileMenu()" class="text-brand-900">Beranda</a>
-      <a href="#" onclick="showSection('explore'); toggleMobileMenu()" class="text-slate-600">Jelajah Outfit</a>
-      <a href="#" onclick="showSection('eco-impact'); toggleMobileMenu()" class="text-slate-600 flex items-center gap-1.5"><i data-lucide="activity" class="w-4 h-4 text-brand-500"></i> Eco-Tracker</a>
-      <a href="#" onclick="showSection('architecture'); toggleMobileMenu()" class="text-slate-600">Sitemap & Database ERD</a>
-      <hr class="border-slate-100">
-      <div class="relative w-full">
-        <input type="text" placeholder="Cari produk..." class="w-full pl-10 pr-4 py-2 text-xs rounded-full border border-slate-200">
-        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-2.5"></i>
-      </div>
-    </div>
-  </header>
-
-  <!-- ================= MAIN CONTAINER ================= -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-    <!-- ================= SECTION 1: HOME / LANDING PAGE ================= -->
-    <section id="sec-home" class="space-y-12">
-      
-      <!-- Hero Slide / Banner -->
-      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-900 via-rose-950 to-vintage-800 text-white p-8 md:p-16 shadow-xl">
-        <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(circle at top right, rgba(34, 197, 94, 0.4), transparent 45%);"></div>
-        <div class="relative z-10 max-w-xl space-y-6">
-          <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 text-brand-300 text-xs font-semibold uppercase tracking-wider">
-            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Unique Thrithing Experience
-          </span>
-          <h1 class="font-heading font-extrabold text-4xl sm:text-5xl leading-tight">Gaya Keren, Gaya Lebih Memukau.</h1>
-          <p class="text-slate-200 text-sm sm:text-base leading-relaxed font-light">
-            Temukan outfit preloved dari brand favoritmu dengan harga terbaik. Re-Vibe menggabungkan sistem tawar-menawar seru dengan kalkulator penghematan karbon & air.
-          </p>
-          <div class="flex flex-wrap gap-4 pt-2">
-            <button onclick="showSection('explore')" class="px-6 py-3 text-xs font-bold bg-brand-500 hover:bg-brand-600 text-white rounded-full transition shadow-lg flex items-center gap-2">
-              Mulai Belanja <i data-lucide="arrow-right" class="w-4 h-4"></i>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fa-solid fa-shirt me-2"></i>RELOVED</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-index"></span>
             </button>
-            <button onclick="showSection('eco-impact')" class="px-6 py-3 text-xs font-bold border border-white/30 hover:bg-white/10 text-white rounded-full transition flex items-center gap-2">
-              <i data-lucide="leaf" class="w-4 h-4 text-brand-400"></i> Hitung Dampak Ekologismu
-            </button>
-          </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link active" href="#Katalog">Katalog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#Sitemap">Sitemap & ERD</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#AdminPanel">Panel Admin</a></li>
+                    <li class="nav-item ms-3">
+                        <button class="btn btn-custom btn-sm" onclick="showAdminAlert()"><i class="fa-solid fa-user-shield me-1"></i> Login Admin</button>
+                    </li>
+                </ul>
+            </div>
         </div>
-        
-        <!-- Premium Floating Mock UI -->
-        <div class="hidden lg:block absolute right-16 top-1/2 -translate-y-1/2 w-96 glass-dark text-slate-100 p-6 rounded-2xl shadow-2xl space-y-4">
-          <div class="flex justify-between items-center pb-3 border-b border-white/10">
-            <span class="text-xs uppercase tracking-widest text-brand-400 font-bold flex items-center gap-1"><i data-lucide="message-square" class="w-3.5 h-3.5"></i> SMART BARGAIN ROOM</span>
-            <span class="text-[9px] bg-brand-600 px-2 py-0.5 rounded text-white font-semibold">Demo Auto-Bargain</span>
-          </div>
-          <div class="space-y-3 text-xs">
-            <div class="flex gap-2">
-              <div class="w-7 h-7 rounded-full bg-brand-500 flex items-center justify-center font-bold text-white text-[10px]">A</div>
-              <div class="bg-white/10 p-2.5 rounded-xl max-w-[80%] rounded-tl-none font-light">
-                Halo! Saya mau menawar Jeans Levi's ini seharga <strong>Rp 150.000</strong> (Harga asli Rp 200.000).
-              </div>
-            </div>
-            <div class="flex gap-2 justify-end">
-              <div class="bg-brand-600/80 p-2.5 rounded-xl max-w-[80%] rounded-tr-none text-right font-light">
-                Tawaran Anda 75% dari harga jual. Menunggu review penjual atau terima rekomendasi kami sebesar <strong>Rp 175.000</strong>?
-              </div>
-              <div class="w-7 h-7 rounded-full bg-vintage-500 flex items-center justify-center font-bold text-white text-[10px]">S</div>
-            </div>
-          </div>
-          <div class="pt-2 text-[10px] text-center text-slate-400 italic">
-            Aturan: Tawaran di bawah 70% otomatis ditolak bot!
-          </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Style Up, Waste Less</h1>
+            <p class="lead">Temukan Outfit Y2K, Cosplay Anime, hingga Tren Terkini 2026 yang Terkurasi.</p>
+            <a href="#Katalog" class="btn btn-custom btn-lg mt-3">Jelajahi 100+ Produk</a>
         </div>
-      </div>
+    </header>
 
-      <!-- Quick Categories -->
-      <div class="space-y-4">
-        <div class="flex justify-between items-end">
-          <div>
-            <h2 class="font-heading font-bold text-2xl text-slate-900">Pilih Berdasarkan Kategori</h2>
-            <p class="text-xs text-slate-500">Sesuaikan dengan preferensi gaya berkelanjutanmu</p>
-          </div>
+    <!-- FITUR UTAMA -->
+    <section class="container py-5 text-center">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="p-4 bg-white rounded shadow-sm">
+                    <i class="fa-solid fa-gem fa-3x text-warning mb-3"></i>
+                    <h5>Katalog Terkurasi</h5>
+                    <p class="text-muted small">Semua baju, celana, dan sepatu dijamin lolos uji kelayakan gaya dan kondisi fisik.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 bg-white rounded shadow-sm">
+                    <i class="fa-solid fa-user-lock fa-3x text-success mb-3"></i>
+                    <h5>Manajemen Akun Admin</h5>
+                    <p class="text-muted small">Sistem dashboard khusus admin untuk memvalidasi kelayakan barang dari seller.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 bg-white rounded shadow-sm">
+                    <i class="fa-solid fa-shield-halved fa-3x text-info mb-3"></i>
+                    <h5>Transaksi Rekber Aman</h5>
+                    <p class="text-muted small">Uang pembeli hanya disalurkan ke penjual setelah barang terkonfirmasi sampai.</p>
+                </div>
+            </div>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-          <div onclick="filterCategory('Vintage')" class="cursor-pointer group glass hover:bg-brand-50 p-6 rounded-2xl text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-slate-100 flex flex-col items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center group-hover:scale-110 transition">
-              <i data-lucide="camera" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <span class="font-semibold text-sm text-slate-800 block">Vintage</span>
-              <span class="text-[10px] text-brand-600">Retro Style</span>
-            </div>
-          </div>
-
-          <div onclick="filterCategory('Luxury')" class="cursor-pointer group glass hover:bg-brand-50 p-6 rounded-2xl text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-slate-100 flex flex-col items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center group-hover:scale-110 transition">
-              <i data-lucide="gem" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <span class="font-semibold text-sm text-slate-800 block">Luxury Brands</span>
-              <span class="text-[10px] text-brand-600">Chanel, LV, Dior</span>
-            </div>
-          </div>
-
-          <div onclick="filterCategory('Y2K Trend')" class="cursor-pointer group glass hover:bg-brand-50 p-6 rounded-2xl text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-slate-100 flex flex-col items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center group-hover:scale-110 transition">
-              <i data-lucide="star" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <span class="font-semibold text-sm text-slate-800 block">Y2K Aesthetic</span>
-              <span class="text-[10px] text-brand-600">Trendy Style</span>
-            </div>
-          </div>
-
-          <div onclick="filterCategory('Cosplay')" class="cursor-pointer group glass hover:bg-brand-50 p-6 rounded-2xl text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-slate-100 flex flex-col items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center group-hover:scale-110 transition">
-              <i data-lucide="theater" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <span class="font-semibold text-sm text-slate-800 block">Cosplay</span>
-              <span class="text-[10px] text-brand-600">Costume & Anime</span>
-            </div>
-          </div>
-
-          <div onclick="filterCategory('Bags & Accessories')" class="cursor-pointer group glass hover:bg-brand-50 p-6 rounded-2xl text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-slate-100 flex flex-col items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center group-hover:scale-110 transition">
-              <i data-lucide="shopping-bag" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <span class="font-semibold text-sm text-slate-800 block">Tas & Aksesoris</span>
-              <span class="text-[10px] text-brand-600">Fashion Add-ons</span>
-            </div>
-          </div>
-</div></div>
-
-      <!-- Featured Items Catalog -->
-      <div class="space-y-6">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-slate-200 pb-4">
-          <div>
-            <h2 class="font-heading font-bold text-2xl text-slate-900">Katalog Outfit Preloved Pilihan</h2>
-            <p class="text-xs text-slate-500">Pakaian bekas berkualitas yang siap melengkapi gayamu</p>
-          </div>
-          <!-- Filter Controls -->
-          <div class="flex items-center gap-2 flex-wrap">
-            <button onclick="filterCondition(9)" class="px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-200 hover:bg-slate-50 transition bg-white text-slate-600">Kondisi 9+/10</button>
-            <button onclick="filterBrand('Zara')" class="px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-200 hover:bg-slate-50 transition bg-white text-slate-600">Zara</button>
-            <button onclick="filterBrand('Uniqlo')" class="px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-200 hover:bg-slate-50 transition bg-white text-slate-600">Uniqlo</button>
-            <button onclick="resetFilters()" class="px-4 py-1.5 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center gap-1"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reset</button>
-          </div>
-        </div>
-
-        <!-- Products Grid -->
-        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          <!-- Dynamic product cards go here -->
-        </div>
-      </div>
-
-      <!-- Key Benefits / Why Re-Vibe -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
-        <div class="glass p-8 rounded-2xl space-y-3 border border-slate-200/50">
-          <span class="text-3xl">🤝</span>
-          <h3 class="font-heading font-bold text-lg text-slate-900">Smart Bargain System</h3>
-          <p class="text-xs text-slate-600 leading-relaxed font-light">
-            Tawar harga langsung via live-chat room. Sistem bot pintar kami memproses tawaran secara instan berdasarkan ambang batas kelayakan dari penjual.
-          </p>
-        </div>
-        <div class="glass p-8 rounded-2xl space-y-3 border border-slate-200/50">
-          <span class="text-3xl">🛡️</span>
-          <h3 class="font-heading font-bold text-lg text-slate-900">Buyer Protection (5% Fee)</h3>
-          <p class="text-xs text-slate-600 leading-relaxed font-light">
-            Tenang berbelanja! Dana ditahan di rekening bersama aman Re-Vibe dan baru diteruskan ke penjual setelah Anda mengonfirmasi barang diterima dengan baik.
-          </p>
-        </div>
-        <div class="glass p-8 rounded-2xl space-y-3 border border-slate-200/50">
-          <span class="text-3xl">🌱</span>
-          <h3 class="font-heading font-bold text-lg text-slate-900">Eco-Impact Tracker</h3>
-          <p class="text-xs text-slate-600 leading-relaxed font-light">
-            Setiap kali bertransaksi, Anda mendapatkan sertifikat digital penghematan karbon & air yang terakumulasi langsung pada lencana profil Anda.
-          </p>
-        </div>
-      </div>
-
     </section>
 
-    <!-- ================= SECTION 2: EXPLORE / PRODUCTS CATALOG ================= -->
-    <section id="sec-explore" class="hidden space-y-6">
-      <div class="border-b border-slate-200 pb-4">
-        <h2 class="font-heading font-bold text-3xl text-slate-900">Jelajahi Pakaian Bekas</h2>
-        <p class="text-xs text-slate-500">Filter berdasarkan spesifikasi produk Anda</p>
-      </div>
-
-      <!-- Search & Filters Bar Detailed -->
-      <div class="glass p-6 rounded-2xl border border-slate-100 grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase">Cari Nama / Brand</label>
-          <input type="text" id="filter-search" oninput="applyExploreFilters()" placeholder="Cari jeans, uniqlo..." class="w-full px-4 py-2.5 text-xs rounded-xl border border-slate-200 bg-white">
+    <!-- SITEMAP & ERD DOCUMENTATION SECTION -->
+    <section id="Sitemap" class="bg-light py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Dokumentasi Arsitektur Sistem</h2>
+                <p class="text-muted">Desain Navigasi (Sitemap) & Hubungan Basis Data (ERD) Reloved Platform</p>
+            </div>
+            <div class="row g-4">
+                <!-- SITEMAP -->
+                <div class="col-md-6">
+                    <div class="card p-4 h-100 shadow-sm">
+                        <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-sitemap me-2 text-primary"></i> Sitemap (Struktur Menu)</h5>
+                        <ul class="list-group list-group-flush small">
+                            <li class="list-group-item"><strong>[Root] Homepage</strong> - Landing Page Utama</li>
+                            <li class="list-group-item">├── <strong>Katalog Pasar</strong> (Filter: Y2K, Anime Cosplay, Trend 2026, dll.)</li>
+                            <li class="list-group-item">├── <strong>Detail Produk</strong> (Deskripsi, Harga, Kondisi Barang)</li>
+                            <li class="list-group-item">├── <strong>Sistem Keranjang & Checkout</strong> (Proses Pembelian)</li>
+                            <li class="list-group-item">└── <strong>🔒 Gerbang Otentikasi Admin Panel</strong>
+                                <ul class="ms-3 list-unstyled text-muted">
+                                    <li>└── Dashboard Kontrol / Validasi Produk / Manajemen Seller</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- ERD CONCEPTUAL -->
+                <div class="col-md-6">
+                    <div class="card p-4 h-100 shadow-sm">
+                        <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-database me-2 text-danger"></i> Entity Relationship Diagram (ERD)</h5>
+                        <ul class="list-group list-group-flush small">
+                            <li class="list-group-item"><strong>1. Entitas USER</strong> (<u>id_user</u>, nama, email, password, role [Admin/Seller/Buyer])</li>
+                            <li class="list-group-item"><strong>2. Entitas PRODUCT</strong> (<u>id_product</u>, nama_barang, kategori, harga, status_kurasi, <i>fk_id_user</i>)</li>
+                            <li class="list-group-item"><strong>3. Entitas TRANSACTION</strong> (<u>id_tx</u>, tgl_bayar, total_harga, status_rekber, <i>fk_id_user</i>, <i>fk_id_product</i>)</li>
+                            <li class="list-group-item text-center bg-dark text-white rounded mt-2 py-2 fw-bold">
+                                RELASI: User (1) ─── 📦 Menjual ─── (N) Product <br>
+                                User (1) ─── 💳 Membayar ─── (N) Transaction
+                            </td>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase">Kategori</label>
-          <select id="filter-cat" onchange="applyExploreFilters()" class="w-full px-4 py-2.5 text-xs rounded-xl border border-slate-200 bg-white">
-            <option value="All">Semua Kategori</option>
-            <option value="T-Shirt">Atasan / T-Shirt</option>
-            <option value="Jeans">Jeans / Denim</option>
-            <option value="Outerwear">Jaket / Outerwear</option>
-            <option value="Sneakers">Sepatu / Sneakers</option>
-                                        <option value="Dress" data-co2="8.0" data-water="4500">Dress / Gaun (Sedang - 8.0kg CO2 / 4500L Air)</option>
-                <option value="Vintage" data-co2="10.0" data-water="5000">Vintage (Sedang - 10.0kg CO2 / 5000L Air)</option>
-                <option value="Cosplay" data-co2="18.0" data-water="7000">Baju Cosplay (Tinggi - 18.0kg CO2 / 7000L Air)</option>
-                <option value="Luxury" data-co2="25.0" data-water="12000">Brand Terkenal (Sangat Tinggi - 25.0kg CO2 / 12000L Air)</option>
-                <option value="Bags & Accessories" data-co2="5.0" data-water="1500">Tas & Aksesoris (Rendah - 5.0kg CO2 / 1500L Air)</option>
-                <option value="Y2K Trend" data-co2="9.0" data-water="4000">Outfit Y2K (Sedang - 9.0kg CO2 / 4000L Air)</option>
-                <option value="2026 Trend" data-co2="11.0" data-water="4200">Trend Tahun 2026 (Sedang - 11.0kg CO2 / 4200L Air)</option>
-            <option value="Vintage">Vintage</option>
-            <option value="Cosplay">Baju Cosplay</option>
-            <option value="Luxury">Brand Terkenal (Chanel, LV, Dior)</option>
-            <option value="Bags & Accessories">Tas & Aksesoris</option>
-            <option value="Y2K Trend">Outfit Y2K</option>
-            <option value="2026 Trend">Trend Tahun 2026</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase">Ukuran</label>
-          <select id="filter-size" onchange="applyExploreFilters()" class="w-full px-4 py-2.5 text-xs rounded-xl border border-slate-200 bg-white">
-            <option value="All">Semua Ukuran</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase">Kondisi Minimal</label>
-          <select id="filter-cond" onchange="applyExploreFilters()" class="w-full px-4 py-2.5 text-xs rounded-xl border border-slate-200 bg-white">
-            <option value="0">Semua Kondisi</option>
-            <option value="9">Sangat Bagus (9+/10)</option>
-            <option value="8">Bagus (8+/10)</option>
-            <option value="7">Cukup Bagus (7+/10)</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Explore Results Grid -->
-      <div id="explore-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <!-- Dyn. explore cards -->
-      </div>
     </section>
 
-    <!-- ================= SECTION 3: ECO-IMPACT TRACKER DASHBOARD ================= -->
-    <section id="sec-eco-impact" class="hidden space-y-8">
-      <div class="border-b border-slate-200 pb-4">
-        <h2 class="font-heading font-bold text-3xl text-slate-900">Dampak Lingkungan (Eco-Impact Tracker)</h2>
-        <p class="text-xs text-slate-500">Bagaimana kontribusi thrifting Re-Vibe membantu menyelamatkan bumi</p>
-      </div>
-
-      <!-- Eco Dashboard Stats -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <div class="glass p-8 rounded-2xl border border-rose-100 bg-rose-50/50 flex items-center gap-6">
-          <div class="w-16 h-16 rounded-full bg-brand-100 flex items-center justify-center text-brand-600">
-            <i data-lucide="cloud-rain" class="w-8 h-8"></i>
-          </div>
-          <div>
-            <span class="block text-3xl font-heading font-bold text-brand-900" id="total-co2-saved">15.4 Kg</span>
-            <span class="text-xs font-semibold text-slate-600 block">Total CO₂ Dihemat</span>
-            <span class="text-[10px] text-slate-400">Setara dengan menanam 1 pohon</span>
-          </div>
-        </div>
-
-        <div class="glass p-8 rounded-2xl border border-blue-100 bg-blue-50/50 flex items-center gap-6">
-          <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-            <i data-lucide="droplet" class="w-8 h-8"></i>
-          </div>
-          <div>
-            <span class="block text-3xl font-heading font-bold text-blue-900" id="total-water-saved">10,700 L</span>
-            <span class="text-xs font-semibold text-slate-600 block">Total Air Diselamatkan</span>
-            <span class="text-[10px] text-slate-400">Setara dengan 70 kali mandi air hangat</span>
-          </div>
-        </div>
-
-        <div class="glass p-8 rounded-2xl border border-amber-100 bg-amber-50/50 flex items-center gap-6">
-          <div class="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
-            <i data-lucide="award" class="w-8 h-8"></i>
-          </div>
-          <div>
-            <span class="block text-xl font-heading font-bold text-amber-900" id="eco-badge-name">Style Starter</span>
-            <span class="text-xs font-semibold text-slate-600 block">Badge Kepedulian Anda</span>
-            <span class="text-[10px] text-slate-400">Butuh 10 Kg CO₂ lagi untuk level berikutnya</span>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Eco Calculator Form -->
-      <div class="glass p-8 rounded-3xl border border-slate-200/60 grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div class="space-y-6">
-          <div>
-            <h3 class="font-heading font-bold text-xl text-slate-900">Kalkulator Eco-Impact Outfit Anda</h3>
-            <p class="text-xs text-slate-500">Hitung berapa banyak karbon & air yang dihemat jika Anda membeli preloved daripada pakaian baru.</p>
-          </div>
-
-          <div class="space-y-4">
-            <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase">Pilih Jenis Outfit</label>
-              <select id="calc-category" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm">
-                <option value="T-Shirt" data-co2="2.6" data-water="2700">T-Shirt (Sederhana - 2.6kg CO₂ / 2700L Air)</option>
-                <option value="Jeans" data-co2="16.2" data-water="8000">Jeans Denim (Tinggi - 16.2kg CO₂ / 8000L Air)</option>
-                <option value="Outerwear" data-co2="12.0" data-water="6500">Jaket / Outerwear (Sedang-Tinggi - 12.0kg CO₂ / 6500L Air)</option>
-                <option value="Sneakers" data-co2="15.0" data-water="9000">Sepatu / Sneakers (Tinggi - 15.0kg CO₂ / 9000L Air)</option>
-                                <option value="Dress" data-co2="8.0" data-water="4500">Dress / Gaun (Sedang - 8.0kg CO2 / 4500L Air)</option>
-                <option value="Vintage" data-co2="10.0" data-water="5000">Vintage (Sedang - 10.0kg CO2 / 5000L Air)</option>
-                <option value="Cosplay" data-co2="18.0" data-water="7000">Baju Cosplay (Tinggi - 18.0kg CO2 / 7000L Air)</option>
-                <option value="Luxury" data-co2="25.0" data-water="12000">Brand Terkenal (Sangat Tinggi - 25.0kg CO2 / 12000L Air)</option>
-                <option value="Bags & Accessories" data-co2="5.0" data-water="1500">Tas & Aksesoris (Rendah - 5.0kg CO2 / 1500L Air)</option>
-                <option value="Y2K Trend" data-co2="9.0" data-water="4000">Outfit Y2K (Sedang - 9.0kg CO2 / 4000L Air)</option>
-                <option value="2026 Trend" data-co2="11.0" data-water="4200">Trend Tahun 2026 (Sedang - 11.0kg CO2 / 4200L Air)</option>
-              </select>
+    <!-- EXCLUSIVE ADMIN PANEL PREVIEW -->
+    <section id="AdminPanel" class="container py-5">
+        <div class="admin-panel p-4 rounded shadow-sm">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h4 class="fw-bold text-dark"><i class="fa-solid fa-user-gear me-2"></i> Mode Preview: Fitur Khusus Admin Terdeteksi</h4>
+                    <p class="mb-0 text-muted small">Sebagai admin terdaftar, Anda berhak melakukan penyaringan massal (Approval/Rejection) terhadap komoditas yang masuk demi menjaga standar estetika tren pasar fashion anak muda.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                    <button class="btn btn-dark" onclick="alert('Membuka Dashboard Utama Admin Reloved...')">Buka Dashboard Kontrol</button>
+                </div>
             </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase">Jumlah Pakaian</label>
-              <input type="number" id="calc-qty" value="1" min="1" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm">
-            </div>
-
-            <button onclick="calculateCustomEco()" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-semibold transition text-xs shadow-md flex items-center justify-center gap-2">
-              <i data-lucide="calculator" class="w-4 h-4"></i> Hitung Dampak Ekologi
-            </button>
-          </div>
         </div>
-
-        <!-- Calculator Result Screen -->
-        <div class="bg-gradient-to-br from-slate-900 to-slate-950 text-white p-8 rounded-2xl flex flex-col justify-between relative overflow-hidden">
-          <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at top left, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%);"></div>
-          
-          <div class="relative z-10">
-            <span class="text-[10px] text-brand-400 font-bold uppercase tracking-wider block mb-2">HASIL ESTIMASI PENGHEMATAN</span>
-            <div class="space-y-4">
-              <div>
-                <span class="text-xs text-slate-400 block">Total Penghematan Karbon</span>
-                <span class="text-4xl font-heading font-extrabold text-brand-400" id="calc-res-co2">2.60 Kg CO₂</span>
-              </div>
-              <div>
-                <span class="text-xs text-slate-400 block">Total Penghematan Air</span>
-                <span class="text-4xl font-heading font-extrabold text-blue-400" id="calc-res-water">2,700 Liter</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="pt-6 border-t border-white/10 mt-6 relative z-10 text-xs text-slate-300 font-light leading-relaxed">
-            <i data-lucide="info" class="w-4 h-4 text-brand-500 inline mr-1 -mt-0.5"></i>
-            Tahukah kamu? Jumlah air yang diselamatkan setara dengan konsumsi air minum untuk 1 orang selama <strong>1.350 hari</strong>!
-          </div>
-        </div>
-      </div>
-
     </section>
 
-    <!-- ================= SECTION 4: SELLER DASHBOARD (UPLOAD PRODUCT) ================= -->
-    <section id="sec-seller-dashboard" class="hidden space-y-8">
-      
-      <!-- Dashboard Header Stats -->
-      <div class="border-b border-slate-200 pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
-        <div>
-          <h2 class="font-heading font-bold text-3xl text-slate-900">Dashboard Penjual Re-Vibe</h2>
-          <p class="text-xs text-slate-500">Kelola barang preloved Anda dan pantau performa penjualan Anda</p>
-        </div>
-        <button onclick="openUploadModal()" class="px-5 py-3 text-xs font-semibold bg-brand-600 hover:bg-brand-700 text-white rounded-full transition shadow flex items-center gap-1.5">
-          <i data-lucide="plus" class="w-4 h-4"></i> Upload Outfit Bekas
-        </button>
-      </div>
-
-      <!-- Seller Metrics -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <div class="glass p-6 rounded-2xl border border-slate-200/50">
-          <span class="text-slate-400 text-xs font-semibold uppercase block">Saldo Dompet</span>
-          <span class="text-2xl font-heading font-bold text-slate-950 block mt-2">Rp 450.000</span>
-          <span class="text-[10px] text-slate-500 block mt-1">Dapat dicairkan ke bank</span>
-        </div>
-        <div class="glass p-6 rounded-2xl border border-slate-200/50">
-          <span class="text-slate-400 text-xs font-semibold uppercase block">Pakaian Terjual</span>
-          <span class="text-2xl font-heading font-bold text-slate-950 block mt-2">4 Pcs</span>
-          <span class="text-[10px] text-brand-600 block mt-1">Menghemat 37.6 Kg CO₂</span>
-        </div>
-        <div class="glass p-6 rounded-2xl border border-slate-200/50">
-          <span class="text-slate-400 text-xs font-semibold uppercase block">Penawaran Aktif</span>
-          <span class="text-2xl font-heading font-bold text-brand-600 block mt-2" id="seller-active-offers-badge">1 Penawaran</span>
-          <span class="text-[10px] text-slate-500 block mt-1">Butuh respon segera</span>
-        </div>
-        <div class="glass p-6 rounded-2xl border border-slate-200/50">
-          <span class="text-slate-400 text-xs font-semibold uppercase block">Kondisi Rata-Rata</span>
-          <span class="text-2xl font-heading font-bold text-vintage-500 block mt-2">9.2 / 10</span>
-          <span class="text-[10px] text-slate-500 block mt-1">Rating Penjual Unggul</span>
-        </div>
-      </div>
-
-      <!-- Interactive Offers Received List -->
-      <div class="glass p-8 rounded-3xl border border-slate-200/60 space-y-6">
-        <div>
-          <h3 class="font-heading font-bold text-xl text-slate-900">Penawaran Harga Masuk</h3>
-          <p class="text-xs text-slate-500">Tanggapi penawaran harga dari calon pembeli untuk mempercepat penjualan pakaian bekas Anda.</p>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr class="border-b border-slate-200 text-slate-500 font-semibold uppercase text-[10px]">
-                <th class="py-4 px-3">Nama Produk</th>
-                <th class="py-4 px-3">Harga Asli</th>
-                <th class="py-4 px-3">Harga Ditawar</th>
-                <th class="py-4 px-3">Persentase</th>
-                <th class="py-4 px-3">Calon Pembeli</th>
-                <th class="py-4 px-3 text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="seller-offers-table-body">
-              <!-- Dynamically rendered offers -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Seller Products List -->
-      <div class="glass p-8 rounded-3xl border border-slate-200/60 space-y-6">
-        <h3 class="font-heading font-bold text-xl text-slate-900">Pakaian Anda yang Sedang Dipajang</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="seller-products-list">
-          <!-- Seller items -->
-        </div>
-      </div>
-
-    </section>
-
-    <!-- ================= SECTION 5: SITEMAP & DATABASE ERD VISUALIZER ================= -->
-    <section id="sec-architecture" class="hidden space-y-8">
-      
-      <div class="border-b border-slate-200 pb-4">
-        <h2 class="font-heading font-bold text-3xl text-slate-900">Sitemap & Desain Skema Database (ERD)</h2>
-        <p class="text-xs text-slate-500">Representasi visual arsitektur routing dan entitas kunci database Re-Vibe</p>
-      </div>
-
-      <!-- Tab Switcher Visualizer -->
-      <div class="flex border-b border-slate-200">
-        <button onclick="switchVisualizerTab('sitemap')" id="btn-tab-sitemap" class="px-6 py-3 font-semibold text-xs border-b-2 border-brand-600 text-brand-600 transition">Sitemap & Alur Routing</button>
-        <button onclick="switchVisualizerTab('database')" id="btn-tab-database" class="px-6 py-3 font-semibold text-xs border-b-2 border-transparent text-slate-500 hover:text-slate-900 transition">Skema Database Relasional</button>
-      </div>
-
-      <!-- Sitemap Visualizer Content -->
-      <div id="vis-sitemap" class="space-y-6">
-        <div class="glass p-8 rounded-3xl border border-slate-200/60">
-          <h3 class="font-heading font-bold text-xl text-slate-900 mb-6 flex items-center gap-2">
-            <i data-lucide="map" class="text-brand-500 w-5 h-5"></i> Sitemap Visualizer (Struktur Navigasi)
-          </h3>
-          
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-xs relative">
-            <!-- Node Public -->
-            <div class="bg-slate-100 border border-slate-200 p-5 rounded-2xl space-y-3">
-              <span class="px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-bold text-[9px] uppercase tracking-wider">Akses Publik</span>
-              <h4 class="font-heading font-bold text-slate-900">Halaman Utama (Tamu)</h4>
-              <ul class="space-y-2 text-slate-600 list-disc list-inside">
-                <li><code>/</code> (Landing Page)</li>
-                <li><code>/explore</code> (Katalog Filter)</li>
-                <li><code>/auth/login</code> (Masuk Akun)</li>
-                <li><code>/auth/register</code> (Daftar Akun)</li>
-              </ul>
-            </div>
-
-            <!-- Node Buyer -->
-            <div class="bg-rose-50 border border-rose-200 p-5 rounded-2xl space-y-3">
-              <span class="px-2 py-0.5 rounded bg-rose-100 text-rose-700 font-bold text-[9px] uppercase tracking-wider">Akses Pembeli</span>
-              <h4 class="font-heading font-bold text-rose-950">Alur Transaksi & Eco</h4>
-              <ul class="space-y-2 text-rose-800 list-disc list-inside">
-                <li><code>/product/{slug}</code> (Detail & Nego)</li>
-                <li><code>/checkout</code> (Ongkir & Rekber)</li>
-                <li><code>/profile</code> (Poin & Akun)</li>
-              </ul>
-            </div>
-
-            <!-- Node Seller -->
-            <div class="bg-vintage-100 border border-vintage-200 p-5 rounded-2xl space-y-3">
-              <span class="px-2 py-0.5 rounded bg-vintage-200 text-vintage-800 font-bold text-[9px] uppercase tracking-wider">Akses Penjual</span>
-              <h4 class="font-heading font-bold text-vintage-800">Manajemen Toko</h4>
-              <ul class="space-y-2 text-vintage-850 list-disc list-inside">
-                <li><code>/seller/dashboard</code> (Statistik)</li>
-                <li><code>/seller/products</code> (Kelola Outfit)</li>
-                <li><code>/seller/offers</code> (Respon Tawar)</li>
-              </ul>
-            </div>
-
-            <!-- Node API Integration -->
-            <div class="bg-indigo-50 border border-indigo-200 p-5 rounded-2xl space-y-3">
-              <span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 font-bold text-[9px] uppercase tracking-wider">Integrasi Pihak Ke-3</span>
-              <h4 class="font-heading font-bold text-indigo-950">Gateway & API Layanan</h4>
-              <ul class="space-y-2 text-indigo-800 list-disc list-inside">
-                <li>Midtrans (Payment VA/QRIS)</li>
-                <li>RajaOngkir (Cek Berat/Kurir)</li>
-                <li>Cloudinary (Optimasi Foto)</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Flowchart representation -->
-          <div class="mt-8 p-6 bg-slate-900 text-slate-100 rounded-2xl font-mono text-xs overflow-x-auto space-y-2 leading-relaxed">
-            <div class="text-brand-400">// ALUR TRANSAKSI TAWAR-MENAWAR DAN CHECKOUT RE-VIBE</div>
-            <div>[Mulai] Pembeli berkunjung -> Cari pakaian di halaman Jelajah</div>
-            <div>&nbsp;│</div>
-            <div>&nbsp;├── Klik tombol 'Tawar Harga' (Detail Produk)</div>
-            <div>&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├── Masukkan nominal penawaran harga</div>
-            <div>&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="text-amber-400">Logika Auto-Bargain</span> mengevaluasi tawaran</div>
-            <div>&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├── &lt; 70% : Otomatis Ditolak bot penjual</div>
-            <div>&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├── &ge; 90% : Otomatis Diterima bot penjual</div>
-            <div>&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└── 70% - 89% : Status PENDING (Menunggu disetujui penjual secara manual)</div>
-            <div>&nbsp;│</div>
-            <div>&nbsp;└── Tawaran Diterima -> Masuk Halaman Checkout</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Hitung Ongkir (RajaOngkir) + Biaya Jasa Rekber Pembeli (5% Proteksi)</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Bayar Aman via Payment Gateway (QRIS/VA)</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Dana ditahan di Rekening Bersama Re-Vibe (Status: Escrow Safe)</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Penjual mengirimkan pakaian -> Mengunggah nomor resi pengiriman</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── Pembeli klik Konfirmasi Terima -> Dana diteruskan ke saldo dompet penjual [Selesai]</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Database ERD Visualizer Content -->
-      <div id="vis-database" class="hidden space-y-6">
-        <div class="glass p-8 rounded-3xl border border-slate-200/60">
-          <h3 class="font-heading font-bold text-xl text-slate-900 mb-6 flex items-center gap-2">
-            <i data-lucide="database" class="text-brand-500 w-5 h-5"></i> Skema Relasi Database MySQL (Entity Relationship)
-          </h3>
-
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- KATALOG 100 BARANG -->
+    <section id="Katalog" class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Katalog Eksklusif Reloved</h2>
+            <p class="text-muted">Menampilkan 100 Produk Terpopuler Berdasarkan Tren Masa Kini</p>
             
-            <!-- Table Users -->
-            <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
-              <div class="bg-slate-900 text-white p-3 font-bold text-xs flex justify-between items-center">
-                <span>users (Entitas Utama)</span>
-                <span class="text-[9px] text-slate-400">PRIMARY</span>
-              </div>
-              <div class="p-3 text-[11px] font-mono space-y-1">
-                <div class="text-amber-600 font-bold">🔑 id : BIGINT (PK)</div>
-                <div>&nbsp;&nbsp;&nbsp;name : VARCHAR(150)</div>
-                <div>&nbsp;&nbsp;&nbsp;email : VARCHAR(100) (Unique)</div>
-                <div>&nbsp;&nbsp;&nbsp;password : VARCHAR(255)</div>
-                <div>&nbsp;&nbsp;&nbsp;role : ENUM('buyer','seller','admin')</div>
-                <div>&nbsp;&nbsp;&nbsp;co2_saved_kg : DECIMAL(8,2)</div>
-                <div>&nbsp;&nbsp;&nbsp;water_saved_liter : INT</div>
-                <div>&nbsp;&nbsp;&nbsp;balance : DECIMAL(12,2)</div>
-              </div>
+            <!-- Info Badge -->
+            <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+                <span class="badge bg-secondary p-2">Y2K Outfit</span>
+                <span class="badge bg-secondary p-2">Cosplay Anime</span>
+                <span class="badge bg-secondary p-2">Trend 2026 Style</span>
+                <span class="badge bg-secondary p-2">Sepatu & Sneakers</span>
+                <span class="badge bg-secondary p-2">Tas & Aksesoris</span>
             </div>
-
-            <!-- Table Products -->
-            <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
-              <div class="bg-slate-900 text-white p-3 font-bold text-xs flex justify-between items-center">
-                <span>products (Entitas Pakaian)</span>
-                <span class="text-[9px] text-slate-400">FOREIGN</span>
-              </div>
-              <div class="p-3 text-[11px] font-mono space-y-1">
-                <div class="text-amber-600 font-bold">🔑 id : BIGINT (PK)</div>
-                <div class="text-indigo-600">🔗 seller_id : BIGINT (FK -> users.id)</div>
-                <div class="text-indigo-600">🔗 category_id : INT (FK -> categories.id)</div>
-                <div>&nbsp;&nbsp;&nbsp;name : VARCHAR(200)</div>
-                <div>&nbsp;&nbsp;&nbsp;description : TEXT</div>
-                <div>&nbsp;&nbsp;&nbsp;brand : VARCHAR(100)</div>
-                <div>&nbsp;&nbsp;&nbsp;size : VARCHAR(10)</div>
-                <div>&nbsp;&nbsp;&nbsp;condition_rate : TINYINT (1-10)</div>
-                <div>&nbsp;&nbsp;&nbsp;price : DECIMAL(12,2)</div>
-                <div>&nbsp;&nbsp;&nbsp;status : ENUM('available','booked','sold')</div>
-                <div>&nbsp;&nbsp;&nbsp;images : JSON</div>
-              </div>
-            </div>
-
-            <!-- Table Negotiations -->
-            <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
-              <div class="bg-slate-900 text-white p-3 font-bold text-xs flex justify-between items-center">
-                <span>negotiations (Relasi Nego)</span>
-                <span class="text-[9px] text-slate-400">FOREIGN</span>
-              </div>
-              <div class="p-3 text-[11px] font-mono space-y-1">
-                <div class="text-amber-600 font-bold">🔑 id : BIGINT (PK)</div>
-                <div class="text-indigo-600">🔗 buyer_id : BIGINT (FK -> users.id)</div>
-                <div class="text-indigo-600">🔗 product_id : BIGINT (FK -> products.id)</div>
-                <div>&nbsp;&nbsp;&nbsp;proposed_price : DECIMAL(12,2)</div>
-                <div>&nbsp;&nbsp;&nbsp;counter_price : DECIMAL(12,2)</div>
-                <div>&nbsp;&nbsp;&nbsp;status : ENUM('pending','accepted','rejected')</div>
-                <div>&nbsp;&nbsp;&nbsp;created_at : TIMESTAMP</div>
-              </div>
-            </div>
-
-            <!-- Table Transactions -->
-            <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
-              <div class="bg-slate-900 text-white p-3 font-bold text-xs flex justify-between items-center">
-                <span>transactions (Relasi Rekber)</span>
-                <span class="text-[9px] text-slate-400">FOREIGN</span>
-              </div>
-              <div class="p-3 text-[11px] font-mono space-y-1">
-                <div class="text-amber-600 font-bold">🔑 id : BIGINT (PK)</div>
-                <div>&nbsp;&nbsp;&nbsp;order_number : VARCHAR(50) (Unique)</div>
-                <div class="text-indigo-600">🔗 buyer_id : BIGINT (FK -> users.id)</div>
-                <div class="text-indigo-600">🔗 seller_id : BIGINT (FK -> users.id)</div>
-                <div class="text-indigo-600">🔗 product_id : BIGINT (FK -> products.id)</div>
-                <div>&nbsp;&nbsp;&nbsp;subtotal : DECIMAL(12,2)</div>
-                <div>&nbsp;&nbsp;&nbsp;protection_fee : DECIMAL(12,2) (5%)</div>
-                <div>&nbsp;&nbsp;&nbsp;shipping_fee : DECIMAL(12,2)</div>
-                <div>&nbsp;&nbsp;&nbsp;total_amount : DECIMAL(12,2)</div>
-                <div>&nbsp;&nbsp;&nbsp;payment_status : ENUM('unpaid','paid','expired')</div>
-                <div>&nbsp;&nbsp;&nbsp;order_status : ENUM('pending','shipped','completed')</div>
-              </div>
-            </div>
-
-            <!-- Table Categories -->
-            <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
-              <div class="bg-slate-900 text-white p-3 font-bold text-xs flex justify-between items-center">
-                <span>categories (Kamus Kategori)</span>
-                <span class="text-[9px] text-slate-400">LOOKUP</span>
-              </div>
-              <div class="p-3 text-[11px] font-mono space-y-1">
-                <div class="text-amber-600 font-bold">🔑 id : INT (PK)</div>
-                <div>&nbsp;&nbsp;&nbsp;name : VARCHAR(100)</div>
-                <div>&nbsp;&nbsp;&nbsp;slug : VARCHAR(100)</div>
-                <div>&nbsp;&nbsp;&nbsp;icon : VARCHAR(100)</div>
-              </div>
-            </div>
-
-          </div>
         </div>
-      </div>
 
+        <!-- Wadah Otomatis 100 Barang Menggunakan JavaScript -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="container-produk">
+            <!-- 100 data produk akan di-generate otomatis di sini oleh JavaScript di bawah -->
+        </div>
     </section>
 
-  </main>
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <p class="mb-0 small">&copy; 2026 Reloved Team. Dibuat dengan penuh gaya & komitmen lingkungan.</p>
+    </footer>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="bg-slate-900 text-slate-400 py-12 mt-16 border-t border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
-      <div class="space-y-4">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-xl bg-brand-600 flex items-center justify-center text-white font-bold text-base shadow">R</div>
-          <span class="font-heading font-bold text-lg text-white">Re-Vibe</span>
-        </div>
-        <p class="text-xs font-light leading-relaxed">
-          Platform jual beli outfit preloved ramah lingkungan yang aman dengan rekber perlindungan pembeli serta tawar-menawar otomatis.
-        </p>
-      </div>
+    <!-- BOOTSTRAP JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-      <div>
-        <h4 class="font-heading font-bold text-sm text-white mb-4">Navigasi Utama</h4>
-        <ul class="space-y-2.5 text-xs font-light">
-          <li><a href="#" onclick="showSection('home')" class="hover:text-brand-400 transition">Beranda</a></li>
-          <li><a href="#" onclick="showSection('explore')" class="hover:text-brand-400 transition">Jelajah Catalog</a></li>
-          <li><a href="#" onclick="showSection('eco-impact')" class="hover:text-brand-400 transition">Eco Impact Dashboard</a></li>
-          <li><a href="#" onclick="showSection('architecture')" class="hover:text-brand-400 transition">Sitemap & Skema ERD</a></li>
-        </ul>
-      </div>
+    <!-- JAVASCRIPT PINTAR: GENERATE 100 BARANG BERBEDA SECARA DINAMIS -->
+    <script>
+        // Kumpulan data kategori sesuai permintaanmu
+        const categories = [
+            { name: "Baju Y2K Aesthetics", tag: "y2k,clothing", price: "Rp 120.000" },
+            { name: "Celana Cargo Baggy", tag: "baggy,pants", price: "Rp 185.000" },
+            { name: "Rok Mini Plaid Retro", tag: "skirt,fashion", price: "Rp 95.000" },
+            { name: "Sepatu Chunky Sneakers", tag: "sneakers,shoes", price: "Rp 320.000" },
+            { name: "Aksesoris Kalung Harajuku", tag: "jewelry,necklace", price: "Rp 45.000" },
+            { name: "Topi Beanie Rajut", tag: "beanie,hat", price: "Rp 60.000" },
+            { name: "Tas Bahu / Shoulder Bag Vintage", tag: "bag,purse", price: "Rp 150.000" },
+            { name: "Cosplay Anime Costume Set", tag: "cosplay,anime", price: "Rp 450.000" },
+            { name: "Outfit Futuristik Trend 2026", tag: "cyberpunk,futuristic,outfit", price: "Rp 299.000" },
+            { name: "Jaket Varsity Oversize", tag: "jacket,varsity", price: "Rp 210.000" }
+        ];
 
-      <div>
-        <h4 class="font-heading font-bold text-sm text-white mb-4">Fitur Ramah Lingkungan</h4>
-        <ul class="space-y-2.5 text-xs font-light">
-          <li>Penghematan Karbon</li>
-          <li>Penghematan Air</li>
-          <li>Lencana Eco Profile</li>
-          <li>Kampanye Thrifting Sehat</li>
-        </ul>
-      </div>
+        const container = document.getElementById('container-produk');
 
-      <div class="space-y-4">
-        <h4 class="font-heading font-bold text-sm text-white mb-4">Tugas Besar RPL</h4>
-        <p class="text-xs font-light leading-relaxed">
-          Dikembangkan sebagai prototipe media pembelajaran e-commerce interaktif dengan model tawar-menawar aman.
-        </p>
-        <div class="text-[10px] text-slate-500">
-          © 2026 Re-Vibe. All rights reserved.
-        </div>
-      </div>
-    </div>
-  </footer>
+        // Loop sebanyak 100 kali untuk menciptakan 100 barang berbeda tanpa ngetik manual
+        for (let i = 1; i <= 100; i++) {
+            // Pilih acak salah satu template kategori di atas
+            const dataPilihan = categories[i % categories.length];
+            
+            // Trik Unsplash API: menambahkan nomor indeks `sig=i` agar fotonya dipaksa berbeda tiap barang
+            const fotoUnik = `https://images.unsplash.com/photo-${getPhotoCode(dataPilihan.tag)}?auto=format&fit=crop&w=400&q=80&sig=${i}`;
 
-  <!-- ============================================================= -->
-  <!-- ================= MODALS & OVERLAYS SYSTEM ================= -->
-  <!-- ============================================================= -->
-
-  <!-- 1. LOGIN / REGISTER MODAL -->
-  <div id="login-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
-    <div class="glass w-full max-w-md p-8 rounded-3xl shadow-2xl space-y-6 relative border border-white/20">
-      <button onclick="closeLoginModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-
-      <div class="text-center space-y-1">
-        <h3 class="font-heading font-bold text-2xl text-slate-900">Selamat Datang di Re-Vibe</h3>
-        <p class="text-xs text-slate-500">Masuk untuk menawar harga pakaian preloved favoritmu</p>
-      </div>
-
-      <!-- Tab Switcher Role -->
-      <div class="flex border-b border-slate-100 text-xs font-semibold">
-        <button id="tab-login-buyer" onclick="switchLoginRole('buyer')" class="flex-1 py-3 text-center border-b-2 border-brand-600 text-brand-600">Sebagai Pembeli</button>
-        <button id="tab-login-seller" onclick="switchLoginRole('seller')" class="flex-1 py-3 text-center border-b-2 border-transparent text-slate-500">Sebagai Penjual</button>
-      </div>
-
-      <!-- Input Form -->
-      <div class="space-y-4">
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Alamat Email</label>
-          <input type="email" id="login-email" value="pembeli@revibe.com" class="w-full px-4 py-3 text-sm rounded-xl border border-slate-200 bg-white/70">
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Password</label>
-          <input type="password" id="login-password" value="secret123" class="w-full px-4 py-3 text-sm rounded-xl border border-slate-200 bg-white/70">
-        </div>
-
-        <button onclick="loginUser()" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold transition text-xs shadow-md mt-2 flex items-center justify-center gap-1.5">
-          <i data-lucide="log-in" class="w-4 h-4"></i> Masuk Sekarang
-        </button>
-      </div>
-
-      <div class="text-[11px] text-center text-slate-500 font-light">
-        Belum memiliki akun? <a href="#" class="text-brand-600 font-semibold hover:underline">Daftar Akun Baru</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- 2. SMART BARGAINING MODAL / DRAWER -->
-  <div id="bargain-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
-    <div class="glass w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[550px] relative border border-white/20">
-      
-      <!-- Bargain Header -->
-      <div class="bg-slate-900 text-white p-5 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-brand-500 flex items-center justify-center font-bold text-white text-base" id="bargain-merchant-icon">
-            S
-          </div>
-          <div>
-            <h4 class="font-heading font-bold text-sm" id="bargain-merchant-name">Nama Toko Penjual</h4>
-            <span class="text-[10px] text-brand-400 flex items-center gap-0.5"><i data-lucide="shield" class="w-3 h-3"></i> Transaksi Proteksi Escrow Safe</span>
-          </div>
-        </div>
-        <button onclick="closeBargainModal()" class="text-slate-400 hover:text-white">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <!-- Bargain Item Overview -->
-      <div class="bg-slate-50 px-5 py-3 border-b border-slate-100 flex items-center justify-between text-xs">
-        <div class="flex items-center gap-2">
-          <img id="bargain-item-img" src="" alt="Outfit Image" class="w-10 h-10 object-cover rounded">
-          <div>
-            <span class="font-bold text-slate-800 block" id="bargain-item-name">Jeans Levi's 501 Vintage</span>
-            <span class="text-[10px] text-slate-500">Harga Asli: <strong id="bargain-item-orig-price">Rp 200.000</strong></span>
-          </div>
-        </div>
-        <div>
-          <span class="text-[10px] text-slate-500 block text-right">Ambang Batas Tawar</span>
-          <span class="text-[10px] text-brand-600 font-bold bg-brand-100 px-2 py-0.5 rounded">Min 70%</span>
-        </div>
-      </div>
-
-      <!-- Bargain Chat Space (Messages list) -->
-      <div id="bargain-chat-body" class="flex-1 overflow-y-auto p-5 space-y-4 custom-scrollbar bg-slate-50/50">
-        <!-- Dyn chats -->
-      </div>
-
-      <!-- Bargain Input Panel -->
-      <div class="p-4 bg-white border-t border-slate-100 space-y-3">
-        <!-- Bargain Price Slider / Selector -->
-        <div class="flex items-center justify-between text-xs">
-          <span class="text-slate-500">Nominal Penawaran Anda:</span>
-          <span class="font-heading font-extrabold text-sm text-brand-600" id="slider-val-display">Rp 140.000</span>
-        </div>
-        <div class="flex items-center gap-4">
-          <span class="text-[10px] font-bold text-slate-400" id="slider-min-display">Rp 100k</span>
-          <input type="range" id="bargain-slider" min="100000" max="200000" step="5000" value="140000" oninput="updateSliderVal()" class="flex-1 accent-brand-600">
-          <span class="text-[10px] font-bold text-slate-400" id="slider-max-display">Rp 200k</span>
-        </div>
-
-        <button onclick="submitBargainOffer()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold transition text-xs shadow-md flex items-center justify-center gap-1.5">
-          <i data-lucide="send" class="w-4 h-4"></i> Ajukan Penawaran Harga
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- 3. UPLOAD OUTFIT MODAL (FOR SELLER) -->
-  <div id="upload-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
-    <div class="glass w-full max-w-lg p-8 rounded-3xl shadow-2xl space-y-6 relative border border-white/20">
-      <button onclick="closeUploadModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-
-      <div class="space-y-1">
-        <h3 class="font-heading font-bold text-2xl text-slate-900 flex items-center gap-1.5"><i data-lucide="shirt" class="text-brand-500 w-6 h-6"></i> Upload Outfit Preloved</h3>
-        <p class="text-xs text-slate-500">Tambahkan barang preloved Anda untuk dipajang dan hitung nilai ekologinya</p>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div class="col-span-2">
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Nama Pakaian / Judul Listing</label>
-          <input type="text" id="upload-name" placeholder="Misal: Jaket Vintage Denim Corduroy" class="w-full px-4 py-2.5 text-xs rounded-xl border border-slate-200 bg-white">
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kategori</label>
-          <select id="upload-category" onchange="updateUploadEcoEstimate()" class="w-full px-4 py-2.5 text-xs rounded-xl border border-slate-200 bg-white">
-            <option value="T-Shirt">Atasan / T-Shirt</option>
-            <option value="Jeans">Jeans / Denim</option>
-            <option value="Outerwear">Jaket / Outerwear</option>
-            <option value="Sneakers">Sepatu / Sneakers</option>
-                                        <option value="Dress" data-co2="8.0" data-water="4500">Dress / Gaun (Sedang - 8.0kg CO2 / 4500L Air)</option>
-                <option value="Vintage" data-co2="10.0" data-water="5000">Vintage (Sedang - 10.0kg CO2 / 5000L Air)</option>
-                <option value="Cosplay" data-co2="18.0" data-water="7000">Baju Cosplay (Tinggi - 18.0kg CO2 / 7000L Air)</option>
-                <option value="Luxury" data-co2="25.0" data-water="12000">Brand Terkenal (Sangat Tinggi - 25.0kg CO2 / 12000L Air)</option>
-                <option value="Bags & Accessories" data-co2="5.0" data-water="1500">Tas & Aksesoris (Rendah - 5.0kg CO2 / 1500L Air)</option>
-                <option value="Y2K Trend" data-co2="9.0" data-water="4000">Outfit Y2K (Sedang - 9.0kg CO2 / 4000L Air)</option>
-                <option value="2026 Trend" data-co2="11.0" data-water="4200">Trend Tahun 2026 (Sedang - 11.0kg CO2 / 4200L Air)</option>
-            <option value="Vintage">Vintage</option>
-            <option value="Cosplay">Baju Cosplay</option>
-            <option value="Luxury">Brand Terkenal (Chanel, LV, Dior)</option>
-            <option value="Bags & Accessories">Tas & Aksesoris</option>
-            <option value="Y2K Trend">Outfit Y2K</option>
-            <option value="2026 Trend">Trend Tahun 2026</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Brand</label>
-          <input type="text" id="upload-brand" placeholder="Zara, Levi's, H&M..." class="w-full px-4 py-2.5 text-xs rounded-xl border border-slate-200 bg-white">
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Ukuran (Size)</label>
-          <select id="upload-size" class="w-full px-4 py-2.5 text-xs rounded-xl border border-slate-200 bg-white">
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Kondisi Barang (1 - 10)</label>
-          <input type="number" id="upload-cond" min="1" max="10" value="9" class="w-full px-4 py-2.5 text-xs rounded-xl border border-slate-200 bg-white">
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Harga Jual (Rupiah)</label>
-          <input type="number" id="upload-price" placeholder="Rupiah" class="w-full px-4 py-2.5 text-xs rounded-xl border border-slate-200 bg-white">
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Harga Asli Dulu (Beli Baru)</label>
-          <input type="number" id="upload-orig-price" placeholder="Rupiah (Opsional)" class="w-full px-4 py-2.5 text-xs rounded-xl border border-slate-200 bg-white">
-        </div>
-
-        <div class="col-span-2 bg-rose-50 border border-rose-100 rounded-xl p-3 text-xs text-brand-850 flex items-center justify-between">
-          <span class="font-medium flex items-center gap-1"><i data-lucide="leaf" class="w-4 h-4 text-brand-600"></i> Estimasi Kontribusi Eco:</span>
-          <span class="font-bold font-heading text-rose-800" id="upload-eco-display">Karbon: 2.6kg CO₂ | Air: 2,700L</span>
-        </div>
-      </div>
-
-      <button onclick="submitUploadProduct()" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold transition text-xs shadow-md flex items-center justify-center gap-1.5">
-        <i data-lucide="check" class="w-4 h-4"></i> Publikasikan Barang Dagangan
-      </button>
-    </div>
-  </div>
-
-  <!-- 4. CHECKOUT SUCCESS / PAYMENT MODAL -->
-  <div id="checkout-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
-    <div class="glass w-full max-w-md p-8 rounded-3xl shadow-2xl space-y-6 relative border border-white/20 text-center">
-      <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-
-      <div class="w-16 h-16 rounded-full bg-rose-100 text-brand-600 flex items-center justify-center mx-auto mb-2 animate-bounce">
-        <i data-lucide="shield-check" class="w-8 h-8"></i>
-      </div>
-
-      <div class="space-y-1">
-        <h3 class="font-heading font-extrabold text-2xl text-slate-900">Checkout Aman Re-Vibe</h3>
-        <p class="text-xs text-slate-500">Pembayaran dijamin aman menggunakan Rekening Bersama Escrow</p>
-      </div>
-
-      <div class="bg-slate-50 rounded-2xl p-4 text-xs space-y-2.5 text-left border border-slate-100">
-        <div class="flex justify-between">
-          <span class="text-slate-500">Nama Pakaian:</span>
-          <span class="font-bold" id="chk-item-name">Jaket Denim Zara</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-slate-500">Harga Kesepakatan:</span>
-          <span class="font-bold text-slate-900" id="chk-item-price">Rp 180.000</span>
-        </div>
-        <div class="flex justify-between items-center text-brand-700 font-semibold bg-rose-100/50 p-2 rounded">
-          <span class="flex items-center gap-1"><i data-lucide="shield-alert" class="w-3.5 h-3.5 text-brand-600"></i> Buyer Protection (5%):</span>
-          <span id="chk-item-fee">Rp 9.000</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-slate-500">Ongkos Kirim J&T (RajaOngkir):</span>
-          <span class="font-bold" id="chk-item-ship">Rp 12.000</span>
-        </div>
-        <hr class="border-slate-200 my-1">
-        <div class="flex justify-between text-sm font-bold text-slate-900">
-          <span>Total Pembayaran:</span>
-          <span class="text-brand-600" id="chk-item-total">Rp 201.000</span>
-        </div>
-      </div>
-
-      <div class="space-y-3">
-        <div class="grid grid-cols-2 gap-2 text-[10px] font-semibold text-slate-500">
-          <button onclick="selectPaymentMethod('qris')" class="py-2.5 border border-slate-200 rounded-xl hover:bg-slate-50 active:bg-slate-100 flex items-center justify-center gap-1">📱 QRIS Instan</button>
-          <button onclick="selectPaymentMethod('va')" class="py-2.5 border border-slate-200 rounded-xl hover:bg-slate-50 active:bg-slate-100 flex items-center justify-center gap-1">🏦 Virtual Account</button>
-        </div>
-
-        <button onclick="completePaymentSimulation()" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold transition text-xs shadow-md flex items-center justify-center gap-1.5">
-          <i data-lucide="wallet" class="w-4 h-4"></i> Bayar Sekarang
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ======================================================== -->
-  <!-- ================= INTERACTION SCRIPTS ================= -->
-  <!-- ======================================================== -->
-  <script>
-    // ----------------- STATIC/MOCK DATA -----------------
-        const categoriesData = {
-      'T-Shirt':    { co2: 2.6,  water: 2700 },
-      'Jeans':      { co2: 16.2, water: 8000 },
-      'Outerwear':  { co2: 12.0, water: 6500 },
-      'Sneakers':   { co2: 15.0, water: 9000 },
-      'Dress':      { co2: 8.0,  water: 4500 },
-      'Vintage':    { co2: 10.0, water: 5000 },
-      'Cosplay':    { co2: 18.0, water: 7000 },
-      'Luxury':     { co2: 25.0, water: 12000 },
-      'Bags & Accessories': { co2: 5.0, water: 1500 },
-      'Y2K Trend':  { co2: 9.0, water: 4000 },
-      '2026 Trend': { co2: 11.0, water: 4200 }
-    };
-
-    let products = [
-      { id: 1, name: "Jeans Levi's 501 Vintage Blue", brand: "Levi's", category: "Jeans", size: "M", condition_rate: 9, original_price: 650000, price: 250000, status: "available", image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&q=80&w=400", seller: "VintageThrift_Garut", co2_saved: 16.2, water_saved: 8000 },
-      { id: 2, name: "T-Shirt Oversized Uniqlo Airism White", brand: "Uniqlo", category: "T-Shirt", size: "L", condition_rate: 10, original_price: 199000, price: 110000, status: "available", image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=400", seller: "GayaPreloved_ID", co2_saved: 2.6, water_saved: 2700 },
-      { id: 3, name: "Jaket Denim Zara Distressed", brand: "Zara", category: "Outerwear", size: "L", condition_rate: 8, original_price: 899000, price: 320000, status: "available", image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&q=80&w=400", seller: "ThriftStoreGarut", co2_saved: 12.0, water_saved: 6500 },
-      { id: 4, name: "Sneakers Adidas Stan Smith OG White", brand: "Adidas", category: "Sneakers", size: "XL", condition_rate: 9, original_price: 1450000, price: 490000, status: "available", image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&q=80&w=400", seller: "KickReVibe", co2_saved: 15.0, water_saved: 9000 },
-      { id: 7, name: "Vintage 90s Leather Jacket Aesthetic", brand: "Vintage", category: "Vintage", size: "L", condition_rate: 8, original_price: 1200000, price: 450000, status: "available", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=80&w=400", seller: "RetroVibe", co2_saved: 10.0, water_saved: 5000 },
-      { id: 8, name: "Cosplay Maid Outfit Complete Set", brand: "Cosplay", category: "Cosplay", size: "M", condition_rate: 9, original_price: 850000, price: 350000, status: "available", image: "https://images.unsplash.com/photo-1613903156641-f09bce91a5db?auto=format&fit=crop&q=80&w=400", seller: "CosplayHub", co2_saved: 18.0, water_saved: 7000 },
-      { id: 9, name: "Chanel Classic Flap Bag Preloved", brand: "Chanel", category: "Luxury", size: "All Size", condition_rate: 9, original_price: 85000000, price: 45000000, status: "available", image: "https://images.unsplash.com/photo-1584916201218-f4242ceb4809?auto=format&fit=crop&q=80&w=400", seller: "LuxuryFinds", co2_saved: 25.0, water_saved: 12000 },
-      { id: 10, name: "Dior Saddle Bag Monogram Aesthetic", brand: "Dior", category: "Bags & Accessories", size: "All Size", condition_rate: 8, original_price: 45000000, price: 21000000, status: "available", image: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=400", seller: "LuxuryFinds", co2_saved: 5.0, water_saved: 1500 },
-      { id: 11, name: "Y2K Cargo Pants Low Rise Brown", brand: "Y2K", category: "Y2K Trend", size: "S", condition_rate: 9, original_price: 350000, price: 150000, status: "available", image: "https://images.unsplash.com/photo-1584370848010-d7fe6bc767ec?auto=format&fit=crop&q=80&w=400", seller: "Y2K_Aesthetics", co2_saved: 9.0, water_saved: 4000 },
-      { id: 12, name: "Louis Vuitton Keepall Bandouliere", brand: "Louis Vuitton", category: "Luxury", size: "All Size", condition_rate: 8, original_price: 35000000, price: 18000000, status: "available", image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=400", seller: "LuxuryFinds", co2_saved: 25.0, water_saved: 12000 },
-      { id: 13, name: "2026 Trend Futuristic Metallic Top", brand: "Trend 2026", category: "2026 Trend", size: "M", condition_rate: 10, original_price: 500000, price: 250000, status: "available", image: "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?auto=format&fit=crop&q=80&w=400", seller: "FutureVibe", co2_saved: 11.0, water_saved: 4200 }
-    ];
-
-    let userOffers = [
-      {
-        id: 101,
-        product_id: 3,
-        product_name: "Jaket Denim Zara Distressed",
-        orig_price: 320000,
-        proposed_price: 240000,
-        percentage: 75,
-        buyer_name: "Zidan Thrifter",
-        status: "pending"
-      }
-    ];
-
-    // Global session state
-    let currentUser = {
-      isLoggedIn: true,
-      name: "Pembeli Bijak",
-      role: "buyer",
-      co2: 15.4,
-      water: 10700
-    };
-
-    let activeBargainingProduct = null;
-    let selectedPaymentMethodName = "qris";
-
-    // ----------------- CORE INTERACTIVE LOGIC -----------------
-
-    document.addEventListener("DOMContentLoaded", () => {
-      renderProducts();
-      updateUserHeaderState();
-      lucide.createIcons();
-    });
-
-    function showSection(sectionId) {
-      // Hide all main sections
-      document.getElementById('sec-home').classList.add('hidden');
-      document.getElementById('sec-explore').classList.add('hidden');
-      document.getElementById('sec-eco-impact').classList.add('hidden');
-      document.getElementById('sec-seller-dashboard').classList.add('hidden');
-      document.getElementById('sec-architecture').classList.add('hidden');
-
-      // Show targeted
-      document.getElementById('sec-' + sectionId).classList.remove('hidden');
-
-      // Update link styles
-      document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('text-brand-600', 'font-semibold');
-        link.classList.add('text-slate-600');
-      });
-
-      // Highlight active navigation tab
-      // In a real app we query matching, here we do it simple:
-    }
-
-    function toggleMobileMenu() {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
-    }
-
-    function renderProducts(filteredList = products) {
-      const grid = document.getElementById("product-grid");
-      const expGrid = document.getElementById("explore-grid");
-      
-      grid.innerHTML = "";
-      expGrid.innerHTML = "";
-
-      if (filteredList.length === 0) {
-        const nodata = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">Pakaian preloved tidak ditemukan. Coba filter lain!</div>`;
-        grid.innerHTML = nodata;
-        expGrid.innerHTML = nodata;
-        return;
-      }
-
-      filteredList.forEach(p => {
-        const cardHtml = `
-          <div class="glass rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-slate-100 group flex flex-col justify-between">
-            <div class="relative overflow-hidden aspect-[4/3] bg-slate-100">
-              <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-0.5">
-                🌟 Kondisi: ${p.condition_rate}/10
-              </span>
-              <span class="absolute top-3 right-3 bg-brand-500 text-white text-[9px] font-bold px-2 py-0.5 rounded flex items-center gap-0.5 shadow">
-                <i data-lucide="leaf" class="w-2.5 h-2.5"></i> -${p.co2_saved} Kg CO₂
-              </span>
-            </div>
-
-            <div class="p-4 space-y-2 flex-1 flex flex-col justify-between">
-              <div>
-                <div class="flex justify-between items-start gap-1">
-                  <span class="text-[9px] bg-vintage-100 text-vintage-800 font-bold px-2 py-0.5 rounded uppercase tracking-wider">${p.brand}</span>
-                  <span class="text-[9px] bg-slate-100 text-slate-700 font-semibold px-2 py-0.5 rounded uppercase">Size ${p.size}</span>
+            // Kerangka HTML untuk tiap item produk
+            const cardHTML = `
+                <div class="col">
+                    <div class="card card-product h-100 position-relative">
+                        <span class="badge badge-category rounded-pill">${dataPilihan.name.split(' ')[0]} Item</span>
+                        <img src="${fotoUnik}" class="card-img-top product-img" alt="Produk Reloved" onerror="this.src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400'">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h6 class="fw-bold mb-1 text-truncate">${dataPilihan.name} #2026-${1000 + i}</h6>
+                                <p class="text-muted small mb-2">Kondisi: Sempurna 9.5/10</p>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <span class="fw-bold text-danger">${dataPilihan.price}</span>
+                                <button class="btn btn-outline-dark btn-sm"><i class="fa-solid fa-cart-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h4 class="font-semibold text-xs text-slate-900 line-clamp-2 mt-2 leading-relaxed">${p.name}</h4>
-              </div>
-
-              <div class="pt-3 border-t border-slate-100 flex items-center justify-between mt-2">
-                <div>
-                  <span class="text-[10px] text-slate-400 line-through block">${p.original_price ? 'Rp ' + p.original_price.toLocaleString('id-ID') : ''}</span>
-                  <span class="font-heading font-extrabold text-sm text-slate-950">Rp ${p.price.toLocaleString('id-ID')}</span>
-                </div>
-                <button onclick="startBargainFlow(${p.id})" class="px-3.5 py-2 text-[10px] font-bold bg-brand-600 hover:bg-brand-700 text-white rounded-full transition shadow flex items-center gap-1">
-                  <i data-lucide="message-circle" class="w-3 h-3"></i> Tawar
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
-
-        grid.innerHTML += cardHtml;
-        expGrid.innerHTML += cardHtml;
-      });
-
-      lucide.createIcons();
-    }
-
-    // Filters implementation
-    function filterCategory(cat) {
-      const filtered = products.filter(p => p.category === cat);
-      renderProducts(filtered);
-      showSection('explore');
-      document.getElementById('filter-cat').value = cat;
-    }
-
-    function filterCondition(minRate) {
-      const filtered = products.filter(p => p.condition_rate >= minRate);
-      renderProducts(filtered);
-    }
-
-    function filterBrand(brand) {
-      const filtered = products.filter(p => p.brand.toLowerCase() === brand.toLowerCase());
-      renderProducts(filtered);
-    }
-
-    function resetFilters() {
-      renderProducts();
-      document.getElementById('filter-search').value = "";
-      document.getElementById('filter-cat').value = "All";
-      document.getElementById('filter-size').value = "All";
-      document.getElementById('filter-cond').value = "0";
-    }
-
-    function applyExploreFilters() {
-      const search = document.getElementById('filter-search').value.toLowerCase();
-      const cat = document.getElementById('filter-cat').value;
-      const size = document.getElementById('filter-size').value;
-      const cond = parseInt(document.getElementById('filter-cond').value);
-
-      const filtered = products.filter(p => {
-        const matchesSearch = p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search);
-        const matchesCat = cat === "All" || p.category === cat;
-        const matchesSize = size === "All" || p.size === size;
-        const matchesCond = p.condition_rate >= cond;
-
-        return matchesSearch && matchesCat && matchesSize && matchesCond;
-      });
-
-      renderProducts(filtered);
-    }
-
-    // ----------------- LOGIN LOGIC -----------------
-    function openLoginModal() {
-      document.getElementById('login-modal').classList.remove('hidden');
-    }
-
-    function closeLoginModal() {
-      document.getElementById('login-modal').classList.add('hidden');
-    }
-
-    function switchLoginRole(role) {
-      const btnBuyer = document.getElementById('tab-login-buyer');
-      const btnSeller = document.getElementById('tab-login-seller');
-      const emailInput = document.getElementById('login-email');
-
-      if (role === 'buyer') {
-        btnBuyer.classList.add('border-brand-600', 'text-brand-600');
-        btnBuyer.classList.remove('border-transparent', 'text-slate-500');
-        btnSeller.classList.add('border-transparent', 'text-slate-500');
-        btnSeller.classList.remove('border-brand-600', 'text-brand-600');
-        emailInput.value = "pembeli@revibe.com";
-        currentUser.role = "buyer";
-        currentUser.name = "Pembeli Bijak";
-      } else {
-        btnSeller.classList.add('border-brand-600', 'text-brand-600');
-        btnSeller.classList.remove('border-transparent', 'text-slate-500');
-        btnBuyer.classList.add('border-transparent', 'text-slate-500');
-        btnBuyer.classList.remove('border-brand-600', 'text-brand-600');
-        emailInput.value = "thriftgarut@revibe.com";
-        currentUser.role = "seller";
-        currentUser.name = "ThriftStoreGarut";
-      }
-    }
-
-    function loginUser() {
-      currentUser.isLoggedIn = true;
-      updateUserHeaderState();
-      closeLoginModal();
-      alert(`Berhasil Masuk sebagai ${currentUser.name}!`);
-
-      if (currentUser.role === 'seller') {
-        showSection('seller-dashboard');
-        renderSellerDashboard();
-      } else {
-        showSection('home');
-      }
-    }
-
-    function logoutUser() {
-      currentUser.isLoggedIn = false;
-      currentUser.role = "buyer";
-      updateUserHeaderState();
-      showSection('home');
-      alert("Anda telah keluar akun.");
-    }
-
-    function updateUserHeaderState() {
-      const badge = document.getElementById('user-badge');
-      const btnLogin = document.getElementById('btn-login-modal');
-      const btnLogout = document.getElementById('btn-logout');
-      const btnSeller = document.getElementById('btn-seller-dashboard');
-
-      if (currentUser.isLoggedIn) {
-        badge.classList.remove('hidden');
-        btnLogout.classList.remove('hidden');
-        btnLogin.classList.add('hidden');
-
-        document.getElementById('user-display-name').textContent = currentUser.name;
-        document.getElementById('user-badge-eco').textContent = `${currentUser.co2.toFixed(1)} Kg CO₂`;
-
-        // If seller role, show dashboard button
-        if (currentUser.role === 'seller') {
-          btnSeller.classList.remove('hidden');
-        } else {
-          btnSeller.classList.add('hidden');
-        }
-      } else {
-        badge.classList.add('hidden');
-        btnLogout.classList.add('hidden');
-        btnLogin.classList.remove('hidden');
-        btnSeller.classList.add('hidden');
-      }
-    }
-
-    // ----------------- SMART TAWAR-MENAWAR (BARGAIN SYSTEM) -----------------
-    function startBargainFlow(productId) {
-      if (!currentUser.isLoggedIn) {
-        alert("Silakan masuk akun terlebih dahulu untuk melakukan penawaran.");
-        openLoginModal();
-        return;
-      }
-
-      const p = products.find(prod => prod.id === productId);
-      if (!p) return;
-
-      activeBargainingProduct = p;
-
-      // Populate bargain data
-      document.getElementById('bargain-merchant-name').textContent = p.seller;
-      document.getElementById('bargain-item-img').src = p.image;
-      document.getElementById('bargain-item-name').textContent = p.name;
-      document.getElementById('bargain-item-orig-price').textContent = `Rp ${p.price.toLocaleString('id-ID')}`;
-
-      // Config slider
-      const slider = document.getElementById('bargain-slider');
-      slider.min = Math.floor(p.price * 0.5); // Min slider 50%
-      slider.max = p.price;
-      slider.step = 5000;
-      slider.value = Math.floor(p.price * 0.8); // Default 80%
-
-      document.getElementById('slider-min-display').textContent = `Rp ${(Math.floor(p.price * 0.5)).toLocaleString('id-ID')}`;
-      document.getElementById('slider-max-display').textContent = `Rp ${p.price.toLocaleString('id-ID')}`;
-      updateSliderVal();
-
-      // Reset chat body with initial message from bot
-      const chatBody = document.getElementById('bargain-chat-body');
-      chatBody.innerHTML = `
-        <div class="flex gap-2.5">
-          <div class="w-8 h-8 rounded-full bg-vintage-800 text-white flex items-center justify-center font-bold text-xs uppercase">${p.seller[0]}</div>
-          <div class="bg-white/80 border border-slate-200/50 p-3 rounded-2xl max-w-[80%] rounded-tl-none text-xs space-y-1">
-            <p class="font-semibold text-slate-900">${p.seller}</p>
-            <p class="font-light text-slate-700 leading-relaxed">
-              Halo! Terima kasih tertarik dengan <strong>${p.name}</strong>. Kondisinya masih bagus banget (${p.condition_rate}/10). Silakan tawar sewajarnya ya, otomatis dievaluasi sistem!
-            </p>
-          </div>
-        </div>
-      `;
-
-      document.getElementById('bargain-modal').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function closeBargainModal() {
-      document.getElementById('bargain-modal').classList.add('hidden');
-    }
-
-    function updateSliderVal() {
-      const val = parseInt(document.getElementById('bargain-slider').value);
-      document.getElementById('slider-val-display').textContent = `Rp ${val.toLocaleString('id-ID')}`;
-    }
-
-    function submitBargainOffer() {
-      const bidPrice = parseInt(document.getElementById('bargain-slider').value);
-      const originalPrice = activeBargainingProduct.price;
-      const chatBody = document.getElementById('bargain-chat-body');
-
-      // Append buyer message
-      const buyerMsg = `
-        <div class="flex gap-2.5 justify-end">
-          <div class="bg-brand-600 text-white p-3 rounded-2xl max-w-[80%] rounded-tr-none text-xs text-right">
-            <p class="font-semibold">Anda</p>
-            <p class="font-light">Saya mengajukan penawaran harga sebesar <strong>Rp ${bidPrice.toLocaleString('id-ID')}</strong>.</p>
-          </div>
-          <div class="w-8 h-8 rounded-full bg-brand-700 text-white flex items-center justify-center font-bold text-xs">U</div>
-        </div>
-      `;
-      chatBody.innerHTML += buyerMsg;
-      
-      // Auto scroll chat to bottom
-      chatBody.scrollTop = chatBody.scrollHeight;
-
-      // Smart bot logic calculation
-      setTimeout(() => {
-        let responseMsg = "";
-        let actionBtn = "";
-        const offerPercent = (bidPrice / originalPrice) * 100;
-
-        if (offerPercent < 70) {
-          // Rule 1: Rejected
-          responseMsg = `
-            Maaf sekali, penawaran Anda sebesar <strong>Rp ${bidPrice.toLocaleString('id-ID')}</strong> (${offerPercent.toFixed(0)}%) terlalu jauh di bawah ekspektasi kami. Toko menetapkan batas tawar minimal 70% dari harga asli. Silakan tawar kembali!
-          `;
-        } else if (offerPercent >= 90) {
-          // Rule 2: Accepted automatically
-          responseMsg = `
-            Luar biasa! Penawaran Anda sebesar <strong>Rp ${bidPrice.toLocaleString('id-ID')}</strong> (${offerPercent.toFixed(0)}%) kami terima secara otomatis! Silakan langsung klik tombol checkout di bawah ini untuk mengamankan barang Anda.
-          `;
-          actionBtn = `
-            <div class="flex justify-center pt-2">
-              <button onclick="openCheckoutFlow('${activeBargainingProduct.name}', ${bidPrice})" class="px-5 py-2.5 bg-brand-600 text-white text-xs font-bold rounded-xl hover:bg-brand-700 transition flex items-center gap-1.5 shadow">
-                <i data-lucide="shopping-bag" class="w-4 h-4"></i> Checkout Sekarang (Rekber Aman)
-              </button>
-            </div>
-          `;
-        } else {
-          // Rule 3: Counter-Offer / Pending Seller Review (Simulated as counter-offer here)
-          const counterPrice = Math.round(originalPrice * 0.85);
-          responseMsg = `
-            Tawaran Anda sebesar <strong>Rp ${bidPrice.toLocaleString('id-ID')}</strong> (${offerPercent.toFixed(0)}%) telah masuk dalam batas negosiasi. Toko ingin menawarkan harga terbaik di tengah yaitu <strong>Rp ${counterPrice.toLocaleString('id-ID')}</strong>. Bagaimana?
-          `;
-          actionBtn = `
-            <div class="flex justify-center gap-2 pt-2">
-              <button onclick="openCheckoutFlow('${activeBargainingProduct.name}', ${counterPrice})" class="px-4 py-2 bg-brand-600 text-white text-[10px] font-bold rounded-lg hover:bg-brand-700 transition">Setuju Rp ${counterPrice.toLocaleString('id-ID')}</button>
-              <button onclick="alert('Penawaran ditolak. Silakan tawar lagi.')" class="px-4 py-2 bg-slate-200 text-slate-700 text-[10px] font-bold rounded-lg hover:bg-slate-300 transition">Nanti Dulu</button>
-            </div>
-          `;
-
-          // Add to seller offers for dashboard simulation
-          userOffers.push({
-            id: Date.now(),
-            product_id: activeBargainingProduct.id,
-            product_name: activeBargainingProduct.name,
-            orig_price: activeBargainingProduct.price,
-            proposed_price: bidPrice,
-            percentage: Math.round(offerPercent),
-            buyer_name: currentUser.name,
-            status: "pending"
-          });
-          renderSellerDashboard();
+            `;
+            container.innerHTML += cardHTML;
         }
 
-        const botReply = `
-          <div class="flex gap-2.5">
-            <div class="w-8 h-8 rounded-full bg-vintage-800 text-white flex items-center justify-center font-bold text-xs uppercase">${activeBargainingProduct.seller[0]}</div>
-            <div class="bg-white/80 border border-slate-200/50 p-3 rounded-2xl max-w-[80%] rounded-tl-none text-xs space-y-2">
-              <p class="font-semibold text-slate-900">${activeBargainingProduct.seller}</p>
-              <p class="font-light text-slate-700 leading-relaxed">${responseMsg}</p>
-              ${actionBtn}
-            </div>
-          </div>
-        `;
-        chatBody.innerHTML += botReply;
-        chatBody.scrollTop = chatBody.scrollHeight;
-        lucide.createIcons();
-      }, 1000);
-    }
+        // Fungsi pembantu penyedia fallback keyword foto agar Unsplash mencarian tema yang sesuai
+        function getPhotoCode(tag) {
+            if(tag.includes('y2k')) return '1515886657613-9f3515b0c78f';
+            if(tag.includes('pants')) return '1541099649105-f69ad21f3246';
+            if(tag.includes('skirt')) return '1583496661160-fb5886a0aaaa';
+            if(tag.includes('sneakers')) return '1595950653106-6c9ebd614d3a';
+            if(tag.includes('jewelry')) return '1535632066927-ab7c9ab60908';
+            if(tag.includes('hat')) return '1576871337632-b9aef4c17ab9';
+            if(tag.includes('bag')) return '1584917865442-de89df76afd3';
+            if(tag.includes('anime')) return '1578632767115-351597cf2477';
+            if(tag.includes('cyberpunk')) return '1509198397868-475647b2a1e5';
+            return '1523381210434-271e8be1f52b'; 
+        }
 
-    // ----------------- CHECKOUT & ESCROW SIMULATION -----------------
-    // Simpan state checkout di variabel (bukan data-attribute)
-    let _checkoutItemName   = "";
-    let _checkoutAgreedPrice = 0;
-
-    function openCheckoutFlow(itemName, agreedPrice) {
-      closeBargainModal();
-
-      _checkoutItemName    = itemName;
-      _checkoutAgreedPrice = agreedPrice;
-
-      const protectionFee = Math.round(agreedPrice * 0.05); // 5% buyer protection
-      const shipFee       = 12000; // Mock J&T RajaOngkir
-      const totalAmt      = agreedPrice + protectionFee + shipFee;
-
-      document.getElementById('chk-item-name').textContent  = itemName;
-      document.getElementById('chk-item-price').textContent = `Rp ${agreedPrice.toLocaleString('id-ID')}`;
-      document.getElementById('chk-item-fee').textContent   = `Rp ${protectionFee.toLocaleString('id-ID')}`;
-      document.getElementById('chk-item-ship').textContent  = `Rp ${shipFee.toLocaleString('id-ID')}`;
-      document.getElementById('chk-item-total').textContent = `Rp ${totalAmt.toLocaleString('id-ID')}`;
-
-      document.getElementById('checkout-modal').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function closeCheckoutModal() {
-      document.getElementById('checkout-modal').classList.add('hidden');
-    }
-
-    function selectPaymentMethod(method) {
-      selectedPaymentMethodName = method;
-      // Highlight active payment method button
-      document.querySelectorAll('#checkout-modal .grid button').forEach(btn => {
-        btn.classList.remove('bg-brand-50', 'border-brand-400', 'text-brand-700');
-      });
-      const methods = { 'qris': 0, 'va': 1 };
-      const btnIndex = methods[method];
-      const buttons = document.querySelectorAll('#checkout-modal .grid button');
-      if (buttons[btnIndex]) {
-        buttons[btnIndex].classList.add('bg-brand-50', 'border-brand-400', 'text-brand-700');
-      }
-    }
-
-    function completePaymentSimulation() {
-      const agreedPrice   = _checkoutAgreedPrice;
-      const protectionFee = Math.round(agreedPrice * 0.05);
-      const shipFee       = 12000;
-      const totalAmt      = agreedPrice + protectionFee + shipFee;
-
-      alert(`✅ Pembayaran Rp ${totalAmt.toLocaleString('id-ID')} Berhasil via ${selectedPaymentMethodName.toUpperCase()}!\n\nDana aman disimpan di Rekening Escrow Re-Vibe. Penjual akan segera diberi tahu untuk mengirimkan pakaian.`);
-
-      // Update eco profile berdasarkan produk yang dibeli
-      const p = products.find(prod => prod.name === _checkoutItemName);
-      if (p) {
-        currentUser.co2   += p.co2_saved;
-        currentUser.water += p.water_saved;
-        updateUserHeaderState();
-
-        // Update stats on eco page
-        const elCo2   = document.getElementById('total-co2-saved');
-        const elWater = document.getElementById('total-water-saved');
-        if (elCo2)   elCo2.textContent   = `${currentUser.co2.toFixed(1)} Kg`;
-        if (elWater) elWater.textContent = `${currentUser.water.toLocaleString('id-ID')} L`;
-      }
-
-      closeCheckoutModal();
-    }
-
-    // ----------------- ECO CALCULATOR LOGIC -----------------
-    function calculateCustomEco() {
-      const select = document.getElementById('calc-category');
-      const opt = select.options[select.selectedIndex];
-      const co2 = parseFloat(opt.getAttribute('data-co2'));
-      const water = parseInt(opt.getAttribute('data-water'));
-      const qty = parseInt(document.getElementById('calc-qty').value) || 1;
-
-      const totalCo2 = co2 * qty;
-      const totalWater = water * qty;
-
-      document.getElementById('calc-res-co2').textContent = `${totalCo2.toFixed(2)} Kg CO₂`;
-      document.getElementById('calc-res-water').textContent = `${totalWater.toLocaleString('id-ID')} Liter`;
-    }
-
-    // ----------------- SELLER DASHBOARD & UPLOAD PRODUCT -----------------
-    function renderSellerDashboard() {
-      const tableBody = document.getElementById('seller-offers-table-body');
-      tableBody.innerHTML = "";
-
-      if (userOffers.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="6" class="py-4 text-center text-slate-400">Tidak ada penawaran aktif.</td></tr>`;
-      } else {
-        userOffers.forEach(o => {
-          tableBody.innerHTML += `
-            <tr class="border-b border-slate-100 hover:bg-slate-50/50">
-              <td class="py-4 px-3 font-semibold text-slate-800">${o.product_name}</td>
-              <td class="py-4 px-3 text-slate-500">Rp ${o.orig_price.toLocaleString('id-ID')}</td>
-              <td class="py-4 px-3 font-bold text-brand-600">Rp ${o.proposed_price.toLocaleString('id-ID')}</td>
-              <td class="py-4 px-3"><span class="px-2 py-0.5 rounded bg-brand-100 text-brand-700 font-bold">${o.percentage}%</span></td>
-              <td class="py-4 px-3 text-slate-600">${o.buyer_name}</td>
-              <td class="py-4 px-3 text-right space-x-1.5">
-                <button onclick="acceptOffer(${o.id})" class="px-3 py-1 bg-brand-500 text-white rounded hover:bg-brand-600 transition">Terima</button>
-                <button onclick="rejectOffer(${o.id})" class="px-3 py-1 bg-slate-200 text-slate-600 rounded hover:bg-slate-350 transition">Tolak</button>
-              </td>
-            </tr>
-          `;
-        });
-      }
-
-      // Update badge
-      document.getElementById('seller-active-offers-badge').textContent = `${userOffers.length} Penawaran`;
-
-      // Render seller specific listing
-      const sellerList = document.getElementById('seller-products-list');
-      sellerList.innerHTML = "";
-      const sellerItems = products.filter(p => p.seller === currentUser.name || p.seller === "ThriftStoreGarut");
-
-      if (sellerItems.length === 0) {
-        sellerList.innerHTML = `<div class="col-span-full py-8 text-center text-slate-400">Anda belum mengupload pakaian preloved.</div>`;
-      } else {
-        sellerItems.forEach(p => {
-          sellerList.innerHTML += `
-            <div class="glass p-4 rounded-xl border border-slate-200/50 flex gap-4 items-center">
-              <img src="${p.image}" class="w-16 h-16 object-cover rounded-lg" alt="">
-              <div class="flex-1 min-w-0">
-                <h4 class="font-bold text-xs text-slate-900 truncate">${p.name}</h4>
-                <p class="text-[10px] text-slate-500">Harga: Rp ${p.price.toLocaleString('id-ID')} | Size: ${p.size}</p>
-                <span class="inline-block mt-1 text-[9px] bg-rose-50 text-brand-600 font-semibold px-2 py-0.5 rounded">-${p.co2_saved} kg CO₂ Saved</span>
-              </div>
-            </div>
-          `;
-        });
-      }
-    }
-
-    function acceptOffer(offerId) {
-      const idx = userOffers.findIndex(o => o.id === offerId);
-      if (idx !== -1) {
-        alert(`Penawaran untuk ${userOffers[idx].product_name} senilai Rp ${userOffers[idx].proposed_price.toLocaleString('id-ID')} TELAH DISETUJUI! Pembeli akan segera mendapat notifikasi untuk bayar.`);
-        userOffers.splice(idx, 1);
-        renderSellerDashboard();
-      }
-    }
-
-    function rejectOffer(offerId) {
-      const idx = userOffers.findIndex(o => o.id === offerId);
-      if (idx !== -1) {
-        alert(`Penawaran ditolak.`);
-        userOffers.splice(idx, 1);
-        renderSellerDashboard();
-      }
-    }
-
-    function openUploadModal() {
-      document.getElementById('upload-modal').classList.remove('hidden');
-      updateUploadEcoEstimate();
-    }
-
-    function closeUploadModal() {
-      document.getElementById('upload-modal').classList.add('hidden');
-    }
-
-    function updateUploadEcoEstimate() {
-      const cat = document.getElementById('upload-category').value;
-      const data = categoriesData[cat];
-      document.getElementById('upload-eco-display').textContent = `Karbon: ${data.co2}kg CO₂ | Air: ${data.water.toLocaleString('id-ID')}L`;
-    }
-
-    function submitUploadProduct() {
-      const name = document.getElementById('upload-name').value;
-      const cat = document.getElementById('upload-category').value;
-      const brand = document.getElementById('upload-brand').value || "No Brand";
-      const size = document.getElementById('upload-size').value;
-      const cond = parseInt(document.getElementById('upload-cond').value) || 9;
-      const price = parseInt(document.getElementById('upload-price').value);
-      const origPrice = parseInt(document.getElementById('upload-orig-price').value) || 0;
-
-      if (!name || !price) {
-        alert("Mohon isi nama produk dan harga jual!");
-        return;
-      }
-
-      const ecoData = categoriesData[cat];
-
-      const newProduct = {
-        id: Date.now(),
-        name: name,
-        brand: brand,
-        category: cat,
-        size: size,
-        condition_rate: cond,
-        original_price: origPrice,
-        price: price,
-        status: "available",
-        image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80&w=400", // Generic fashion background placeholder
-        seller: currentUser.name,
-        co2_saved: ecoData.co2,
-        water_saved: ecoData.water
-      };
-
-      products.unshift(newProduct);
-      renderProducts();
-      renderSellerDashboard();
-      closeUploadModal();
-
-      alert("Sukses mengupload pakaian preloved Anda!");
-    }
-
-    // ----------------- ARCHITECTURE VIS TAB SWITCHER -----------------
-    function switchVisualizerTab(tab) {
-      const btnSitemap = document.getElementById('btn-tab-sitemap');
-      const btnDatabase = document.getElementById('btn-tab-database');
-      const divSitemap = document.getElementById('vis-sitemap');
-      const divDatabase = document.getElementById('vis-database');
-
-      if (tab === 'sitemap') {
-        btnSitemap.classList.add('border-brand-600', 'text-brand-600');
-        btnSitemap.classList.remove('border-transparent', 'text-slate-500');
-        btnDatabase.classList.add('border-transparent', 'text-slate-500');
-        btnDatabase.classList.remove('border-brand-600', 'text-brand-600');
-        divSitemap.classList.remove('hidden');
-        divDatabase.classList.add('hidden');
-      } else {
-        btnDatabase.classList.add('border-brand-600', 'text-brand-600');
-        btnDatabase.classList.remove('border-transparent', 'text-slate-500');
-        btnSitemap.classList.add('border-transparent', 'text-slate-500');
-        btnSitemap.classList.remove('border-brand-600', 'text-brand-600');
-        divDatabase.classList.remove('hidden');
-        divSitemap.classList.add('hidden');
-      }
-    }
-  </script>
+        function showAdminAlert() {
+            alert("Akses Terbatas: Masukkan Kredensial Akun Khusus Admin Reloved untuk verifikasi.");
+        }
+    </script>
 </body>
 </html>
