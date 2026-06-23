@@ -22,20 +22,19 @@
             font-weight: 800;
             letter-spacing: 1px;
             color: var(--vintage-brown) !important;
+            cursor: pointer;
         }
-        /* HERO SECTION DENGAN FOTO BAJU & WARNA COKLAT KALEM */
         .hero-section {
             background: linear-gradient(rgba(61, 52, 46, 0.6), rgba(61, 52, 46, 0.6)), url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=1200') no-repeat center center;
             background-size: cover;
             color: #FDFBF7;
-            padding: 120px 0;
+            padding: 100px 0;
             border-bottom: 5px solid var(--calm-brown);
         }
         .btn-custom {
             background-color: var(--calm-brown);
             color: white;
             border: none;
-            font-weight: 500;
         }
         .btn-custom:hover {
             background-color: var(--dark-charcoal);
@@ -53,40 +52,22 @@
             transform: translateY(-5px);
         }
         .product-img {
-            height: 230px;
+            height: 220px;
             object-fit: cover;
             width: 100%;
         }
-        .badge-category {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: rgba(160, 129, 108, 0.9);
-            color: white;
+        /* Style untuk simulasi halaman aplikasi */
+        .app-page {
+            display: none;
         }
-        .bargain-box {
-            background: linear-gradient(135deg, #5C4D42, #8C7667);
-            color: white;
-            border-radius: 15px;
-            padding: 25px;
+        .app-page.active {
+            display: block;
         }
-        .chat-bubble {
-            border-radius: 15px;
-            padding: 10px 15px;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-        .chat-user {
-            background-color: rgba(255,255,255,0.15);
-            text-align: left;
-        }
-        .chat-bot {
-            background-color: #A0816C;
-            text-align: left;
-        }
-        .role-badge {
-            font-size: 0.8rem;
-            font-weight: 600;
+        .chat-stream {
+            height: 250px;
+            overflow-y: auto;
+            background: #fdfdfd;
+            border: 1px solid #eee;
         }
     </style>
 </head>
@@ -94,153 +75,194 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="#"><i class="fa-solid fa-shirt me-2"></i>RELOVED</a>
+            <a class="navbar-brand" onclick="switchPage('beranda')"><i class="fa-solid fa-shirt me-2"></i>RELOVED</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center gap-2">
-                    <li class="nav-item"><a class="nav-link" href="#Katalog">Katalog Pasar</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#BargainRoom">Smart Bargain</a></li>
+                    <li class="nav-item"><a class="nav-link" style="cursor:pointer;" onclick="switchPage('beranda')"><i class="fa-solid fa-house me-1"></i>Beranda</a></li>
                     <li class="nav-item border-start ps-3 ms-2">
-                        <span class="badge bg-secondary text-white role-badge p-2"><i class="fa-solid fa-cart-shopping"></i> Akun Pembeli</span>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="switchPage('pembeli')"><i class="fa-solid fa-cart-shopping me-1"></i> Akun Pembeli</button>
                     </li>
                     <li class="nav-item">
-                        <span class="badge text-white role-badge p-2" style="background-color: var(--calm-brown);"><i class="fa-solid fa-store"></i> Akun Penjual</span>
+                        <button class="btn btn-sm text-white" style="background-color: var(--calm-brown);" onclick="switchPage('penjual')"><i class="fa-solid fa-store me-1"></i> Akun Penjual</button>
                     </li>
                     <li class="nav-item">
-                        <button class="btn btn-dark btn-sm role-badge" onclick="alert('Membuka Panel Utama Khusus Admin Reloved...')">
-                            <i class="fa-solid fa-user-gear"></i> Akun Admin
-                        </button>
+                        <button class="btn btn-dark btn-sm" onclick="switchPage('admin')"><i class="fa-solid fa-user-gear me-1"></i> Akun Admin</button>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <header class="hero-section text-center">
-        <div class="container">
-            <h1 class="display-4 fw-bold mb-3">Style Up, Waste Less</h1>
-            <p class="lead mb-4 mx-auto" style="max-width: 700px;">Temukan pelindung gaya terbaikmu dari kurasi koleksi Y2K, Cosplay Anime, hingga Tren 2026. Tawar langsung dengan Bot AI kami.</p>
-            <a href="#Katalog" class="btn btn-custom btn-lg px-4 shadow">Lihat 100+ Koleksi</a>
-        </div>
-    </header>
+    <div id="page-beranda" class="app-page active">
+        <header class="hero-section text-center">
+            <div class="container">
+                <h1 class="display-4 fw-bold mb-3">Style Up, Waste Less</h1>
+                <p class="lead mb-4">Temukan 100+ Koleksi Pakaian Y2K, Cosplay Anime, & Tren 2026. Klik Akun di atas untuk berganti hak akses login.</p>
+            </div>
+        </header>
 
-    <section class="container py-5 text-center">
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100 border-top border-3" style="border-color: var(--calm-brown) !important;">
-                    <i class="fa-solid fa-tags fa-3x mb-3" style="color: var(--calm-brown);"></i>
-                    <h5>Smart Bargain Room</h5>
-                    <p class="text-muted small">Tawar-menawar harga baju atau celana idamanmu langsung dengan sistem Bot AI penjual secara otomatis tanpa nunggu lama.</p>
-                </div>
+        <section class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Katalog Produk Reloved</h2>
+                <p class="text-muted">Gunakan tombol <i class="fa-solid fa-bag-shopping"></i> untuk Checkout langsung atau <i class="fa-solid fa-comment-dots"></i> untuk chat tawar toko.</p>
             </div>
-            <div class="col-md-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100 border-top border-3" style="border-color: var(--calm-brown) !important;">
-                    <i class="fa-solid fa-user-check fa-3x mb-3" style="color: var(--calm-brown);"></i>
-                    <h5>Multi-Role Account</h5>
-                    <p class="text-muted small">Akses platform yang fleksibel dan aman baik bagi Pembeli biasa, Penjual (Seller) fashion, maupun manajemen pengawas Akun Admin.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100 border-top border-3" style="border-color: var(--calm-brown) !important;">
-                    <i class="fa-solid fa-shield-heart fa-3x mb-3" style="color: var(--calm-brown);"></i>
-                    <h5>Transaksi Rekber Kurasi</h5>
-                    <p class="text-muted small">Sistem jaminan dana aman 100%. Uang baru akan diteruskan ke penjual setelah barang lolos cek fisik pembeli.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="container-produk"></div>
+        </section>
+    </div>
 
-    <section id="BargainRoom" class="container py-4">
-        <div class="bargain-box shadow">
-            <div class="row align-items-center">
-                <div class="col-md-5 mb-4 mb-md-0">
-                    <span class="badge mb-2" style="background-color: var(--calm-brown);">Fitur Unggulan Aktif</span>
-                    <h3 class="fw-bold">Smart Bargain Room</h3>
-                    <p class="small text-white-50">Sistem simulasi tawar-menawar otomatis. Ketik harga tawaranmu untuk langsung bernegosiasi dengan kecerdasan buatan platform.</p>
-                    <div class="input-group mt-3">
-                        <input type="number" class="form-control" id="userOffer" placeholder="Masukkan angka tawaran (Contoh: 150000)">
-                        <button class="btn btn-custom" onclick="simulateBargain()">Kirim Tawaran</button>
+    <div id="page-pembeli" class="app-page container py-5">
+        <div class="card p-4 shadow-sm bg-white">
+            <h3 class="fw-bold text-secondary"><i class="fa-solid fa-user mb-3"></i> Dashboard Akun Pembeli</h3>
+            <p>Selamat datang, <strong>Yusrina Buyer Account</strong>. Di sini Anda bisa memantau riwayat pesanan thrifting Anda.</p>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded text-center">
+                        <h6>Keranjang Belanja</h6>
+                        <h4 class="fw-bold text-success">2 Barang</h4>
                     </div>
                 </div>
-                <div class="col-md-7">
-                    <div class="p-3 bg-black bg-opacity-25 rounded" style="max-height: 250px; overflow-y: auto;" id="chatBox">
-                        <div class="chat-bubble chat-bot">
-                            <strong><i class="fa-solid fa-robot me-1"></i> Bot Penjual:</strong><br>
-                            Halo! Saya memegang penawaran Jeans Levi's Vintage ini seharga <strong>Rp 200.000</strong>. Mau nawar berapa? (Aturan: Tawaran di bawah 70% otomatis ditolak bot).
-                        </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded text-center">
+                        <h6>Menunggu Pembayaran</h6>
+                        <h4 class="fw-bold text-warning">0 Transaksi</h4>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded text-center">
+                        <h6>Barang Dikirim</h6>
+                        <h4 class="fw-bold text-info">1 Paket</h4>
                     </div>
                 </div>
             </div>
+            <button class="btn btn-secondary mt-4" onclick="switchPage('beranda')">Kembali Belanja di Beranda</button>
         </div>
-    </section>
+    </div>
 
-    <section id="Katalog" class="container py-5">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold">Eksplorasi 100 Komoditas Reloved</h2>
-            <p class="text-muted">Gaya Hidup Tren Y2K, Cosplay Anime, Tren Masa Depan 2026, dan Aneka Aksesoris Lengkap</p>
+    <div id="page-penjual" class="app-page container py-5">
+        <div class="card p-4 shadow-sm bg-white border-start border-5" style="border-color: var(--calm-brown) !important;">
+            <h3 class="fw-bold" style="color: var(--calm-brown);"><i class="fa-solid fa-store mb-3"></i> Dashboard Akun Penjual (Seller)</h3>
+            <p>Kelola tokomu, upload pakaian preloved, dan tanggapi tawaran harga konsumen dengan mudah.</p>
             
-            <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
-                <span class="badge bg-dark p-2">Outfit Y2K</span>
-                <span class="badge bg-dark p-2">Cosplay Anime</span>
-                <span class="badge bg-dark p-2">Trend 2026 Style</span>
-                <span class="badge bg-dark p-2">Celana & Rok</span>
-                <span class="badge bg-dark p-2">Sepatu & Sneakers</span>
-                <span class="badge bg-dark p-2">Tas, Topi & Aksesoris</span>
+            <div class="card p-3 my-3 bg-light">
+                <h5>Tambah Barang Dagangan Baru</h5>
+                <div class="row g-2 mt-1">
+                    <div class="col-md-4"><input type="text" class="form-control form-control-sm" placeholder="Nama Baju/Celana"></div>
+                    <div class="col-md-3"><input type="text" class="form-control form-control-sm" placeholder="Harga (Rp)"></div>
+                    <div class="col-md-3">
+                        <select class="form-select form-select-sm">
+                            <option>Y2K Style</option>
+                            <option>Cosplay Anime</option>
+                            <option>Trend 2026</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2"><button class="btn btn-custom btn-sm w-100" onclick="alert('Barang berhasil diajukan! Menunggu kurasi akun admin.')">Upload Baju</button></div>
+                </div>
+            </div>
+            <button class="btn btn-secondary mt-3" onclick="switchPage('beranda')">Kembali ke Beranda</button>
+        </div>
+    </div>
+
+    <div id="page-admin" class="app-page container py-5">
+        <div class="card p-4 shadow-sm bg-dark text-white">
+            <h3 class="fw-bold text-warning"><i class="fa-solid fa-user-shield mb-3"></i> Panel Kontrol Keamanan Admin</h3>
+            <p class="text-white-50">Hak akses sistem level tertinggi terpantau aktif. Anda bertugas menyetujui produk masuk serta mengawasi keamanan sistem pembayaran.</p>
+            
+            <table class="table table-dark table-striped mt-3 small">
+                <thead>
+                    <tr>
+                        <th>ID Produk</th>
+                        <th>Nama Pengaju (Seller)</th>
+                        <th>Kategori</th>
+                        <th>Status Kurasi</th>
+                        <th>Aksi Pengawasan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#RL-9901</td>
+                        <td>Ahmad Store</td>
+                        <td>Cosplay Anime</td>
+                        <td><span class="badge bg-warning text-dark">Pending</span></td>
+                        <td>
+                            <button class="btn btn-success btn-sm p-1 py-0" onclick="alert('Produk disetujui tampil di katalog!')">Approve</button>
+                            <button class="btn btn-danger btn-sm p-1 py-0" onclick="alert('Produk ditolak karena tidak layak!')">Reject</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-outline-light mt-3 w-25" onclick="switchPage('beranda')">Keluar Panel Admin</button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCheckout" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="fw-bold modal-title"><i class="fa-solid fa-cash-register text-success me-2"></i>Form Checkout Barang</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-1 text-muted small">Produk Pilihan:</p>
+                    <h5 class="fw-bold" id="checkoutItemName">Nama Barang</h5>
+                    <h4 class="text-danger fw-bold my-3" id="checkoutItemPrice">Rp 0</h4>
+                    
+                    <label class="form-label fw-bold small"><i class="fa-solid fa-credit-card me-1"></i> Pilih Metode Pembayaran:</label>
+                    <select class="form-select mb-3" id="paymentMethod">
+                        <option value="DANA">DANA (E-Wallet Otomatis)</option>
+                        <option value="COD">COD (Bayar Tunai di Tempat)</option>
+                        <option value="QRIS">QRIS (Scan Barcode Instan)</option>
+                        <option value="DEBIT">Debit Online / Transfer Bank</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-success px-4" onclick="processPayment()">Konfirmasi Bayar</button>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="container-produk">
+    <div class="modal fade" id="modalChat" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold" id="chatStoreTitle"><i class="fa-solid fa-comments me-2 text-primary"></i>Hubungi Toko Penjual</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="chat-stream p-3 rounded mb-3" id="chatStreamBox">
+                        <div class="p-2 bg-light rounded mb-2 small text-muted">Sistem Hubungan Chat Room Otomatis Terkoneksi.</div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="chatMessage" placeholder="Tanyakan stok, ukuran, atau tawar harga...">
+                        <button class="btn btn-primary" onclick="sendMessageToSeller()">Kirim</button>
+                    </div>
+                </div>
             </div>
-    </section>
+        </div>
+    </div>
 
     <footer class="bg-dark text-white text-center py-4 mt-5">
-        <p class="mb-0 small">&copy; 2026 Reloved Team. Tampilan Estetik Coklat Kalem Khusus Fashion & Tren Masa Kini.</p>
+        <p class="mb-0 small">&copy; 2026 Reloved Team. Fitur Multi Akses Akun & Sistem Gateway Pembayaran.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
-        function simulateBargain() {
-            const offerInput = document.getElementById('userOffer');
-            const chatBox = document.getElementById('chatBox');
-            const offerPrice = parseInt(offerInput.value);
-
-            if (!offerPrice || offerPrice <= 0) {
-                alert("Masukkan nominal tawaran berupa angka yang valid!");
-                return;
-            }
-
-            chatBox.innerHTML += `
-                <div class="chat-bubble chat-user">
-                    <strong><i class="fa-solid fa-user me-1"></i> Anda (Akun Pembeli):</strong><br>
-                    Saya menawar barang ini seharga Rp ${offerPrice.toLocaleString('id-ID')}.
-                </div>
-            `;
-
-            setTimeout(() => {
-                let botResponse = "";
-                if (offerPrice >= 180000) {
-                    botResponse = "<strong>Deal setuju!</strong> Tawaran Anda sangat bagus. Silakan klik ambil barang di akun pembeli Anda sekarang.";
-                } else if (offerPrice >= 140000 && offerPrice < 180000) {
-                    botResponse = "Harga segitu masih sedikit mepet modal nih kak. Naikkan sedikit lagi sekitar Rp 170.000 langsung saya lepas!";
-                } else {
-                    botResponse = "<strong>Tawaran ditolak sistem!</strong> Maaf, harga yang Anda masukkan terlalu jauh di bawah batas minimum toleransi kurasi toko kami (70%).";
-                }
-
-                chatBox.innerHTML += `
-                    <div class="chat-bubble chat-bot">
-                        <strong><i class="fa-solid fa-robot me-1"></i> Bot Penjual:</strong><br>
-                        ${botResponse}
-                    </div>
-                `;
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }, 800);
-
-            offerInput.value = "";
+        // Logika Router Sederhana untuk Berpindah Halaman/Akun
+        function switchPage(pageId) {
+            // Sembunyikan semua halaman
+            document.querySelectorAll('.app-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Tampilkan halaman pilihan
+            document.getElementById('page-' + pageId).classList.add('active');
+            window.scrollTo(0, 0);
         }
 
+        // Kumpulan data fashion lengkap 
         const fashionPool = [
             { name: "Baju Kaos Y2K Retro", tag: "y2k,clothing", price: "Rp 115.000" },
             { name: "Celana Cargo Baggy Loose", tag: "baggy,pants", price: "Rp 189.000" },
@@ -254,8 +276,8 @@
             { name: "Jaket Varsity Oversize Vintage", tag: "jacket,varsity", price: "Rp 225.000" }
         ];
 
+        // Generate 100 Barang di Beranda secara Otomatis
         const container = document.getElementById('container-produk');
-
         for (let i = 1; i <= 100; i++) {
             const item = fashionPool[i % fashionPool.length];
             const randomPhotoUrl = `https://images.unsplash.com/photo-${getPhotoCode(item.tag)}?auto=format&fit=crop&w=400&q=80&sig=${i}`;
@@ -264,15 +286,18 @@
                 <div class="col">
                     <div class="card card-product h-100 position-relative">
                         <span class="badge badge-category rounded-pill">ID #${1026 + i}</span>
-                        <img src="${randomPhotoUrl}" class="card-img-top product-img" alt="Reloved Item" onerror="this.src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400'">
+                        <img src="${randomPhotoUrl}" class="card-img-top product-img" alt="Reloved Item">
                         <div class="card-body d-flex flex-column justify-content-between">
                             <div>
                                 <h6 class="fw-bold mb-1 text-truncate">${item.name}</h6>
-                                <p class="text-muted small mb-1" style="font-size:0.75rem;"><i class="fa-solid fa-circle-check text-success"></i> Terverifikasi Admin</p>
+                                <p class="text-muted small mb-1" style="font-size:0.75rem;"><i class="fa-solid fa-circle-check text-success"></i> Stok Ada (Seller Terverifikasi)</p>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-2">
                                 <span class="fw-bold text-danger" style="font-size:0.95rem;">${item.price}</span>
-                                <button class="btn btn-outline-dark btn-sm" onclick="alert('Item berhasil dimasukkan ke keranjang Akun Pembeli Anda!')"><i class="fa-solid fa-cart-plus"></i></button>
+                                <div class="btn-group gap-1">
+                                    <button class="btn btn-outline-primary btn-sm rounded" onclick="openChat('${item.name}')" title="Chat Toko"><i class="fa-solid fa-comment-dots"></i></button>
+                                    <button class="btn btn-success btn-sm rounded" onclick="openCheckout('${item.name}', '${item.price}')" title="Checkout Sekarang"><i class="fa-solid fa-bag-shopping"></i> Beli</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -281,6 +306,71 @@
             container.innerHTML += itemCard;
         }
 
+        // Fungsi Pembuka Checkout
+        let currentModalCheckout;
+        function openCheckout(name, price) {
+            document.getElementById('checkoutItemName').innerText = name;
+            document.getElementById('checkoutItemPrice').innerText = price;
+            currentModalCheckout = new bootstrap.Modal(document.getElementById('modalCheckout'));
+            currentModalCheckout.show();
+        }
+
+        // Proses Eksekusi Pembayaran
+        function processPayment() {
+            const method = document.getElementById('paymentMethod').value;
+            alert(`Checkout Sukses!\nPesanan Anda diproses menggunakan metode pembayaran: [${method}]. Silakan cek perkembangannya di dashboard Akun Pembeli.`);
+            currentModalCheckout.hide();
+        }
+
+        // Fungsi Fitur Chat Toko Penjual
+        let currentModalChat;
+        function openChat(productName) {
+            document.getElementById('chatStoreTitle').innerHTML = `<i class="fa-solid fa-store me-2 text-primary"></i>Chat Toko Penjual (${productName})`;
+            const stream = document.getElementById('chatStreamBox');
+            stream.innerHTML = `
+                <div class="p-2 bg-light rounded mb-2 small text-muted">Toko terhubung otomatis dengan sistem Anda.</div>
+                <div class="p-2 mb-2 bg-info bg-opacity-10 rounded text-start small">
+                    <strong>Seller:</strong> Halo kak! Produk <strong>${productName}</strong> ini kondisinya super mulus seperti baru. Silakan kalau ada yang mau ditanyakan atau ditawar!
+                </div>
+            `;
+            currentModalChat = new bootstrap.Modal(document.getElementById('modalChat'));
+            currentModalChat.show();
+        }
+
+        function sendMessageToSeller() {
+            const msgInput = document.getElementById('chatMessage');
+            const stream = document.getElementById('chatStreamBox');
+            if(msgInput.value.trim() === "") return;
+
+            // Tambah pesan dari pembeli
+            stream.innerHTML += `
+                <div class="p-2 mb-2 bg-light rounded text-end small">
+                    <strong>Anda (Pembeli):</strong> ${msgInput.value}
+                </div>
+            `;
+            
+            const userText = msgInput.value.toLowerCase();
+            msgInput.value = "";
+
+            // Bot Seller merespons otomatis secara interaktif
+            setTimeout(() => {
+                let sellerResponse = "Baik kak, pesan sudah diterima penjual. Silakan klik tombol 'Beli' jika ingin langsung checkout.";
+                if(userText.includes("masih ada") || userText.includes("ready")) {
+                    sellerResponse = "Barangnya masih ready banget dan siap kirim hari ini ya kak!";
+                } else if(userText.includes("kurang") || userText.includes("nego") || userText.includes("murah")) {
+                    sellerResponse = "Boleh dinego tipis-tipis kak, coba masukkan nominal tawaran kakak lewat fitur 'Smart Bargain Room' di halaman beranda ya!";
+                }
+                
+                stream.innerHTML += `
+                    <div class="p-2 mb-2 bg-info bg-opacity-10 rounded text-start small">
+                        <strong>Seller:</strong> ${sellerResponse}
+                    </div>
+                `;
+                stream.scrollTop = stream.scrollHeight;
+            }, 800);
+        }
+
+        // List helper foto Unsplash
         function getPhotoCode(tag) {
             if(tag.includes('y2k')) return '1515886657613-9f3515b0c78f';
             if(tag.includes('pants')) return '1541099649105-f69ad21f3246';
