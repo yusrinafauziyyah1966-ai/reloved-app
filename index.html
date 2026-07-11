@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reloved - Smart Thrifting Super App</title>
+    
+    <!-- LOGO BROWSER (FAVICON) RELOVED -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%238B5A2B%22 /><path d=%22M35 35 H65 V45 H50 V55 H65 V65 H35 Z%22 fill=%22%23FAF7F2%22 /><path d=%22M50 55 L65 65%22 stroke=%22%23FAF7F2%22 stroke-width=%2210%22 stroke-linecap=%22round%22/></svg>">
+    
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome untuk Icon -->
@@ -24,7 +28,7 @@
         }
         .navbar-brand { 
             font-weight: 800; 
-            letter-spacing: 1px; 
+            letter-spacing: 1.5px; 
             color: var(--vintage-brown) !important; 
             cursor: pointer; 
         }
@@ -141,15 +145,22 @@
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- NAVBAR DENGAN LOGO VEKTOR ASLI RELOVED -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
         <div class="container">
-            <a class="navbar-brand" onclick="switchPage('beranda')"><i class="fa-solid fa-shirt me-2"></i>RELOVED</a>
+            <a class="navbar-brand d-flex align-items-center" onclick="switchPage('beranda')">
+                <svg width="32" height="32" viewBox="0 0 100 100" class="me-2" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" fill="#8B5A2B" />
+                    <path d="M35 35 H65 V45 H50 V55 H65 V65 H35 Z" fill="#FAF7F2" />
+                    <path d="M50 55 L65 65" stroke="#FAF7F2" stroke-width="10" stroke-linecap="round"/>
+                </svg>
+                <span>RELOVED</span>
+            </a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center gap-2">
                     <li class="nav-item"><a class="nav-link" style="cursor:pointer;" onclick="switchPage('beranda')">Beranda</a></li>
                     
-                    <!-- Tombol Keranjang Masuk Navbar -->
+                    <!-- Tombol Keranjang Belanja -->
                     <li class="nav-item position-relative me-2">
                         <a class="nav-link text-dark" style="cursor:pointer;" onclick="openCartModal()">
                             <i class="fa-solid fa-cart-shopping fa-lg"></i>
@@ -243,6 +254,37 @@
                         <div class="col-4"><h6>Rating Live</h6><h4 class="fw-bold text-warning">4.9</h4></div>
                     </div>
                 </div>
+
+                <!-- FITUR UTAMA BARU: FORM PENAMBAHAN / MENJUAL BARANG -->
+                <div class="card p-3 shadow-sm mb-3">
+                    <h6 class="fw-bold mb-3 text-success"><i class="fa-solid fa-circle-plus me-2"></i>Form Penambahan & Jual Barang Baru</h6>
+                    <form id="form-tambah-produk" onsubmit="sellerUploadProduct(event)">
+                        <div class="mb-2">
+                            <label class="form-label small fw-bold mb-1">Nama Produk / Barang Thrift</label>
+                            <input type="text" id="new-p-name" class="form-control form-control-sm" placeholder="Contoh: Jaket Varsity Vintage Leather 90s" required>
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label class="form-label small fw-bold mb-1">Kategori Spesifik</label>
+                                <select id="new-p-cat" class="form-select form-select-sm">
+                                    <option value="y2k-shirt">Baju / Atasan</option>
+                                    <option value="cargo-pants">Celana / Bawahan</option>
+                                    <option value="sneakers">Sepatu Sneakers</option>
+                                    <option value="sandals">Sandal Premium</option>
+                                    <option value="beanie-hat">Aksesoris Kepala</option>
+                                    <option value="bracelet">Aksesoris Tangan & Leher</option>
+                                    <option value="cosplay-costume">Baju Cosplay Anime</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-bold mb-1">Harga Jual (Rp)</label>
+                                <input type="number" id="new-p-price" class="form-control form-control-sm" placeholder="150000" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-sm w-100 fw-bold"><i class="fa-solid fa-cloud-arrow-up me-2"></i>Rilis & Pajang di Beranda Utama</button>
+                    </form>
+                </div>
+
                 <div class="card p-3 shadow-sm">
                     <h6 class="fw-bold mb-3">Manajemen Diskon Toko</h6>
                     <div class="input-group input-group-sm mb-3">
@@ -252,6 +294,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="col-lg-5 text-center">
                 <div class="card p-3 shadow-sm bg-dark text-white">
                     <h6 class="fw-bold mb-3"><i class="fa-solid fa-video me-2 text-danger"></i> Fitur Streaming Kamera Live</h6>
@@ -410,7 +453,7 @@
 
         function logout() { location.reload(); }
 
-        // DATA POOL 1,000+ PRODUK DENGAN VARIASI KATEGORI SESUAI INPUT USER
+        // DATA POOL KATEGORI PRODUK UNTUK DISKRIMINASI SEED FOTO UNIK
         const categories = [
             { type: "Baju Kaos Retro Vintage", sig: "y2k-shirt", basePrice: 110000 },
             { type: "Celana Cargo Baggy Denim", sig: "cargo-pants", basePrice: 185000 },
@@ -425,12 +468,11 @@
         const container = document.getElementById('container-produk');
         let productsHTML = "";
         
-        // Loop menghasilkan 1000 produk dengan data & foto Unsplash Signature yang UNIK
+        // Loop merender 1005 produk default dengan foto signature berbeda total
         for (let i = 1; i <= 1005; i++) {
             const cat = categories[i % categories.length];
             const name = `${cat.type} Seri #${1000 + i}`;
-            const price = cat.basePrice + (i * 200); // Variasi harga unik tiap barang
-            // Menggunakan keyword unik per iterasi agar gambar berbeda total di unsplash
+            const price = cat.basePrice + (i * 200);
             const photoUrl = `https://images.unsplash.com/photo-${getPhotoSignature(cat.sig)}?w=350&q=70&sig=${i}`;
 
             productsHTML += `
@@ -462,7 +504,48 @@
             if(sig === 'beanie-hat') return '1576871337632-b9aef4c17ab9';
             if(sig === 'bracelet') return '1611591437281-460bfbe1220a';
             if(sig === 'necklace') return '1599643478518-a784e5dc4c8f';
-            return '1578632767115-351597cf2477'; // default cosplay/anime vibe
+            return '1578632767115-351597cf2477';
+        }
+
+        // FUNGSI JAVASCRIPT BARU: LOGIKA UNTUK MENJUAL/MENAMBAH BARANG
+        function sellerUploadProduct(event) {
+            event.preventDefault();
+            const name = document.getElementById('new-p-name').value;
+            const catSig = document.getElementById('new-p-cat').value;
+            const price = parseInt(document.getElementById('new-p-price').value);
+
+            if(!name || !price) return;
+
+            // Dapatkan seed foto acak namun spesifik sesuai kategori agar tidak kembar
+            const randomSeed = Math.floor(Math.random() * 2000) + 1500;
+            const photoUrl = `https://images.unsplash.com/photo-${getPhotoSignature(catSig)}?w=350&q=70&sig=${randomSeed}`;
+
+            const newCardHTML = `
+                <div class="col">
+                    <div class="card card-product h-100 position-relative" style="border: 2px solid var(--vintage-brown);">
+                        <span class="position-absolute top-0 start-0 badge bg-success m-2">Produk Anda</span>
+                        <img src="${photoUrl}" class="product-img" alt="${name}">
+                        <div class="card-body p-2 d-flex flex-column justify-content-between">
+                            <div>
+                                <h6 class="small fw-bold mb-1 text-truncate" title="${name}">${name}</h6>
+                                <p class="text-danger small fw-bold mb-2">Rp ${price.toLocaleString('id-ID')}</p>
+                            </div>
+                            <div class="d-flex gap-1">
+                                <button class="btn btn-outline-primary btn-sm px-2" onclick="openLiveChat('${name}')"><i class="fa-solid fa-comment-dots"></i></button>
+                                <button class="btn btn-outline-warning btn-sm px-2" onclick="addToCart('${name}', ${price})"><i class="fa-solid fa-cart-plus"></i></button>
+                                <button class="btn btn-custom btn-sm flex-grow-1 py-0 small" style="font-size:0.75rem;" onclick="openCheckoutFlow('${name}', ${price})">Beli</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Tempatkan di baris paling atas container produk
+            container.insertAdjacentHTML('afterbegin', newCardHTML);
+            
+            alert(`Sukses! Produk "${name}" Anda telah diterbitkan secara live dan disematkan di katalog Beranda Reloved.`);
+            document.getElementById('form-tambah-produk').reset();
+            switchPage('beranda');
         }
 
         // INTEGRASI FITUR KERANJANG
@@ -483,7 +566,7 @@
                 return;
             }
             let html = '<ul class="list-group mb-2">';
-            cart.forEach((item, index) => {
+            cart.forEach((item) => {
                 html += `<li class="list-group-item d-flex justify-content-between align-items-center">${item.name} <span class="fw-bold text-danger">Rp ${item.price.toLocaleString()}</span></li>`;
             });
             html += '</ul>';
@@ -498,11 +581,10 @@
 
         function triggerCartCheckout() {
             bootstrap.Modal.getInstance(document.getElementById('modalKeranjang')).hide();
-            // Ambil data barang pertama sebagai trigger checkout terintegrasi
             openCheckoutFlow(cart[0].name, cart[0].price);
         }
 
-        // ALUR KENDALI CHECKOUT BERLAPIS VOUCHER & GATEWAY SELESAI
+        // ALUR KENDALI CHECKOUT MULTI-STEP
         let checkoutModalInstance;
         function openCheckoutFlow(name, price) {
             if(currentRole !== 'pembeli') { alert("Harap masuk ke Akun Pembeli!"); switchPage('login'); return; }
@@ -544,7 +626,7 @@
             alert(`Gateway ${method} Diaktifkan! Klik Konfirmasi dan Bayar untuk menyelesaikannya.`);
         }
 
-        // FITUR CHAT ADMIN TOKO (DIKEMBALIKAN BERFUNGSI)
+        // FITUR CHAT ADMIN TOKO
         let chatModalInstance;
         function openLiveChat(productName) {
             document.getElementById('chatStoreTitle').innerHTML = `<i class="fa-solid fa-store me-2 text-primary"></i>Chat Toko Penjual (${productName})`;
@@ -579,7 +661,7 @@
 
         function showTracking() { document.getElementById('tracking-section').classList.toggle('d-none'); }
 
-        // PERUBAHAN BESAR: AKSES KAMERA ASLI PERANGKAT UNTUK LIVE PENJUAL
+        // AKSES KAMERA ASLI PERANGKAT UNTUK LIVE PENJUAL
         async function toggleLiveCamera() {
             const btn = document.getElementById('btn-live');
             const badge = document.getElementById('status-live');
@@ -588,7 +670,6 @@
 
             if (!streamActive) {
                 try {
-                    // Request izin akses hardware kamera laptop/HP
                     videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
                     video.srcObject = videoStream;
                     placeholder.style.display = 'none';
@@ -600,7 +681,6 @@
                     alert("Gagal mengakses kamera perangkat: " + err.message + "\nPastikan memberikan izin akses kamera pada browser Anda.");
                 }
             } else {
-                // Matikan stream kamera
                 if(videoStream) {
                     videoStream.getTracks().forEach(track => track.stop());
                 }
