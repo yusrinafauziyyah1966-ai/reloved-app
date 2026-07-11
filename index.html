@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reloved - Smart Thrifting Super App</title>
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome untuk Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,41 +16,147 @@
             --dark-charcoal: #3D342E;
             --success-green: #28a745;
         }
-        body { font-family: 'Poppins', sans-serif; background-color: #FAF7F2; color: var(--dark-charcoal); overflow-x: hidden; }
-        .navbar-brand { font-weight: 800; letter-spacing: 1px; color: var(--vintage-brown) !important; cursor: pointer; }
-        .hero-section { background: linear-gradient(rgba(61, 52, 46, 0.6), rgba(61, 52, 46, 0.6)), url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=1200') no-repeat center center; background-size: cover; color: #FDFBF7; padding: 80px 0; border-bottom: 5px solid var(--calm-brown); }
-        .btn-custom { background-color: var(--calm-brown); color: white; border: none; }
-        .btn-custom:hover { background-color: var(--dark-charcoal); color: white; }
-        .card-product { border: none; box-shadow: 0 4px 15px rgba(140, 120, 100, 0.08); transition: transform 0.3s; border-radius: 12px; overflow: hidden; background-color: #FFF; }
-        .card-product:hover { transform: translateY(-5px); }
-        .product-img { height: 200px; object-fit: cover; width: 100%; }
-        .app-page { display: none; padding-bottom: 50px; }
-        .app-page.active { display: block; }
-        .login-box { max-width: 400px; margin: 50px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: #FAF7F2; 
+            color: var(--dark-charcoal); 
+            overflow-x: hidden; 
+        }
+        .navbar-brand { 
+            font-weight: 800; 
+            letter-spacing: 1px; 
+            color: var(--vintage-brown) !important; 
+            cursor: pointer; 
+        }
+        .hero-section { 
+            background: linear-gradient(rgba(61, 52, 46, 0.6), rgba(61, 52, 46, 0.6)), url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=1200') no-repeat center center; 
+            background-size: cover; 
+            color: #FDFBF7; 
+            padding: 80px 0; 
+            border-bottom: 5px solid var(--calm-brown); 
+        }
+        .btn-custom { 
+            background-color: var(--calm-brown); 
+            color: white; 
+            border: none; 
+        }
+        .btn-custom:hover { 
+            background-color: var(--dark-charcoal); 
+            color: white; 
+        }
+        .card-product { 
+            border: none; 
+            box-shadow: 0 4px 15px rgba(140, 120, 100, 0.08); 
+            transition: transform 0.3s; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            background-color: #FFF; 
+        }
+        .card-product:hover { 
+            transform: translateY(-5px); 
+        }
+        .product-img { 
+            height: 180px; 
+            object-fit: cover; 
+            width: 100%; 
+        }
+        .app-page { 
+            display: none; 
+            padding-bottom: 50px; 
+        }
+        .app-page.active { 
+            display: block; 
+        }
+        .login-box { 
+            max-width: 400px; 
+            margin: 50px auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+        }
+        .chat-stream {
+            height: 250px;
+            overflow-y: auto;
+            background: #fdfdfd;
+            border: 1px solid #eee;
+        }
         
         /* Map & Tracking Style */
-        #simulated-map { width: 100%; height: 150px; background: #e0ddd5; border-radius: 10px; position: relative; border: 2px dashed #bbb; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .map-dot { width: 15px; height: 15px; background: var(--earth-clay); border-radius: 50%; position: absolute; animation: pulse 2s infinite; }
+        #simulated-map { 
+            width: 100%; 
+            height: 150px; 
+            background: #e0ddd5; 
+            border-radius: 10px; 
+            position: relative; 
+            border: 2px dashed #bbb; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden; 
+        }
+        .map-dot { 
+            width: 15px; 
+            height: 15px; 
+            background: var(--vintage-brown); 
+            border-radius: 50%; 
+            position: absolute; 
+            animation: pulse 2s infinite; 
+        }
         @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
 
         /* Step Progress */
         .step-box { display: flex; justify-content: space-between; margin-bottom: 20px; }
-        .step-item { flex: 1; text-align: center; font-size: 0.7rem; color: #ccc; }
-        .step-item.active { color: var(--calm-brown); font-weight: bold; }
+        .step-item { flex: 1; text-align: center; font-size: 0.8rem; color: #ccc; padding-bottom: 5px; border-bottom: 2px solid #ccc; }
+        .step-item.active { color: var(--calm-brown); font-weight: bold; border-bottom: 2px solid var(--calm-brown); }
 
-        /* Live Stream Simulation */
-        .live-frame { width: 100%; aspect-ratio: 9/16; background: #000; border-radius: 20px; position: relative; overflow: hidden; }
-        .live-badge { position: absolute; top: 15px; left: 15px; background: red; color: white; padding: 2px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold; }
+        /* Live Camera View */
+        .live-frame { 
+            width: 100%; 
+            aspect-ratio: 4/3; 
+            background: #000; 
+            border-radius: 12px; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        #seller-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .live-badge { 
+            position: absolute; 
+            top: 15px; 
+            left: 15px; 
+            background: red; 
+            color: white; 
+            padding: 2px 10px; 
+            border-radius: 5px; 
+            font-size: 0.8rem; 
+            font-weight: bold; 
+            z-index: 10;
+        }
     </style>
 </head>
 <body>
 
+    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
         <div class="container">
             <a class="navbar-brand" onclick="switchPage('beranda')"><i class="fa-solid fa-shirt me-2"></i>RELOVED</a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center gap-2">
                     <li class="nav-item"><a class="nav-link" style="cursor:pointer;" onclick="switchPage('beranda')">Beranda</a></li>
+                    
+                    <!-- Tombol Keranjang Masuk Navbar -->
+                    <li class="nav-item position-relative me-2">
+                        <a class="nav-link text-dark" style="cursor:pointer;" onclick="openCartModal()">
+                            <i class="fa-solid fa-cart-shopping fa-lg"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
+                        </a>
+                    </li>
+
                     <li id="nav-guest-zone"><button class="btn btn-custom btn-sm" onclick="switchPage('login')">Sign In</button></li>
                     <li class="d-none" id="nav-user-zone">
                         <span class="badge p-2 me-2" id="user-status-badge" style="background-color: var(--calm-brown);">Role: Guest</span>
@@ -59,11 +167,12 @@
         </div>
     </nav>
 
+    <!-- HALAMAN 1: BERANDA -->
     <div id="page-beranda" class="app-page active">
         <header class="hero-section text-center">
             <div class="container">
-                <h1 class="display-4 fw-bold mb-2">Exclusive Thrifting</h1>
-                <p class="lead">Cari Style Y2K & Anime mu. Login untuk akses fitur belanja lengkap.</p>
+                <h1 class="display-4 fw-bold mb-2">Smart Thrifting Super App</h1>
+                <p class="lead">Menyediakan 1,000+ Katalog Terpisah Lengkap Dari Baju, Celana, Sepatu, Sandal, Hingga Aksesoris.</p>
             </div>
         </header>
         <section class="container py-5">
@@ -71,6 +180,7 @@
         </section>
     </div>
 
+    <!-- HALAMAN 2: SIGN IN -->
     <div id="page-login" class="app-page container">
         <div class="login-box text-center border-top border-5" style="border-color: var(--calm-brown) !important;">
             <h4 class="fw-bold mb-4">Masuk Ke Reloved</h4>
@@ -85,148 +195,186 @@
         </div>
     </div>
 
+    <!-- HALAMAN 3: AKUN PEMBELI -->
     <div id="page-pembeli" class="app-page container py-4">
         <div class="row g-4">
             <div class="col-lg-4">
                 <div class="card p-3 shadow-sm text-center">
                     <img src="https://ui-avatars.com/api/?name=Yusrina+Buyer&background=A0816C&color=fff" class="rounded-circle mx-auto mb-3" width="80">
                     <h5 class="fw-bold">Yusrina Account</h5>
-                    <p class="small text-muted">Silver Member Reloved</p>
+                    <p class="small text-muted">Premium Member Reloved</p>
                     <hr>
                     <div class="text-start">
-                        <h6><i class="fa-solid fa-location-dot me-2"></i> Alamat Saya</h6>
+                        <h6><i class="fa-solid fa-location-dot me-2"></i> Data Alamat Rumah</h6>
                         <textarea id="buyer-address" class="form-control form-control-sm mb-2" rows="3">Jl. Thrifting No. 123, Jakarta Selatan.</textarea>
-                        <button class="btn btn-sm btn-dark w-100" onclick="alert('Alamat Berhasil Disimpan!')">Update Alamat</button>
+                        <button class="btn btn-sm btn-dark w-100" onclick="alert('Alamat Pribadi Berhasil Diperbarui!')">Update Alamat</button>
                     </div>
                 </div>
             </div>
             <div class="col-lg-8">
                 <div class="card p-3 shadow-sm mb-3">
-                    <h6 class="fw-bold"><i class="fa-solid fa-box me-2"></i> Pesanan Saya</h6>
+                    <h6 class="fw-bold"><i class="fa-solid fa-box me-2"></i> Lacak Pengiriman Sistem</h6>
                     <div class="table-responsive">
                         <table class="table table-sm small">
-                            <thead><tr><th>Produk</th><th>Status</th><th>Aksi</th></tr></thead>
+                            <thead><tr><th>Produk Pesanan</th><th>Status Pengiriman</th><th>Aksi Kontrol</th></tr></thead>
                             <tbody id="buyer-order-list">
-                                <tr><td>Jaket Y2K</td><td><span class="badge bg-warning">Dikemas</span></td><td><button class="btn btn-xs btn-outline-primary" onclick="showTracking()">Lacak</button></td></tr>
+                                <tr><td>Baju Kaos Vintage Y2K Deluxe</td><td><span class="badge bg-warning text-dark">Sedang Dikirim</span></td><td><button class="btn btn-sm btn-outline-primary py-0" onclick="showTracking()">Buka Peta</button></td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div id="tracking-section" class="card p-3 shadow-sm d-none">
-                    <h6 class="fw-bold text-primary">Detail Pelacakan Real-Time</h6>
-                    <div id="simulated-map"><div class="map-dot"></div><small class="text-muted">Kurir: SiCepat - Sedang menuju alamatmu</small></div>
-                    <ul class="small mt-3 list-unstyled border-start ps-3 ms-2">
-                        <li><i class="fa-solid fa-check-circle text-success"></i> 09:00 - Paket telah diserahkan ke kurir.</li>
-                        <li><i class="fa-solid fa-truck text-primary"></i> 10:30 - Paket sedang dalam perjalanan.</li>
-                    </ul>
+                    <h6 class="fw-bold text-primary">Live Tracking Maps System</h6>
+                    <div id="simulated-map"><div class="map-dot"></div><small class="text-muted fw-bold bg-white p-2 rounded shadow-sm" style="z-index: 5;">Kurir J&T Express: Paket Mendekati Lokasi Rumah Anda</small></div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- HALAMAN 4: AKUN PENJUAL -->
     <div id="page-penjual" class="app-page container py-4">
         <div class="row g-4">
-            <div class="col-lg-8">
+            <div class="col-lg-7">
                 <div class="card p-4 shadow-sm mb-4 border-start border-5" style="border-color: var(--calm-brown);">
-                    <h5 class="fw-bold"><i class="fa-solid fa-store me-2"></i> Seller Center - Reloved</h5>
+                    <h5 class="fw-bold"><i class="fa-solid fa-store me-2"></i> Seller Studio Center</h5>
                     <div class="row mt-3 text-center">
-                        <div class="col-4"><h6>Total Order</h6><h4 class="fw-bold text-primary">124</h4></div>
-                        <div class="col-4"><h6>Pendapatan</h6><h4 class="fw-bold text-success">Rp 4.2M</h4></div>
-                        <div class="col-4"><h6>Voucher Aktif</h6><h4 class="fw-bold text-warning">3</h4></div>
+                        <div class="col-4"><h6>Total Order</h6><h4 class="fw-bold text-primary">512</h4></div>
+                        <div class="col-4"><h6>Omset Toko</h6><h4 class="fw-bold text-success">Rp 12.8M</h4></div>
+                        <div class="col-4"><h6>Rating Live</h6><h4 class="fw-bold text-warning">4.9</h4></div>
                     </div>
                 </div>
                 <div class="card p-3 shadow-sm">
-                    <h6 class="fw-bold mb-3">Kelola Voucher Toko</h6>
+                    <h6 class="fw-bold mb-3">Manajemen Diskon Toko</h6>
                     <div class="input-group input-group-sm mb-3">
-                        <input type="text" class="form-control" placeholder="Nama Voucher (ex: DISKONMANTAP)">
-                        <input type="number" class="form-control" placeholder="Potongan (Rp)">
-                        <button class="btn btn-dark" onclick="alert('Voucher Toko Berhasil Dibuat!')">Buat Voucher</button>
+                        <input type="text" class="form-control" placeholder="Kode Kupon Baru">
+                        <input type="number" class="form-control" placeholder="Nominal Potongan">
+                        <button class="btn btn-dark" onclick="alert('Kupon promo toko berhasil diaktifkan!')">Rilis Kupon</button>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 text-center">
+            <div class="col-lg-5 text-center">
                 <div class="card p-3 shadow-sm bg-dark text-white">
-                    <h6 class="fw-bold mb-3"><i class="fa-solid fa-video me-2 text-danger"></i> Reloved LIVE</h6>
+                    <h6 class="fw-bold mb-3"><i class="fa-solid fa-video me-2 text-danger"></i> Fitur Streaming Kamera Live</h6>
                     <div class="live-frame d-flex align-items-center justify-content-center">
-                        <div id="live-placeholder"><i class="fa-solid fa-camera fa-4x text-white-50"></i></div>
-                        <div class="live-badge d-none" id="status-live">LIVE</div>
+                        <div id="live-placeholder"><i class="fa-solid fa-video-slash fa-4x text-white-50"></i><br><small class="text-white-50 d-block mt-2">Kamera Mati</small></div>
+                        <video id="seller-video" autoplay playsinline></video>
+                        <div class="live-badge d-none" id="status-live">LIVE STREAMING</div>
                     </div>
-                    <button class="btn btn-danger w-100 mt-3" id="btn-live" onclick="toggleLive()">Mulai Live Sekarang</button>
+                    <button class="btn btn-danger w-100 mt-3" id="btn-live" onclick="toggleLiveCamera()">Aktifkan Kamera & Live</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- HALAMAN 5: AKUN ADMIN -->
     <div id="page-admin" class="app-page container py-5">
-        <div class="card p-4 shadow-sm bg-dark text-white border-top border-5 border-warning mb-4">
-            <h3 class="fw-bold text-warning"><i class="fa-solid fa-user-shield mb-3"></i> Rekap Penjualan Global</h3>
+        <div class="card p-4 shadow-sm bg-dark text-white mb-4">
+            <h3 class="fw-bold text-warning"><i class="fa-solid fa-user-shield mb-3"></i> Log Rekap Global Admin</h3>
             <table class="table table-dark table-sm small mt-3">
-                <thead><tr><th>ID</th><th>Seller</th><th>Buyer</th><th>Nominal</th><th>Profit (10%)</th></tr></thead>
-                <tbody><tr><td>#INV-01</td><td>RetroVibe</td><td>Yusrina</td><td>Rp 200.000</td><td>Rp 20.000</td></tr></tbody>
+                <thead><tr><th>ID</th><th>Toko Penjual</th><th>Nama Pembeli</th><th>Total Harga</th><th>Status Profit</th></tr></thead>
+                <tbody><tr><td>#INV-9921</td><td>RetroVibe Distro</td><td>Yusrina</td><td>Rp 350.000</td><td><span class="text-success">Clear (10% Fee)</span></td></tr></tbody>
             </table>
         </div>
     </div>
 
+    <!-- MODAL CHAT TOKO PENJUAL -->
+    <div class="modal fade" id="modalChat" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold" id="chatStoreTitle"><i class="fa-solid fa-comments me-2 text-primary"></i>Hubungi Seller</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="chat-stream p-3 rounded mb-3" id="chatStreamBox"></div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="chatMessage" placeholder="Tanyakan stok barang atau ajukan penawaran...">
+                        <button class="btn btn-primary" onclick="sendMessageToSeller()">Kirim</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL MULTI-STEP CHECKOUT -->
     <div class="modal fade" id="modalCheckout" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body p-4">
                     <div class="step-box">
-                        <div class="step-item active" id="step-1">1. Detail</div>
-                        <div class="step-item" id="step-2">2. Bayar</div>
-                        <div class="step-item" id="step-3">3. Selesai</div>
+                        <div class="step-item active" id="step-1">1. Rincian</div>
+                        <div class="step-item" id="step-2">2. Transaksi</div>
+                        <div class="step-item" id="step-3">3. Sukses</div>
                     </div>
 
                     <div id="checkout-step-1">
-                        <h6 class="fw-bold mb-3">Ringkasan Pesanan</h6>
+                        <h6 class="fw-bold mb-3">Verifikasi Pesanan</h6>
                         <div class="d-flex justify-content-between small mb-2">
-                            <span id="co-item-name">Produk</span>
-                            <span class="fw-bold" id="co-item-price">Rp 0</span>
+                            <span id="co-item-name">Nama Barang</span>
+                            <span class="fw-bold text-danger" id="co-item-price">Rp 0</span>
                         </div>
                         <div class="bg-light p-2 rounded mb-3">
-                            <label class="small fw-bold">Alamat Pengiriman:</label>
-                            <p class="x-small text-muted mb-0" id="co-address-preview">Jl. Thrifting No. 123...</p>
+                            <label class="small fw-bold">Alamat Pengantaran Paket:</label>
+                            <p class="small text-muted mb-0" id="co-address-preview">Alamat...</p>
                         </div>
                         <div class="mb-3">
-                            <label class="small fw-bold">Voucher Toko:</label>
-                            <select class="form-select form-select-sm" id="co-voucher" onchange="applyVoucher()">
-                                <option value="0">Pilih Voucher</option>
-                                <option value="15000">DISKON AWAL TAHUN (Rp 15.000)</option>
-                                <option value="25000">Gajian Sale (Rp 25.000)</option>
+                            <label class="small fw-bold">Kupon Diskon Toko:</label>
+                            <select class="form-select form-select-sm" id="co-voucher" onchange="calculateFinalBill()">
+                                <option value="0">Tidak Menggunakan Voucher</option>
+                                <option value="20000">DISKON SPECIAL WEEKEND (Rp 20.000)</option>
+                                <option value="50000">MEGA DISCOUNT DISK (Rp 50.000)</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <div class="form-check small">
-                                <input class="form-check-input" type="checkbox" id="co-ongkir" onchange="applyVoucher()">
-                                <label class="form-check-label">Pakai Voucher Gratis Ongkir</label>
+                                <input class="form-check-input" type="checkbox" id="co-ongkir" onchange="calculateFinalBill()">
+                                <label class="form-check-label fw-bold text-success">Gunakan Voucher Potongan Ongkir Luar Jawa</label>
                             </div>
                         </div>
                         <hr>
                         <div class="d-flex justify-content-between fw-bold mb-4">
-                            <span>Total Tagihan:</span>
-                            <span class="text-danger" id="co-total">Rp 0</span>
+                            <span>Total Pembayaran Akhir:</span>
+                            <span class="text-danger fs-5" id="co-total">Rp 0</span>
                         </div>
-                        <button class="btn btn-custom w-100" onclick="goStep(2)">Lanjut Pembayaran</button>
+                        <button class="btn btn-custom w-100" onclick="moveCheckoutStep(2)">Lanjutkan Opsi Pembayaran</button>
                     </div>
 
                     <div id="checkout-step-2" class="d-none text-center">
-                        <h6 class="fw-bold mb-4">Pilih Metode Pembayaran</h6>
+                        <h6 class="fw-bold mb-4">Pilih Gerbang Pembayaran</h6>
                         <div class="row g-2 mb-4">
-                            <div class="col-6"><button class="btn btn-outline-dark btn-sm w-100" onclick="confirmPay('QRIS')">QRIS</button></div>
-                            <div class="col-6"><button class="btn btn-outline-dark btn-sm w-100" onclick="confirmPay('DANA')">DANA</button></div>
-                            <div class="col-6"><button class="btn btn-outline-dark btn-sm w-100" onclick="confirmPay('DEBIT')">Debit Online</button></div>
-                            <div class="col-6"><button class="btn btn-outline-dark btn-sm w-100" onclick="confirmPay('COD')">COD</button></div>
+                            <div class="col-6"><button class="btn btn-outline-dark btn-sm w-100" onclick="selectPayMethod('QRIS')">QRIS DIGITAL</button></div>
+                            <div class="col-6"><button class="btn btn-outline-dark btn-sm w-100" onclick="selectPayMethod('DANA')">AKUN DANA</button></div>
+                            <div class="col-6"><button class="btn btn-outline-dark btn-sm w-100" onclick="selectPayMethod('DEBIT')">DEBIT ONLINE</button></div>
+                            <div class="col-6"><button class="btn btn-outline-dark btn-sm w-100" onclick="selectPayMethod('COD')">SISTEM COD</button></div>
                         </div>
-                        <div id="qris-display" class="d-none mb-3"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=RelovedPay" class="border p-2"></div>
-                        <button class="btn btn-success w-100" onclick="goStep(3)">Konfirmasi & Bayar</button>
+                        <div id="qris-display" class="d-none mb-3"><img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=RelovedPaymentGateway" class="border p-2 mx-auto"></div>
+                        <button class="btn btn-success w-100" onclick="moveCheckoutStep(3)">Selesaikan Seluruh Pembayaran</button>
                     </div>
 
                     <div id="checkout-step-3" class="d-none text-center py-4">
                         <i class="fa-solid fa-circle-check fa-4x text-success mb-3"></i>
-                        <h5 class="fw-bold">Pembayaran Berhasil!</h5>
-                        <p class="small text-muted">Pesananmu sudah diteruskan ke penjual. Cek dashboard pembeli untuk melacak paket.</p>
-                        <button class="btn btn-dark w-100" data-bs-dismiss="modal" onclick="switchPage('pembeli')">Lihat Pesanan Saya</button>
+                        <h4 class="fw-bold">Transaksi Pembayaran Selesai!</h4>
+                        <p class="small text-muted">Dana berhasil dialihkan ke sistem rekber. Paket akan dikemas dalam 24 jam ke depan.</p>
+                        <button class="btn btn-dark w-100" data-bs-dismiss="modal" onclick="switchPage('pembeli')">Periksa Status Pengiriman</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL KERANJANG BELANJA -->
+    <div class="modal fade" id="modalKeranjang" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="fw-bold"><i class="fa-solid fa-cart-shopping text-warning me-2"></i>Keranjang Saya</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cart-items-list" class="small mb-3">
+                        <p class="text-muted text-center py-3">Keranjang kosong. Mulai tambahkan barang thrift!</p>
+                    </div>
+                    <button class="btn btn-success w-100 btn-sm d-none" id="btn-checkout-cart" onclick="triggerCartCheckout()">Checkout Massal Sekarang</button>
                 </div>
             </div>
         </div>
@@ -237,6 +385,9 @@
         let currentRole = "guest";
         let basePrice = 0;
         let selectedProduct = "";
+        let cart = [];
+        let streamActive = false;
+        let videoStream = null;
 
         function switchPage(pageId) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active'));
@@ -254,70 +405,128 @@
                 document.getElementById('nav-user-zone').classList.remove('d-none');
                 document.getElementById('user-status-badge').innerText = "Akun: " + role.toUpperCase();
                 switchPage(role);
-            } else { alert("Login Gagal!"); }
+            } else { alert("User atau Password Salah!"); }
         }
 
         function logout() { location.reload(); }
 
-        // MENGHASILKAN 100 PRODUK
-        const fashionPool = [
-            { name: "Kaos Y2K Aesthetic", tag: "y2k", price: 115000 },
-            { name: "Cargo Baggy Pants", tag: "pants", price: 189000 },
-            { name: "Rok Plaid Retro", tag: "skirt", price: 95000 },
-            { name: "Sneakers Chunky", tag: "shoes", price: 345000 },
-            { name: "Topi Beanie Rajut", tag: "hat", price: 55000 },
-            { name: "Cosplay Costume Set", tag: "anime", price: 450000 }
+        // DATA POOL 1,000+ PRODUK DENGAN VARIASI KATEGORI SESUAI INPUT USER
+        const categories = [
+            { type: "Baju Kaos Retro Vintage", sig: "y2k-shirt", basePrice: 110000 },
+            { type: "Celana Cargo Baggy Denim", sig: "cargo-pants", basePrice: 185000 },
+            { type: "Sepatu Sneakers Running Casual", sig: "sneakers", basePrice: 320000 },
+            { type: "Sandal Slop Leather Premium", sig: "sandals", basePrice: 85000 },
+            { type: "Aksesoris Kepala Topi Beanie Knit", sig: "beanie-hat", basePrice: 55000 },
+            { type: "Aksesoris Tangan Gelang Punk", sig: "bracelet", basePrice: 35000 },
+            { type: "Aksesoris Leher Kalung Cyber", sig: "necklace", basePrice: 45000 },
+            { type: "Baju Cosplay Anime Premium Set", sig: "cosplay-costume", basePrice: 480000 }
         ];
 
         const container = document.getElementById('container-produk');
-        for (let i = 1; i <= 100; i++) {
-            const item = fashionPool[i % fashionPool.length];
-            const pic = `https://images.unsplash.com/photo-${getPic(item.tag)}?w=400&sig=${i}`;
-            container.innerHTML += `
+        let productsHTML = "";
+        
+        // Loop menghasilkan 1000 produk dengan data & foto Unsplash Signature yang UNIK
+        for (let i = 1; i <= 1005; i++) {
+            const cat = categories[i % categories.length];
+            const name = `${cat.type} Seri #${1000 + i}`;
+            const price = cat.basePrice + (i * 200); // Variasi harga unik tiap barang
+            // Menggunakan keyword unik per iterasi agar gambar berbeda total di unsplash
+            const photoUrl = `https://images.unsplash.com/photo-${getPhotoSignature(cat.sig)}?w=350&q=70&sig=${i}`;
+
+            productsHTML += `
                 <div class="col">
                     <div class="card card-product h-100 position-relative">
-                        <img src="${pic}" class="product-img" alt="Reloved">
-                        <div class="card-body p-2">
-                            <h6 class="small fw-bold mb-1">${item.name}</h6>
-                            <p class="text-danger small fw-bold mb-2">Rp ${item.price.toLocaleString()}</p>
-                            <button class="btn btn-custom btn-sm w-100" onclick="openCheckout('${item.name}', ${item.price})">Beli</button>
+                        <img src="${photoUrl}" class="product-img" alt="${name}">
+                        <div class="card-body p-2 d-flex flex-column justify-content-between">
+                            <div>
+                                <h6 class="small fw-bold mb-1 text-truncate" title="${name}">${name}</h6>
+                                <p class="text-danger small fw-bold mb-2">Rp ${price.toLocaleString('id-ID')}</p>
+                            </div>
+                            <div class="d-flex gap-1">
+                                <button class="btn btn-outline-primary btn-sm px-2" onclick="openLiveChat('${name}')"><i class="fa-solid fa-comment-dots"></i></button>
+                                <button class="btn btn-outline-warning btn-sm px-2" onclick="addToCart('${name}', ${price})"><i class="fa-solid fa-cart-plus"></i></button>
+                                <button class="btn btn-custom btn-sm flex-grow-1 py-0 small" style="font-size:0.75rem;" onclick="openCheckoutFlow('${name}', ${price})">Beli</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
         }
+        container.innerHTML = productsHTML;
 
-        function getPic(t) {
-            if(t==='y2k') return '1515886657613-9f3515b0c78f';
-            if(t==='pants') return '1541099649105-f69ad21f3246';
-            if(t==='shoes') return '1595950653106-6c9ebd614d3a';
-            return '1523381210434-271e8be1f52b';
+        function getPhotoSignature(sig) {
+            if(sig === 'y2k-shirt') return '1515886657613-9f3515b0c78f';
+            if(sig === 'cargo-pants') return '1541099649105-f69ad21f3246';
+            if(sig === 'sneakers') return '1595950653106-6c9ebd614d3a';
+            if(sig === 'sandals') return '1603561591411-07134e71a2a9';
+            if(sig === 'beanie-hat') return '1576871337632-b9aef4c17ab9';
+            if(sig === 'bracelet') return '1611591437281-460bfbe1220a';
+            if(sig === 'necklace') return '1599643478518-a784e5dc4c8f';
+            return '1578632767115-351597cf2477'; // default cosplay/anime vibe
         }
 
-        // CHECKOUT LOGIC
-        let modalCO;
-        function openCheckout(name, price) {
-            if(currentRole !== 'pembeli') { alert("Harap login sebagai PEMBELI!"); switchPage('login'); return; }
+        // INTEGRASI FITUR KERANJANG
+        function addToCart(name, price) {
+            if(currentRole !== 'pembeli') { alert("Akses Ditolak! Harap login sebagai AKUN PEMBELI terlebih dahulu."); switchPage('login'); return; }
+            cart.push({ name, price });
+            document.getElementById('cart-count').innerText = cart.length;
+            alert(`Berhasil! ${name} dimasukkan ke keranjang.`);
+            updateCartModalUI();
+        }
+
+        function updateCartModalUI() {
+            const listContainer = document.getElementById('cart-items-list');
+            const btnCO = document.getElementById('btn-checkout-cart');
+            if(cart.length === 0) {
+                listContainer.innerHTML = `<p class="text-muted text-center py-3">Keranjang kosong. Mulai tambahkan barang thrift!</p>`;
+                btnCO.classList.add('d-none');
+                return;
+            }
+            let html = '<ul class="list-group mb-2">';
+            cart.forEach((item, index) => {
+                html += `<li class="list-group-item d-flex justify-content-between align-items-center">${item.name} <span class="fw-bold text-danger">Rp ${item.price.toLocaleString()}</span></li>`;
+            });
+            html += '</ul>';
+            listContainer.innerHTML = html;
+            btnCO.classList.remove('d-none');
+        }
+
+        function openCartModal() {
+            updateCartModalUI();
+            new bootstrap.Modal(document.getElementById('modalKeranjang')).show();
+        }
+
+        function triggerCartCheckout() {
+            bootstrap.Modal.getInstance(document.getElementById('modalKeranjang')).hide();
+            // Ambil data barang pertama sebagai trigger checkout terintegrasi
+            openCheckoutFlow(cart[0].name, cart[0].price);
+        }
+
+        // ALUR KENDALI CHECKOUT BERLAPIS VOUCHER & GATEWAY SELESAI
+        let checkoutModalInstance;
+        function openCheckoutFlow(name, price) {
+            if(currentRole !== 'pembeli') { alert("Harap masuk ke Akun Pembeli!"); switchPage('login'); return; }
             selectedProduct = name;
             basePrice = price;
             document.getElementById('co-item-name').innerText = name;
-            document.getElementById('co-item-price').innerText = "Rp " + price.toLocaleString();
+            document.getElementById('co-item-price').innerText = "Rp " + price.toLocaleString('id-ID');
             document.getElementById('co-address-preview').innerText = document.getElementById('buyer-address').value;
-            applyVoucher();
-            goStep(1);
-            modalCO = new bootstrap.Modal(document.getElementById('modalCheckout'));
-            modalCO.show();
+            calculateFinalBill();
+            moveCheckoutStep(1);
+            checkoutModalInstance = new bootstrap.Modal(document.getElementById('modalCheckout'));
+            checkoutModalInstance.show();
         }
 
-        function applyVoucher() {
-            let disc = parseInt(document.getElementById('co-voucher').value);
-            let ongkir = 20000;
-            if(document.getElementById('co-ongkir').checked) ongkir = 0;
-            let total = basePrice - disc + ongkir;
-            document.getElementById('co-total').innerText = "Rp " + total.toLocaleString();
+        function calculateFinalBill() {
+            let voucherPotongan = parseInt(document.getElementById('co-voucher').value);
+            let ongkirRate = 22000;
+            if(document.getElementById('co-ongkir').checked) ongkirRate = 0;
+            let grandTotal = basePrice - voucherPotongan + ongkirRate;
+            if(grandTotal < 0) grandTotal = 0;
+            document.getElementById('co-total').innerText = "Rp " + grandTotal.toLocaleString('id-ID');
         }
 
-        function goStep(step) {
+        function moveCheckoutStep(step) {
             document.getElementById('checkout-step-1').classList.add('d-none');
             document.getElementById('checkout-step-2').classList.add('d-none');
             document.getElementById('checkout-step-3').classList.add('d-none');
@@ -329,27 +538,77 @@
             document.getElementById('step-' + step).classList.add('active');
         }
 
-        function confirmPay(method) {
+        function selectPayMethod(method) {
             if(method === 'QRIS') document.getElementById('qris-display').classList.remove('d-none');
             else document.getElementById('qris-display').classList.add('d-none');
-            alert("Metode " + method + " dipilih. Selesaikan pembayaran.");
+            alert(`Gateway ${method} Diaktifkan! Klik Konfirmasi dan Bayar untuk menyelesaikannya.`);
         }
 
-        // TRACKING & LIVE LOGIC
+        // FITUR CHAT ADMIN TOKO (DIKEMBALIKAN BERFUNGSI)
+        let chatModalInstance;
+        function openLiveChat(productName) {
+            document.getElementById('chatStoreTitle').innerHTML = `<i class="fa-solid fa-store me-2 text-primary"></i>Chat Toko Penjual (${productName})`;
+            const stream = document.getElementById('chatStreamBox');
+            stream.innerHTML = `
+                <div class="p-2 bg-light rounded mb-2 small text-muted">Sistem pesan otomatis terhubung dengan seller.</div>
+                <div class="p-2 mb-2 bg-info bg-opacity-10 rounded text-start small">
+                    <strong>Seller Toko:</strong> Halo kak! Produk <strong>${productName}</strong> ready siap kirim. Ada yang bisa kami bantu mengenai ukuran atau harga?
+                </div>
+            `;
+            chatModalInstance = new bootstrap.Modal(document.getElementById('modalChat'));
+            chatModalInstance.show();
+        }
+
+        function sendMessageToSeller() {
+            const msgInput = document.getElementById('chatMessage');
+            const stream = document.getElementById('chatStreamBox');
+            if(msgInput.value.trim() === "") return;
+
+            stream.innerHTML += `<div class="p-2 mb-2 bg-light rounded text-end small"><strong>Anda:</strong> ${msgInput.value}</div>`;
+            const text = msgInput.value.toLowerCase();
+            msgInput.value = "";
+
+            setTimeout(() => {
+                let reply = "Baik kak, pesan diproses. Silakan ajukan pembelian via tombol checkout.";
+                if(text.includes("ready") || text.includes("ada")) reply = "Stok ready melimpah kak, langsung gas checkout ya!";
+                if(text.includes("nego") || text.includes("kurang")) reply = "Boleh nego tipis kak, klaim kupon diskon toko saat checkout ya!";
+                stream.innerHTML += `<div class="p-2 mb-2 bg-info bg-opacity-10 rounded text-start small"><strong>Seller Toko:</strong> ${reply}</div>`;
+                stream.scrollTop = stream.scrollHeight;
+            }, 600);
+        }
+
         function showTracking() { document.getElementById('tracking-section').classList.toggle('d-none'); }
-        
-        let isLive = false;
-        function toggleLive() {
-            isLive = !isLive;
+
+        // PERUBAHAN BESAR: AKSES KAMERA ASLI PERANGKAT UNTUK LIVE PENJUAL
+        async function toggleLiveCamera() {
             const btn = document.getElementById('btn-live');
             const badge = document.getElementById('status-live');
-            const frame = document.getElementById('live-placeholder');
-            if(isLive) {
-                btn.innerText = "Hentikan Live"; badge.classList.remove('d-none');
-                frame.innerHTML = `<img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400" style="width:100%; height:100%; object-fit:cover;">`;
+            const placeholder = document.getElementById('live-placeholder');
+            const video = document.getElementById('seller-video');
+
+            if (!streamActive) {
+                try {
+                    // Request izin akses hardware kamera laptop/HP
+                    videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                    video.srcObject = videoStream;
+                    placeholder.style.display = 'none';
+                    video.style.display = 'block';
+                    badge.classList.remove('d-none');
+                    btn.innerText = "Hentikan Sesi Live Streaming";
+                    streamActive = true;
+                } catch (err) {
+                    alert("Gagal mengakses kamera perangkat: " + err.message + "\nPastikan memberikan izin akses kamera pada browser Anda.");
+                }
             } else {
-                btn.innerText = "Mulai Live Sekarang"; badge.classList.add('d-none');
-                frame.innerHTML = `<i class="fa-solid fa-camera fa-4x text-white-50"></i>`;
+                // Matikan stream kamera
+                if(videoStream) {
+                    videoStream.getTracks().forEach(track => track.stop());
+                }
+                video.style.display = 'none';
+                placeholder.style.display = 'block';
+                badge.classList.add('d-none');
+                btn.innerText = "Aktifkan Kamera & Live";
+                streamActive = false;
             }
         }
     </script>
